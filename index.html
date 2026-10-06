@@ -22,7 +22,7 @@
 :root{
   --bg:#f3f5f7; --surface:#ffffff; --surface-2:#e8ecf0; --ink:#17212b; --muted:#5a6876; --line:#d3dae1;
   --accent:#1f4e79; --accent-ink:#ffffff; --focus:#e0a100;
-  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --other:#56606b;
+  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --maint:#6a4c9c; --other:#56606b;
   --font-display:"Lexend","Segoe UI",system-ui,sans-serif;
   --font-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
   --r:14px;
@@ -291,9 +291,10 @@ const THEMES = [
   { id: "alledaags", name: "Alledaags", c: "var(--daily)" },
   { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
   { id: "zorg", name: "Zorg", c: "var(--care)" },
+  { id: "onderhoud", name: "Onderhoud", c: "var(--maint)" },
   { id: "overig", name: "Overig", c: "var(--other)" },
 ];
-const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES[3];
+const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES.find((t) => t.id === "overig");
 
 /* ---------- starter pictograms (inline SVG, 100x100) ---------- */
 const W = "#ffffff", INK = "#1d2833";
@@ -542,7 +543,7 @@ function renderGrid() {
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>
         <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
       </div>
-    </div>`).join("") : `<p class="empty">${q ? "Geen woord gevonden voor “" + esc(query) + "”." : "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan."}</p>`;
+    </div>`).join("") : `<p class="empty">${q ? "Geen woord gevonden voor “" + esc(query) + "”." : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : "Nog geen woorden in dit thema.")}</p>`;
 }
 function renderNotice() {
   const own = userWords.length;
