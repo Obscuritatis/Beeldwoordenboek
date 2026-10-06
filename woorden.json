@@ -21,7 +21,7 @@
       "image": "media/wmuwtzo6fje0l.jpg"
     },
     {
-      "word": "CO² brandblusser",
+      "word": "CO2 brandblusser",
       "article": "de",
       "theme": "brand",
       "sentence": "Met de CO² brandblusser blus je kleine elektrische toestellen.",
@@ -55,7 +55,28 @@
       "id": "wmuwudzd86eny",
       "createdAt": 1791301038668,
       "image": "media/wmuwudzd86eny.jpg"
+    },
+    {
+      "word": "nooduitgang",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "Dit bord geeft de nooduitgang aan wanneer er geëvacueerd wordt.",
+      "id": "wmuwun68iiw5q",
+      "createdAt": 1791301467474,
+      "image": "media/wmuwun68iiw5q.jpg"
+    },
+    {
+      "word": "verzamelplaats",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "Ga bij brand naar de verzamelplaats, aangegeven door dit bord.",
+      "id": "wmuwupnjqmjrv",
+      "createdAt": 1791301583223,
+      "image": "media/wmuwupnjqmjrv.jpg"
     }
   ],
-  "hiddenStarters": []
+  "hiddenStarters": [
+    "start-nooduitgang",
+    "start-verzamelplaats"
+  ]
 }
