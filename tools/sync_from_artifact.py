@@ -6,7 +6,7 @@ Gebruik: python3 sync_from_artifact.py <export-map> <assets-map> <site-map>
 <assets-map>: gedownloade assets (foto's en filmpjes), bestandsnaam begint met het asset-id
 Schrijft <site-map>/woorden.json en <site-map>/media/*.
 """
-import base64, json, re, shutil, sys, pathlib
+import base64, json, re, shutil, subprocess, sys, pathlib
 
 exp, assets, site = map(pathlib.Path, sys.argv[1:4])
 media = site / "media"
@@ -34,7 +34,11 @@ for f in sorted((exp / "words").glob("*.json")):
         hits = list(assets.glob(vid_id + "*"))
         if hits:
             name = wid + (hits[0].suffix or ".mp4")
-            shutil.copyfile(hits[0], media / name)
+            # snel starten met afspelen: zet de index vooraan (zonder hercodering), anders gewoon kopiëren
+            if shutil.which("ffmpeg") and subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(hits[0]), "-c", "copy", "-movflags", "+faststart", str(media / name)]).returncode == 0:
+                pass
+            else:
+                shutil.copyfile(hits[0], media / name)
             rec["video"] = "media/" + name; rec["hasVideo"] = True; keep.add(name)
     a = exp / "audio" / f"{wid}.json"
     if w.get("hasAudio") and a.exists():
