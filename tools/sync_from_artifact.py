@@ -2,7 +2,7 @@
 """Zet de woorden uit de beheer-app (Claude-artifact) om naar de website.
 
 Gebruik: python3 sync_from_artifact.py <export-map> <assets-map> <site-map>
-<export-map>: ArtifactData-export met words/<id>.json en audio/<id>.json
+<export-map>: ArtifactData-export met words/<id>.json, audio/<id>.json en settings/app.json
 <assets-map>: gedownloade assets (foto's en filmpjes), bestandsnaam begint met het asset-id
 Schrijft <site-map>/woorden.json en <site-map>/media/*.
 """
@@ -54,5 +54,9 @@ for f in sorted((exp / "words").glob("*.json")):
 for f in media.iterdir():
     if f.name not in keep:
         f.unlink()
-(site / "woorden.json").write_text(json.dumps({"words": words}, indent=2, ensure_ascii=False), encoding="utf-8")
+hidden = []
+s = exp / "settings" / "app.json"
+if s.exists():
+    hidden = body(s).get("hiddenStarters", []) or []
+(site / "woorden.json").write_text(json.dumps({"words": words, "hiddenStarters": hidden}, indent=2, ensure_ascii=False), encoding="utf-8")
 print(len(words), "woorden,", len(keep), "mediabestanden")

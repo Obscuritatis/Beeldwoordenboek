@@ -1,15 +1,61 @@
 {
   "words": [
     {
-      "word": "brandblusser",
+      "word": "schuimbrandblusser",
       "article": "de",
       "theme": "brand",
-      "sentence": "",
+      "sentence": "Met de schuimbrandblusser blus je kleine branden.",
       "id": "wmuwpwg7g5gk1",
       "createdAt": 1791293502221,
       "image": "media/wmuwpwg7g5gk1.jpg",
       "video": "media/wmuwpwg7g5gk1.mp4",
       "hasVideo": true
+    },
+    {
+      "word": "handbrandmelder",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "Met de handbrandmelder laat je het brandalarm afgaan.",
+      "id": "wmuwtzo6fje0l",
+      "createdAt": 1791300370983,
+      "image": "media/wmuwtzo6fje0l.jpg"
+    },
+    {
+      "word": "CO² brandblusser",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "Met de CO² brandblusser blus je kleine elektrische toestellen.",
+      "id": "wmuwu2whzyxte",
+      "createdAt": 1791300521735,
+      "image": "media/wmuwu2whzyxte.jpg"
+    },
+    {
+      "word": "brandhaspel",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "Met de brandhaspel kan de brandweer kleine branden blussen.",
+      "id": "wmuwu5vm9qdcf",
+      "createdAt": 1791300660561,
+      "image": "media/wmuwu5vm9qdcf.jpg"
+    },
+    {
+      "word": "rookmelder",
+      "article": "de",
+      "theme": "brand",
+      "sentence": "De rookmelder kan rook detecteren en het alarm laten afgaan.",
+      "id": "wmuwu9pg54qgq",
+      "createdAt": 1791300839189,
+      "image": "media/wmuwu9pg54qgq.jpg"
+    },
+    {
+      "word": "branddeken",
+      "article": "het",
+      "theme": "brand",
+      "sentence": "Met het branddeken kan je een persoon blussen die vuur heeft gevat.",
+      "id": "wmuwudzd86eny",
+      "createdAt": 1791301038668,
+      "image": "media/wmuwudzd86eny.jpg"
     }
-  ]
+  ],
+  "hiddenStarters": []
 }

@@ -171,6 +171,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <div class="video-box"><video id="v-video" controls playsinline preload="metadata"></video></div>
     </div>
     <p class="src" id="v-src"></p>
+    <div class="confirm" id="v-hide-confirm" hidden>
+      <p>Dit voorbeeld verdwijnt voor iedereen die de app gebruikt.</p>
+      <div class="row2"><button type="button" class="btn" id="v-hide-no">Niet verwijderen</button><button type="button" class="btn danger" id="v-hide-yes">Ja, verwijderen</button></div>
+    </div>
     <div class="nav">
       <button class="btn" id="v-prev">Vorige</button>
       <button class="btn" id="v-next">Volgende</button>
@@ -261,6 +265,16 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     </label>
     <button class="btn primary" id="s-test">Test de stem</button>
     <label class="toggle"><input type="checkbox" id="s-starter" checked> Toon de voorbeeldwoorden</label>
+    <div class="audio-box" id="s-admin" hidden>
+      <strong>Voorbeelden beheren</strong>
+      <p id="s-admin-info"></p>
+      <button type="button" class="btn danger" id="s-hide-all">Verwijder alle voorbeelden</button>
+      <div class="confirm" id="s-hide-confirm" hidden>
+        <p>Alle voorbeelden verdwijnen voor iedereen die de app gebruikt. Je eigen woorden blijven staan.</p>
+        <div class="row2"><button type="button" class="btn" id="s-hide-no">Niet verwijderen</button><button type="button" class="btn danger" id="s-hide-yes">Ja, verwijderen</button></div>
+      </div>
+      <button type="button" class="btn" id="s-restore">Zet alle voorbeelden terug</button>
+    </div>
     <p class="notice" style="margin:0" id="s-storage"></p>
   </div>
 </section>
@@ -291,11 +305,6 @@ const sw = (n) => `fill="none" stroke="${W}" stroke-width="${n}" stroke-linecap=
 const kw = (n) => `fill="none" stroke="${INK}" stroke-width="${n}" stroke-linecap="round" stroke-linejoin="round"`;
 const FIRE = "#c8202f", EXIT = "#00804a", CARE = "#0e7470";
 const PICTOS = {
-  brandblusser: sign(FIRE, `<rect x="44" y="36" width="22" height="48" rx="8" fill="${W}"/><rect x="50" y="26" width="10" height="11" fill="${W}"/><path d="M46 28h22l4 -4" ${S}/><path d="M50 31c-12 2-18 12-16 26" ${S}/><path d="M27 72c-4-6 0-11 3-15 1 5 5 5 5 1 4 5 5 10 2 14-3 3-8 3-10 0z" fill="${W}"/>`),
-  handbrandmelder: sign(FIRE, `<rect x="22" y="22" width="56" height="56" rx="5" ${S}/><rect x="34" y="34" width="32" height="32" rx="3" fill="${W}"/><circle cx="50" cy="50" r="8" fill="${FIRE}"/><path d="M62 92V70c0-4 6-4 6 0v-8c0-4 6-4 6 0v4c0-4 6-4 6 0v26" fill="${W}" stroke="${FIRE}" stroke-width="2.5"/><rect x="56" y="52" width="7" height="24" rx="3.5" fill="${W}" stroke="${FIRE}" stroke-width="2.5"/>`),
-  brandslang: sign(FIRE, `<circle cx="42" cy="46" r="24" ${S}/><circle cx="42" cy="46" r="15" ${S}/><circle cx="42" cy="46" r="5" fill="${W}"/><path d="M66 46c8 0 12 6 12 14v12" ${S}/><path d="M73 72h10l-2 12h-6z" fill="${W}"/>`),
-  branddeken: sign(FIRE, `<rect x="24" y="18" width="52" height="30" rx="4" fill="${W}"/><rect x="34" y="12" width="7" height="12" rx="2" fill="${W}"/><rect x="59" y="12" width="7" height="12" rx="2" fill="${W}"/><path d="M30 48l-4 34h48l-4-34" fill="${W}" opacity=".85"/><path d="M38 56l-2 20M50 56v20M62 56l2 20" stroke="${FIRE}" stroke-width="3" stroke-linecap="round"/>`),
-  rookmelder: sign(FIRE, `<path d="M18 30h64" ${S}/><path d="M26 30c0 12 10 18 24 18s24-6 24-18" fill="${W}"/><circle cx="50" cy="38" r="3.5" fill="${FIRE}"/><path d="M34 82c-6-6 6-10 0-16M50 86c-6-6 6-10 0-16M66 82c-6-6 6-10 0-16" ${S}/>`),
   nooduitgang: sign(EXIT, `<rect x="56" y="18" width="26" height="64" ${S}/><circle cx="38" cy="22" r="6.5" fill="${W}"/><path d="M35 33l-8 18 12 4-4 20M35 33l12 12 9-3M31 46l-11 4M39 55l10 18" ${sw(7)}/><path d="M60 50h14M68 44l6 6-6 6" ${S}/>`),
   verzamelplaats: sign(EXIT, `<path d="M16 16l14 14M84 16L70 30M16 84l14-14M84 84L70 70" ${S}/><path d="M18 26V16h10M82 26V16H72M18 74v10h10M82 74v10H72" ${S}/><circle cx="40" cy="42" r="5" fill="${W}"/><path d="M34 70V58c0-6 12-6 12 0v12" fill="${W}"/><circle cx="60" cy="42" r="5" fill="${W}"/><path d="M54 70V58c0-6 12-6 12 0v12" fill="${W}"/><circle cx="50" cy="52" r="4" fill="${W}"/><path d="M45 72v-8c0-5 10-5 10 0v8" fill="${W}"/>`),
   rolstoel: sign(CARE, `<circle cx="44" cy="20" r="6.5" fill="${W}"/><path d="M44 31v22h18l8 18h8" ${sw(6)}/><path d="M44 42h14" ${S}/><path d="M34 46a19 19 0 1 0 28 22" ${S}/>`),
@@ -312,11 +321,6 @@ const PICTOS = {
   telefoon: plain(`<rect x="32" y="12" width="36" height="76" rx="7" ${K}/><path d="M44 20h12" ${kw(3.5)}/><circle cx="50" cy="78" r="3.5" fill="${INK}"/><rect x="38" y="28" width="24" height="40" rx="2" fill="${INK}" opacity=".15"/>`),
 };
 const STARTER = [
-  ["brandblusser","de","brand","Met de brandblusser blus je een klein vuur."],
-  ["handbrandmelder","de","brand","Druk op de handbrandmelder als je brand ziet."],
-  ["brandslang","de","brand","De brandslang hangt aan de muur in de gang."],
-  ["branddeken","de","brand","Leg de branddeken over een brandende pan."],
-  ["rookmelder","de","brand","De rookmelder piept als er rook is."],
   ["nooduitgang","de","brand","Volg de groene bordjes naar de nooduitgang."],
   ["verzamelplaats","de","brand","Ga bij brand naar de verzamelplaats buiten."],
   ["rolstoel","de","zorg","De bewoner zit in een rolstoel."],
@@ -420,6 +424,8 @@ const localStore = (() => {
       await tx("readwrite", (s) => s.put(out)); await emit();
     },
     async remove(rec) { await tx("readwrite", (s) => s.delete(rec.id)); await emit(); },
+    subscribeHidden(cb) { cb(prefs.get("hiddenStarters", [])); },
+    async saveHidden(ids) { prefs.set("hiddenStarters", ids); },
     imageUrl: (rec) => rec.imageData || "",
     audioUrl: async (rec) => rec.audioData || "",
     videoUrl(rec) {
@@ -461,6 +467,8 @@ function cloudStore(db, assets, canWrite) {
       if (rec.imageId && assets) await assets.delete(rec.imageId).catch(() => {});
       if (rec.videoId && assets) await assets.delete(rec.videoId).catch(() => {});
     },
+    subscribeHidden(cb) { db.doc("settings/app").onSnapshot((s) => cb(s.exists ? s.data().hiddenStarters : []), () => {}); },
+    async saveHidden(ids) { await db.doc("settings/app").set({ hiddenStarters: ids }); },
     imageUrl: (rec) => (rec.imageId ? "/_blob/" + rec.imageId : ""),
     videoUrl: (rec) => (rec.videoId ? "/_blob/" + rec.videoId : ""),
     async audioUrl(rec) {
@@ -476,7 +484,7 @@ function cloudStore(db, assets, canWrite) {
 const siteStore = {
   mode: "site", canWrite: false,
   subscribe(cb) {
-    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => cb(Array.isArray(d.words) ? d.words : [])).catch(() => cb([]));
+    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => { setHidden(d.hiddenStarters); cb(Array.isArray(d.words) ? d.words : []); }).catch(() => cb([]));
   },
   imageUrl: (rec) => rec.image || "",
   videoUrl: (rec) => rec.video || "",
@@ -505,10 +513,12 @@ let query = "";
 let list = [];
 let current = -1;
 
+let hiddenStarters = new Set();
+function setHidden(ids) { hiddenStarters = new Set(ids || []); renderGrid(); if (!$("settings").hidden) renderAdmin(); }
 function allWords() {
   const showStarter = prefs.get("starter", true);
   const own = userWords.slice().sort((a, b) => a.word.localeCompare(b.word, "nl"));
-  return showStarter ? own.concat(STARTER) : own;
+  return showStarter ? own.concat(STARTER.filter((s) => !hiddenStarters.has(s.id))) : own;
 }
 function picHtml(rec) {
   if (rec.starter) return PICTOS[rec.word] || "";
@@ -560,7 +570,9 @@ function openView(i) {
   if (vurl) { if (vel.getAttribute("src") !== vurl) vel.src = vurl; } else vel.removeAttribute("src");
   $("v-video-wrap").hidden = !vurl;
   $("v-src").textContent = r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
-  $("v-edit").hidden = !(store.canWrite && !r.starter);
+  $("v-edit").hidden = !store.canWrite;
+  $("v-edit").textContent = r.starter ? "Verwijderen" : "Bewerken";
+  $("v-hide-confirm").hidden = true;
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
 }
@@ -631,7 +643,31 @@ $("v-slow").onclick = () => say(list[current], true);
 $("v-say-sentence").onclick = () => speak(list[current].sentence);
 $("v-prev").onclick = () => { $("v-video").pause(); openView(current - 1); };
 $("v-next").onclick = () => { $("v-video").pause(); openView(current + 1); };
-$("v-edit").onclick = () => openEditor(list[current]);
+$("v-edit").onclick = () => { const r = list[current]; if (r.starter) { $("v-hide-confirm").hidden = false; $("v-hide-confirm").scrollIntoView({ block: "center" }); } else openEditor(r); };
+$("v-hide-no").onclick = () => { $("v-hide-confirm").hidden = true; };
+$("v-hide-yes").onclick = async () => {
+  const r = list[current];
+  try { await store.saveHidden([...hiddenStarters, r.id]); setHidden([...hiddenStarters, r.id]); closeOverlay("view"); toast("Voorbeeld verwijderd"); }
+  catch (_) { toast("Verwijderen is niet gelukt. Probeer het opnieuw."); }
+};
+function renderAdmin() {
+  $("s-admin").hidden = !store.canWrite;
+  const left = STARTER.filter((s) => !hiddenStarters.has(s.id)).length;
+  $("s-admin-info").textContent = left ? `Er ${left === 1 ? "staat nog 1 voorbeeld" : "staan nog " + left + " voorbeelden"} in de app. Een los voorbeeld verwijder je door het te openen en op Verwijderen te tikken.` : "Alle voorbeelden zijn verwijderd.";
+  $("s-hide-all").hidden = !left; $("s-hide-confirm").hidden = true;
+  $("s-restore").hidden = !hiddenStarters.size;
+}
+$("s-hide-all").onclick = () => { $("s-hide-confirm").hidden = false; $("s-hide-all").hidden = true; };
+$("s-hide-no").onclick = () => renderAdmin();
+$("s-hide-yes").onclick = async () => {
+  const all = STARTER.map((s) => s.id);
+  try { await store.saveHidden(all); setHidden(all); toast("Voorbeelden verwijderd"); }
+  catch (_) { toast("Verwijderen is niet gelukt. Probeer het opnieuw."); }
+};
+$("s-restore").onclick = async () => {
+  try { await store.saveHidden([]); setHidden([]); toast("Voorbeelden teruggezet"); }
+  catch (_) { toast("Terugzetten is niet gelukt. Probeer het opnieuw."); }
+};
 $("btn-add").onclick = () => openEditor(null);
 $("e-cancel").onclick = () => { $("e-video-el").pause(); closeOverlay("editor"); };
 $("e-photo-btn").onclick = () => $("e-photo").click();
@@ -686,13 +722,13 @@ $("e-form").addEventListener("submit", async (e) => {
     showErr(c === "too_large" || c === "invalid_argument" ? "De foto of opname is te groot. Kies een kleinere." : c === "quota_or_state" || c === "quota_exceeded" ? "De opslag is vol. Verwijder eerst enkele woorden." : "Opslaan is niet gelukt. Controleer de verbinding en probeer opnieuw.");
   } finally { $("e-save").disabled = false; $("e-save").textContent = "Opslaan"; }
 });
-$("btn-settings").onclick = () => { loadVoices(); renderVoices(); $("s-rate").value = prefs.get("rate", 0.9); rateLabel(); $("s-starter").checked = prefs.get("starter", true);
+$("btn-settings").onclick = () => { loadVoices(); renderVoices(); $("s-rate").value = prefs.get("rate", 0.9); rateLabel(); $("s-starter").checked = prefs.get("starter", true); renderAdmin();
   $("s-storage").textContent = store.mode === "site" ? "Stem en snelheid gelden alleen voor dit toestel." : store.mode === "cloud" ? "Eigen woorden worden gedeeld met iedereen die deze app opent. Stem en snelheid gelden alleen voor dit toestel." : "Eigen woorden worden bewaard in de browser van dit toestel.";
   $("settings").hidden = false; document.body.style.overflow = "hidden"; };
 $("s-close").onclick = () => closeOverlay("settings");
-$("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.value]; if (v) { prefs.set("voice", v.voiceURI); speak("de brandblusser"); } });
+$("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.value]; if (v) { prefs.set("voice", v.voiceURI); speak("de nooduitgang"); } });
 $("s-rate").addEventListener("input", (e) => { prefs.set("rate", Number(e.target.value)); rateLabel(); });
-$("s-test").onclick = () => speak("Welkom. Dit is de handbrandmelder.");
+$("s-test").onclick = () => speak("Welkom. Dit is de nooduitgang.");
 $("s-starter").onchange = (e) => { prefs.set("starter", e.target.checked); renderGrid(); };
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
 
@@ -714,11 +750,12 @@ async function boot() {
       const canData = user ? await user.can("data.write").catch(() => null) : null;
       store = cloudStore(db, assets, !!assets && canData !== false);
       store.subscribe((rows) => { userWords = rows.filter((r) => r && r.word); renderGrid(); renderNotice(); });
+      store.subscribeHidden(setHidden);
       renderNotice();
       return;
     }
   }
-  try { localStore.subscribe((rows) => { userWords = rows; renderGrid(); renderNotice(); }); }
+  try { localStore.subscribe((rows) => { userWords = rows; renderGrid(); renderNotice(); }); localStore.subscribeHidden(setHidden); }
   catch (_) { localStore.canWrite = false; renderNotice(); }
 }
 boot();
