@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="nl" data-site="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f4e79">
+<meta name="description" content="Foto's en pictogrammen met het Nederlandse woord en de uitspraak.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Woordenboek">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Beeldwoordenboek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@500;600;700&display=swap">
+<style>
+/* Layout: phone-first picture cards in a 2-column grid; tap a card for a full-screen word view with big play buttons. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --surface-2:#e8ecf0; --ink:#17212b; --muted:#5a6876; --line:#d3dae1;
+  --accent:#1f4e79; --accent-ink:#ffffff; --focus:#e0a100;
+  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --other:#56606b;
+  --font-display:"Lexend","Segoe UI",system-ui,sans-serif;
+  --font-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#18212a; --surface-2:#222d38; --ink:#eef2f6; --muted:#9aa8b6; --line:#2e3a46;
+  --accent:#7fb2e5; --accent-ink:#0b1824; --focus:#f2c14e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#18212a; --surface-2:#222d38; --ink:#eef2f6; --muted:#9aa8b6; --line:#2e3a46;
+  --accent:#7fb2e5; --accent-ink:#0b1824; --focus:#f2c14e; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.45;padding-inline:16px;padding-block:0 96px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:960px;margin-inline:auto}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand h1{font-family:var(--font-display);font-weight:700;font-size:1.35rem;margin:0;letter-spacing:-.01em}
+.brand h1 small{display:block;font-family:var(--font-body);font-weight:400;font-size:.8rem;color:var(--muted);letter-spacing:0}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;flex:none}
+.icon-btn svg{width:22px;height:22px}
+.search{margin-top:10px;display:flex;gap:8px}
+.search input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;font-size:1rem}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-block:10px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;gap:7px}
+.chip .dot{width:10px;height:10px;border-radius:3px;background:var(--c,var(--muted))}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.notice{margin-block:12px 0;font-size:.9rem;color:var(--muted)}
+.notice b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0;position:relative}
+.card .pic{aspect-ratio:1/1;width:100%;max-width:100%;background:var(--surface-2);display:grid;place-items:center;overflow:hidden}
+.card .pic img,.card .pic svg{width:100%;height:100%;object-fit:cover;display:block}
+.card .label{padding:8px 10px 11px;border-top:4px solid var(--c,var(--muted))}
+.card .w{display:block;font-family:var(--font-display);font-weight:600;font-size:1.05rem;line-height:1.2;min-width:0;hyphens:auto;overflow-wrap:break-word}
+.card .w.long{font-size:.9rem;letter-spacing:-.01em}
+.card .w .art{font-weight:500;color:var(--muted);font-size:.85em}
+.card .say{position:absolute;right:8px;bottom:calc(100% + 8px);width:44px;height:44px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 2px 6px rgba(0,0,0,.25);background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;cursor:pointer}
+.card .say svg{width:18px;height:18px}
+.badge{position:absolute;top:8px;left:8px;background:var(--surface);color:var(--muted);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line)}
+.empty{padding:28px 6px;color:var(--muted);text-align:center}
+.fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:6;border:none;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:14px 20px;font-weight:700;font-size:1rem;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.22);cursor:pointer}
+.fab svg{width:20px;height:20px}
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.overlay .inner{max-width:560px;margin-inline:auto;display:flex;flex-direction:column;gap:14px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bar h2{font-family:var(--font-display);font-size:1.15rem;margin:0}
+.big-pic{border-radius:18px;overflow:hidden;background:var(--surface-2);aspect-ratio:1/1;width:100%;max-width:100%}
+.big-pic img,.big-pic svg{width:100%;height:100%;object-fit:contain;display:block}
+.big-word{hyphens:auto;font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,9vw,3rem);line-height:1.1;text-align:center;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+.big-word .art{color:var(--muted);font-weight:500}
+.theme-tag{align-self:center;font-size:.85rem;font-weight:700;color:var(--c);border:1.5px solid var(--c);border-radius:999px;padding:2px 12px}
+.sentence{text-align:center;font-size:1.1rem;color:var(--ink);margin:0}
+.play-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.huge{min-height:64px;font-size:1.1rem}
+.btn.danger{color:var(--fire);border-color:var(--fire)}
+.btn:disabled{opacity:.5;cursor:default}
+.play-row .wide{grid-column:1/-1}
+.src{font-size:.85rem;color:var(--muted);text-align:center;margin:0}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.nav .btn{flex:1}
+/* form */
+form{display:flex;flex-direction:column;gap:14px}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.95rem}
+label.f .hint{font-weight:400;color:var(--muted);font-size:.85rem}
+.f input[type=text],.f select,.f textarea{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px 12px;font-size:1rem;width:100%}
+.photo-pick{border:2px dashed var(--line);border-radius:16px;background:var(--surface);aspect-ratio:4/3;max-width:100%;display:grid;place-items:center;overflow:hidden;cursor:pointer;color:var(--muted);text-align:center;padding:0}
+.photo-pick img{width:100%;height:100%;object-fit:contain}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg label{flex:1;min-width:70px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;border:1.5px solid var(--line);border-radius:10px;padding:9px 6px;background:var(--surface);cursor:pointer;font-weight:700}
+.seg input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg input:focus-visible+span{outline:3px solid var(--focus)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.audio-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.audio-box p{margin:0;font-size:.88rem;color:var(--muted)}
+.hide-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.err{color:var(--fire);font-weight:700;margin:0}
+.confirm{border:1.5px solid var(--fire);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.confirm p{margin:0}
+.voice-list{display:flex;flex-direction:column;gap:8px}
+.voice{display:flex;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);cursor:pointer}
+.voice input{accent-color:var(--accent);width:20px;height:20px;flex:none}
+.voice .vn{font-weight:700;overflow-wrap:anywhere;min-width:0}
+.voice .vl{font-size:.82rem;color:var(--muted)}
+.voice .tag{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--exit);border:1px solid var(--exit);border-radius:6px;padding:1px 6px;flex:none}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.toggle{display:flex;align-items:center;gap:10px;font-weight:700}
+.toggle input{width:22px;height:22px;accent-color:var(--accent)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:40;font-weight:700;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .12s}.card:active{transform:scale(.98)}}
+@media (min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
+</style>
+
+<div class="wrap" lang="nl">
+  <header class="top">
+    <div class="brand">
+      <h1>Beeldwoordenboek<small>Kijk, lees en luister</small></h1>
+      <button class="icon-btn" id="btn-settings" aria-label="Instellingen voor de stem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+      </button>
+    </div>
+    <div class="search"><input id="q" type="text" inputmode="search" placeholder="Zoek een woord" aria-label="Zoek een woord" autocomplete="off"></div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Thema's"></div>
+  </header>
+  <p class="notice" id="notice"></p>
+  <div class="grid" id="grid" aria-live="polite"></div>
+</div>
+<button class="fab" id="btn-add" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Woord toevoegen
+</button>
+
+<!-- word view -->
+<section lang="nl" class="overlay" id="view" hidden aria-modal="true" role="dialog" aria-labelledby="v-word">
+  <div class="inner">
+    <div class="bar">
+      <button class="btn" id="v-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button>
+      <button class="btn" id="v-edit" hidden>Bewerken</button>
+    </div>
+    <div class="big-pic" id="v-pic"></div>
+    <span class="theme-tag" id="v-theme"></span>
+    <h2 class="big-word" id="v-word"></h2>
+    <p class="sentence" id="v-sentence"></p>
+    <div class="play-row">
+      <button class="btn primary huge wide" id="v-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Luister</button>
+      <button class="btn" id="v-slow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>Langzaam</button>
+      <button class="btn" id="v-say-sentence"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Zin</button>
+    </div>
+    <p class="src" id="v-src"></p>
+    <div class="nav">
+      <button class="btn" id="v-prev">Vorige</button>
+      <button class="btn" id="v-next">Volgende</button>
+    </div>
+  </div>
+</section>
+
+<!-- add / edit -->
+<section class="overlay" id="editor" hidden aria-modal="true" role="dialog" aria-labelledby="e-title">
+  <div class="inner">
+    <div class="bar">
+      <h2 id="e-title">Woord toevoegen</h2>
+      <button class="btn" id="e-cancel">Annuleren</button>
+    </div>
+    <form id="e-form" novalidate>
+      <input type="file" id="e-photo" accept="image/*" class="hide-input" tabindex="-1">
+      <button type="button" class="photo-pick" id="e-photo-btn"><span>Tik om een foto te maken<br>of een afbeelding te kiezen</span></button>
+      <label class="f">Woord in het Nederlands
+        <input type="text" id="e-word" autocomplete="off" autocapitalize="off" placeholder="bijvoorbeeld brandblusser">
+      </label>
+      <div class="f"><span style="font-weight:700;font-size:.95rem">Lidwoord</span>
+        <div class="seg" role="radiogroup" aria-label="Lidwoord">
+          <label><input type="radio" name="art" value="de" checked><span>de</span></label>
+          <label><input type="radio" name="art" value="het"><span>het</span></label>
+          <label><input type="radio" name="art" value=""><span>geen</span></label>
+        </div>
+      </div>
+      <label class="f">Thema
+        <select id="e-theme"></select>
+      </label>
+      <label class="f">Voorbeeldzin <span class="hint">Niet verplicht. Een korte zin helpt om het woord te leren gebruiken.</span>
+        <textarea id="e-sentence" rows="2" placeholder="bijvoorbeeld: Met de brandblusser blus je een klein vuur."></textarea>
+      </label>
+      <div class="audio-box">
+        <strong>Eigen uitspraak</strong>
+        <p>Niet verplicht. Zonder opname spreekt de computerstem het woord uit. Met een opname van een collega hoor je die stem.</p>
+        <input type="file" id="e-audio-rec" accept="audio/*" capture class="hide-input" tabindex="-1">
+        <input type="file" id="e-audio-file" accept="audio/*" class="hide-input" tabindex="-1">
+        <div class="row2">
+          <button type="button" class="btn" id="e-rec">Opnemen</button>
+          <button type="button" class="btn" id="e-audio-pick">Kies bestand</button>
+        </div>
+        <div id="e-audio-state" class="row2" hidden>
+          <button type="button" class="btn" id="e-audio-play">Beluister opname</button>
+          <button type="button" class="btn danger" id="e-audio-del">Verwijder opname</button>
+        </div>
+        <p>Op een iPhone: neem op met de app Dictafoon en kies het bestand hier.</p>
+      </div>
+      <p class="err" id="e-err" hidden></p>
+      <button type="submit" class="btn primary huge" id="e-save">Opslaan</button>
+      <div id="e-del-zone" hidden>
+        <button type="button" class="btn danger" id="e-del" style="width:100%">Woord verwijderen</button>
+        <div class="confirm" id="e-confirm" hidden>
+          <p>Dit woord, de foto en de opname worden voor iedereen verwijderd.</p>
+          <div class="row2"><button type="button" class="btn" id="e-del-no">Niet verwijderen</button><button type="button" class="btn danger" id="e-del-yes">Ja, verwijderen</button></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- settings -->
+<section class="overlay" id="settings" hidden aria-modal="true" role="dialog" aria-labelledby="s-title">
+  <div class="inner">
+    <div class="bar">
+      <h2 id="s-title">Stem en uitspraak</h2>
+      <button class="btn" id="s-close">Klaar</button>
+    </div>
+    <p id="s-voice-help" class="notice" style="margin:0"></p>
+    <div class="voice-list" id="s-voices"></div>
+    <label class="f">Spreeksnelheid <span class="hint" id="s-rate-label"></span>
+      <input type="range" id="s-rate" min="0.6" max="1.2" step="0.05" value="0.9">
+    </label>
+    <button class="btn primary" id="s-test">Test de stem</button>
+    <label class="toggle"><input type="checkbox" id="s-starter" checked> Toon de voorbeeldwoorden</label>
+    <p class="notice" style="margin:0" id="s-storage"></p>
+  </div>
+</section>
+
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(() => {
+"use strict";
+const $ = (id) => document.getElementById(id);
+
+/* ---------- themes ---------- */
+const THEMES = [
+  { id: "alledaags", name: "Alledaags", c: "var(--daily)" },
+  { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
+  { id: "zorg", name: "Zorg", c: "var(--care)" },
+  { id: "overig", name: "Overig", c: "var(--other)" },
+];
+const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES[3];
+
+/* ---------- starter pictograms (inline SVG, 100x100) ---------- */
+const W = "#ffffff", INK = "#1d2833";
+const sign = (bg, body) => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img"><rect width="100" height="100" fill="${bg}"/><rect x="8" y="8" width="84" height="84" rx="8" fill="none" stroke="${W}" stroke-width="2" opacity=".55"/>${body}</svg>`;
+const plain = (body) => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img"><rect width="100" height="100" fill="#f6ecd6"/>${body}</svg>`;
+const S = `fill="none" stroke="${W}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
+const K = `fill="none" stroke="${INK}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"`;
+const sw = (n) => `fill="none" stroke="${W}" stroke-width="${n}" stroke-linecap="round" stroke-linejoin="round"`;
+const kw = (n) => `fill="none" stroke="${INK}" stroke-width="${n}" stroke-linecap="round" stroke-linejoin="round"`;
+const FIRE = "#c8202f", EXIT = "#00804a", CARE = "#0e7470";
+const PICTOS = {
+  brandblusser: sign(FIRE, `<rect x="44" y="36" width="22" height="48" rx="8" fill="${W}"/><rect x="50" y="26" width="10" height="11" fill="${W}"/><path d="M46 28h22l4 -4" ${S}/><path d="M50 31c-12 2-18 12-16 26" ${S}/><path d="M27 72c-4-6 0-11 3-15 1 5 5 5 5 1 4 5 5 10 2 14-3 3-8 3-10 0z" fill="${W}"/>`),
+  handbrandmelder: sign(FIRE, `<rect x="22" y="22" width="56" height="56" rx="5" ${S}/><rect x="34" y="34" width="32" height="32" rx="3" fill="${W}"/><circle cx="50" cy="50" r="8" fill="${FIRE}"/><path d="M62 92V70c0-4 6-4 6 0v-8c0-4 6-4 6 0v4c0-4 6-4 6 0v26" fill="${W}" stroke="${FIRE}" stroke-width="2.5"/><rect x="56" y="52" width="7" height="24" rx="3.5" fill="${W}" stroke="${FIRE}" stroke-width="2.5"/>`),
+  brandslang: sign(FIRE, `<circle cx="42" cy="46" r="24" ${S}/><circle cx="42" cy="46" r="15" ${S}/><circle cx="42" cy="46" r="5" fill="${W}"/><path d="M66 46c8 0 12 6 12 14v12" ${S}/><path d="M73 72h10l-2 12h-6z" fill="${W}"/>`),
+  branddeken: sign(FIRE, `<rect x="24" y="18" width="52" height="30" rx="4" fill="${W}"/><rect x="34" y="12" width="7" height="12" rx="2" fill="${W}"/><rect x="59" y="12" width="7" height="12" rx="2" fill="${W}"/><path d="M30 48l-4 34h48l-4-34" fill="${W}" opacity=".85"/><path d="M38 56l-2 20M50 56v20M62 56l2 20" stroke="${FIRE}" stroke-width="3" stroke-linecap="round"/>`),
+  rookmelder: sign(FIRE, `<path d="M18 30h64" ${S}/><path d="M26 30c0 12 10 18 24 18s24-6 24-18" fill="${W}"/><circle cx="50" cy="38" r="3.5" fill="${FIRE}"/><path d="M34 82c-6-6 6-10 0-16M50 86c-6-6 6-10 0-16M66 82c-6-6 6-10 0-16" ${S}/>`),
+  nooduitgang: sign(EXIT, `<rect x="56" y="18" width="26" height="64" ${S}/><circle cx="38" cy="22" r="6.5" fill="${W}"/><path d="M35 33l-8 18 12 4-4 20M35 33l12 12 9-3M31 46l-11 4M39 55l10 18" ${sw(7)}/><path d="M60 50h14M68 44l6 6-6 6" ${S}/>`),
+  verzamelplaats: sign(EXIT, `<path d="M16 16l14 14M84 16L70 30M16 84l14-14M84 84L70 70" ${S}/><path d="M18 26V16h10M82 26V16H72M18 74v10h10M82 74v10H72" ${S}/><circle cx="40" cy="42" r="5" fill="${W}"/><path d="M34 70V58c0-6 12-6 12 0v12" fill="${W}"/><circle cx="60" cy="42" r="5" fill="${W}"/><path d="M54 70V58c0-6 12-6 12 0v12" fill="${W}"/><circle cx="50" cy="52" r="4" fill="${W}"/><path d="M45 72v-8c0-5 10-5 10 0v8" fill="${W}"/>`),
+  rolstoel: sign(CARE, `<circle cx="44" cy="20" r="6.5" fill="${W}"/><path d="M44 31v22h18l8 18h8" ${sw(6)}/><path d="M44 42h14" ${S}/><path d="M34 46a19 19 0 1 0 28 22" ${S}/>`),
+  handschoenen: sign(CARE, `<path d="M32 86V58l-8-14c-2-4 3-7 6-4l6 8V24c0-5 7-5 7 0v20-26c0-5 7-5 7 0v26-22c0-5 7-5 7 0v24-18c0-5 7-5 7 0v34c0 12-6 20-12 24v8z" fill="${W}"/><path d="M34 76h30" stroke="${CARE}" stroke-width="3"/>`),
+  thermometer: sign(CARE, `<path d="M44 66V22a6 6 0 0 1 12 0v44" ${S}/><circle cx="50" cy="72" r="11" fill="${W}"/><path d="M50 66V40" stroke="${W}" stroke-width="5" stroke-linecap="round"/><path d="M62 28h8M62 38h6M62 48h8M62 58h6" ${sw(3.5)}/>`),
+  mondmasker: sign(CARE, `<path d="M26 40c10-6 38-6 48 0v18c-6 12-42 12-48 0z" fill="${W}"/><path d="M30 46h40M30 53h40M32 60h36" stroke="${CARE}" stroke-width="2.5"/><path d="M26 42c-10-4-14 14 0 14M74 42c10-4 14 14 0 14" ${sw(3.5)}/>`),
+  bed: sign(CARE, `<path d="M18 30v46M18 60h64M82 52v24" ${S}/><rect x="22" y="44" width="14" height="10" rx="4" fill="${W}"/><rect x="38" y="46" width="44" height="10" rx="3" fill="${W}"/><circle cx="26" cy="80" r="4" fill="${W}"/><circle cx="76" cy="80" r="4" fill="${W}"/>`),
+  pleister: sign(CARE, `<g transform="rotate(-35 50 50)"><rect x="14" y="38" width="72" height="24" rx="12" fill="${W}"/><rect x="38" y="40" width="24" height="20" rx="3" fill="${CARE}" opacity=".35"/><circle cx="24" cy="50" r="1.8" fill="${CARE}"/><circle cx="30" cy="46" r="1.8" fill="${CARE}"/><circle cx="30" cy="54" r="1.8" fill="${CARE}"/><circle cx="76" cy="50" r="1.8" fill="${CARE}"/><circle cx="70" cy="46" r="1.8" fill="${CARE}"/><circle cx="70" cy="54" r="1.8" fill="${CARE}"/></g>`),
+  stoel: plain(`<path d="M34 18v64M34 52h34v30M34 52h34" ${K}/><path d="M34 22h20v30" ${K}/>`),
+  tafel: plain(`<path d="M14 40h72M20 40v42M80 40v42M14 48h72" ${K}/><path d="M40 34c0-8 6-12 6-12M56 34v-8h10v8" ${kw(4)}/>`),
+  sleutel: plain(`<circle cx="32" cy="50" r="14" ${K}/><circle cx="32" cy="50" r="4" fill="${INK}"/><path d="M46 50h40M74 50v12M84 50v9" ${K}/>`),
+  beker: plain(`<path d="M28 36h36v34a10 10 0 0 1-10 10H38a10 10 0 0 1-10-10z" ${K}/><path d="M64 44h6a8 8 0 0 1 0 16h-6" ${K}/><path d="M40 28c-3-4 3-6 0-12M52 28c-3-4 3-6 0-12" ${kw(3.5)}/>`),
+  deur: plain(`<path d="M24 86V14h52v72M16 86h68" ${K}/><path d="M32 22h36v26H32zM32 56h36v22H32" ${kw(3)}/><circle cx="66" cy="52" r="3.5" fill="${INK}"/>`),
+  telefoon: plain(`<rect x="32" y="12" width="36" height="76" rx="7" ${K}/><path d="M44 20h12" ${kw(3.5)}/><circle cx="50" cy="78" r="3.5" fill="${INK}"/><rect x="38" y="28" width="24" height="40" rx="2" fill="${INK}" opacity=".15"/>`),
+};
+const STARTER = [
+  ["brandblusser","de","brand","Met de brandblusser blus je een klein vuur."],
+  ["handbrandmelder","de","brand","Druk op de handbrandmelder als je brand ziet."],
+  ["brandslang","de","brand","De brandslang hangt aan de muur in de gang."],
+  ["branddeken","de","brand","Leg de branddeken over een brandende pan."],
+  ["rookmelder","de","brand","De rookmelder piept als er rook is."],
+  ["nooduitgang","de","brand","Volg de groene bordjes naar de nooduitgang."],
+  ["verzamelplaats","de","brand","Ga bij brand naar de verzamelplaats buiten."],
+  ["rolstoel","de","zorg","De bewoner zit in een rolstoel."],
+  ["handschoenen","de","zorg","Trek handschoenen aan voor de verzorging."],
+  ["thermometer","de","zorg","Met de thermometer meet je de temperatuur."],
+  ["mondmasker","het","zorg","Zet een mondmasker op bij een besmetting."],
+  ["bed","het","zorg","Maak het bed elke ochtend op."],
+  ["pleister","de","zorg","Plak een pleister op de wonde."],
+  ["stoel","de","alledaags","Neem een stoel en ga zitten."],
+  ["tafel","de","alledaags","Het eten staat op tafel."],
+  ["sleutel","de","alledaags","Ik heb de sleutel van de kast."],
+  ["beker","de","alledaags","Wil je een beker koffie?"],
+  ["deur","de","alledaags","Doe de deur dicht, alsjeblieft."],
+  ["telefoon","de","alledaags","Mijn telefoon ligt in de personeelsruimte."],
+].map(([word, article, theme, sentence]) => ({ id: "start-" + word, word, article, theme, sentence, starter: true, createdAt: 0 }));
+
+/* ---------- prefs (per device) ---------- */
+const prefs = (() => {
+  let p = {};
+  try { p = JSON.parse(localStorage.getItem("bwb-prefs") || "{}") || {}; } catch (_) {}
+  return {
+    get: (k, d) => (k in p ? p[k] : d),
+    set: (k, v) => { p[k] = v; try { localStorage.setItem("bwb-prefs", JSON.stringify(p)); } catch (_) {} },
+  };
+})();
+
+/* ---------- speech ---------- */
+const synth = window.speechSynthesis || null;
+let voices = [];
+function scoreVoice(v) {
+  const n = (v.name || "").toLowerCase();
+  let s = 0;
+  if (/natural|neural|online|premium|enhanced|siri|wavenet/.test(n)) s += 4;
+  if (/google/.test(n)) s += 2;
+  if (/compact|espeak/.test(n)) s -= 3;
+  if (v.lang.toLowerCase().replace("_", "-").startsWith("nl-nl")) s += 0.5;
+  if (v.lang.toLowerCase().replace("_", "-").startsWith("nl-be")) s += 0.4;
+  return s;
+}
+function loadVoices() {
+  if (!synth) return;
+  voices = synth.getVoices().filter((v) => /^nl([-_]|$)/i.test(v.lang)).sort((a, b) => scoreVoice(b) - scoreVoice(a));
+  if (!$("settings").hidden) renderVoices();
+}
+if (synth) { loadVoices(); synth.addEventListener?.("voiceschanged", loadVoices); setTimeout(loadVoices, 600); }
+function currentVoice() {
+  const want = prefs.get("voice", "");
+  return voices.find((v) => v.voiceURI === want) || voices[0] || null;
+}
+function speak(text, slow) {
+  stopAudio();
+  if (!synth) { toast("Dit toestel kan geen tekst uitspreken."); return; }
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  const v = currentVoice();
+  if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "nl-NL";
+  const rate = Number(prefs.get("rate", 0.9));
+  u.rate = slow ? Math.max(0.5, rate * 0.65) : rate;
+  synth.speak(u);
+}
+let audioEl = null;
+function stopAudio() { if (audioEl) { audioEl.pause(); audioEl = null; } }
+async function playOwn(rec, slow) {
+  const url = await store.audioUrl(rec);
+  if (!url) return false;
+  stopAudio(); synth && synth.cancel();
+  audioEl = new Audio(url);
+  audioEl.playbackRate = slow ? 0.75 : 1;
+  try { audioEl.preservesPitch = true; } catch (_) {}
+  try { await audioEl.play(); return true; } catch (_) { return false; }
+}
+const spoken = (r) => (r.article ? r.article + " " : "") + r.word;
+async function say(rec, slow) {
+  if (rec.hasAudio && await playOwn(rec, slow)) return;
+  speak(spoken(rec), slow);
+}
+
+/* ---------- storage: shared (claude db + assets) or on this device (IndexedDB) ---------- */
+const AUDIO_MAX = 170 * 1024;
+const localStore = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open("beeldwoordenboek", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("words", { keyPath: "id" });
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = async (mode, fn) => { const d = await open(); return new Promise((res, rej) => { const t = d.transaction("words", mode); const s = t.objectStore("words"); const out = fn(s); t.oncomplete = () => res(out && out.result); t.onerror = () => rej(t.error); }); };
+  let listener = null;
+  const emit = async () => { const all = await tx("readonly", (s) => s.getAll()); listener && listener(all || []); };
+  return {
+    mode: "local", canWrite: true,
+    subscribe(cb) { listener = cb; emit().catch(() => cb([])); },
+    async save(rec, imgBlob, audio) {
+      const out = { ...rec };
+      if (imgBlob) out.imageData = await blobToDataUrl(imgBlob);
+      if (audio === "remove") { delete out.audioData; out.hasAudio = false; }
+      else if (audio) { out.audioData = await blobToDataUrl(audio); out.hasAudio = true; }
+      await tx("readwrite", (s) => s.put(out)); await emit();
+    },
+    async remove(rec) { await tx("readwrite", (s) => s.delete(rec.id)); await emit(); },
+    imageUrl: (rec) => rec.imageData || "",
+    audioUrl: async (rec) => rec.audioData || "",
+  };
+})();
+
+function cloudStore(db, assets, canWrite) {
+  const audioCache = new Map();
+  return {
+    mode: "cloud", canWrite,
+    subscribe(cb) {
+      db.collection("words").onSnapshot(
+        (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() }))),
+        () => toast("De gedeelde woordenlijst is niet bereikbaar. Herlaad de pagina."));
+    },
+    async save(rec, imgBlob, audio) {
+      const out = { ...rec };
+      delete out.imageData; delete out.audioData;
+      if (imgBlob) { const up = await assets.upload(imgBlob, { type: "image/jpeg" }); out.imageId = up.id; }
+      if (audio === "remove") { await db.doc("audio/" + rec.id).delete(); out.hasAudio = false; audioCache.delete(rec.id); }
+      else if (audio) {
+        const data = await blobToDataUrl(audio);
+        await db.doc("audio/" + rec.id).set({ data });
+        out.hasAudio = true; audioCache.set(rec.id, data);
+      }
+      await db.doc("words/" + rec.id).set(out);
+      if (imgBlob && rec.imageId && rec.imageId !== out.imageId) assets.delete(rec.imageId).catch(() => {});
+    },
+    async remove(rec) {
+      await db.doc("words/" + rec.id).delete();
+      if (rec.hasAudio) await db.doc("audio/" + rec.id).delete().catch(() => {});
+      if (rec.imageId && assets) await assets.delete(rec.imageId).catch(() => {});
+    },
+    imageUrl: (rec) => (rec.imageId ? "/_blob/" + rec.imageId : ""),
+    async audioUrl(rec) {
+      if (audioCache.has(rec.id)) return audioCache.get(rec.id);
+      const s = await db.doc("audio/" + rec.id).get().catch(() => null);
+      const d = s && s.exists ? s.data().data : "";
+      if (d) audioCache.set(rec.id, d);
+      return d;
+    },
+  };
+}
+
+const siteStore = {
+  mode: "site", canWrite: false,
+  subscribe(cb) {
+    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => cb(Array.isArray(d.words) ? d.words : [])).catch(() => cb([]));
+  },
+  imageUrl: (rec) => rec.image || "",
+  audioUrl: async (rec) => rec.audio || "",
+};
+
+function blobToDataUrl(b) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(b); }); }
+async function shrinkImage(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const max = 1200, sc = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * sc); c.height = Math.round(img.naturalHeight * sc);
+    const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height);
+    g.drawImage(img, 0, 0, c.width, c.height);
+    return await new Promise((res) => c.toBlob(res, "image/jpeg", 0.85));
+  } finally { URL.revokeObjectURL(url); }
+}
+
+/* ---------- state + render ---------- */
+let store = localStore;
+let userWords = [];
+let filter = prefs.get("filter", "all");
+let query = "";
+let list = [];
+let current = -1;
+
+function allWords() {
+  const showStarter = prefs.get("starter", true);
+  const own = userWords.slice().sort((a, b) => a.word.localeCompare(b.word, "nl"));
+  return showStarter ? own.concat(STARTER) : own;
+}
+function picHtml(rec) {
+  if (rec.starter) return PICTOS[rec.word] || "";
+  const u = store.imageUrl(rec);
+  return u ? `<img src="${esc(u)}" alt="" loading="lazy">` : `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="var(--surface-2)"/><text x="50" y="58" text-anchor="middle" font-size="30" fill="var(--muted)">?</text></svg>`;
+}
+function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function wordHtml(r) { return (r.article ? `<span class="art">${esc(r.article)}</span> ` : "") + esc(r.word); }
+
+function renderChips() {
+  const items = [{ id: "all", name: "Alles", c: "var(--ink)" }].concat(THEMES);
+  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("");
+}
+function renderGrid() {
+  const q = query.trim().toLowerCase();
+  list = allWords().filter((r) => (filter === "all" || r.theme === filter) && (!q || r.word.toLowerCase().includes(q) || spoken(r).toLowerCase().includes(q)));
+  $("grid").innerHTML = list.length ? list.map((r, i) => `
+    <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
+      ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}
+      <div class="pic">${picHtml(r)}</div>
+      <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>
+        <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      </div>
+    </div>`).join("") : `<p class="empty">${q ? "Geen woord gevonden voor “" + esc(query) + "”." : "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan."}</p>`;
+}
+function renderNotice() {
+  const own = userWords.length;
+  let t;
+  if (store.mode === "cloud") t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, gedeeld met iedereen die deze app opent.` : "Voeg je eigen foto's en woorden toe. Ze worden gedeeld met iedereen die deze app opent.";
+  else t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, bewaard op dit toestel.` : "Voeg je eigen foto's en woorden toe met de knop onderaan.";
+  if (!store.canWrite) t = "Tik op een kaart om het woord te horen.";
+  $("notice").innerHTML = t;
+  $("btn-add").hidden = !store.canWrite;
+}
+function renderAll() { renderChips(); renderGrid(); renderNotice(); }
+
+/* ---------- word view ---------- */
+function openView(i) {
+  current = i; const r = list[i]; if (!r) return;
+  const th = themeOf(r.theme);
+  $("v-pic").innerHTML = r.starter ? PICTOS[r.word] : (store.imageUrl(r) ? `<img src="${esc(store.imageUrl(r))}" alt="">` : picHtml(r));
+  $("v-theme").textContent = th.name; $("v-theme").style.setProperty("--c", th.c);
+  $("v-word").innerHTML = wordHtml(r);
+  $("v-sentence").textContent = r.sentence || ""; $("v-sentence").hidden = !r.sentence;
+  $("v-say-sentence").hidden = !r.sentence;
+  $("v-slow").classList.toggle("wide", !r.sentence);
+  $("v-src").textContent = r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
+  $("v-edit").hidden = !(store.canWrite && !r.starter);
+  $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
+  $("view").hidden = false; document.body.style.overflow = "hidden";
+}
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden) document.body.style.overflow = ""; }
+
+/* ---------- editor ---------- */
+let editRec = null, newImg = null, newAudio = null, audioRemoved = false;
+function openEditor(rec) {
+  editRec = rec || null; newImg = null; newAudio = null; audioRemoved = false;
+  $("e-title").textContent = rec ? "Woord bewerken" : "Woord toevoegen";
+  $("e-word").value = rec ? rec.word : "";
+  document.querySelectorAll('input[name=art]').forEach((x) => (x.checked = x.value === (rec ? rec.article || "" : "de")));
+  $("e-theme").innerHTML = THEMES.map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
+  $("e-theme").value = rec ? rec.theme : (filter !== "all" ? filter : "alledaags");
+  $("e-sentence").value = rec ? rec.sentence || "" : "";
+  const u = rec ? store.imageUrl(rec) : "";
+  $("e-photo-btn").innerHTML = u ? `<img src="${esc(u)}" alt="Gekozen foto">` : `<span>Tik om een foto te maken<br>of een afbeelding te kiezen</span>`;
+  $("e-err").hidden = true; $("e-del-zone").hidden = !rec; $("e-confirm").hidden = true; $("e-del").hidden = false;
+  syncAudioState();
+  $("editor").hidden = false; document.body.style.overflow = "hidden";
+}
+function hasAudioNow() { return !!newAudio || (!!editRec?.hasAudio && !audioRemoved); }
+function syncAudioState() { $("e-audio-state").hidden = !hasAudioNow(); }
+function showErr(m) { $("e-err").textContent = m; $("e-err").hidden = false; }
+async function pickAudio(input) {
+  const f = input.files && input.files[0]; input.value = "";
+  if (!f) return;
+  if (store.mode === "cloud" && f.size > AUDIO_MAX) { showErr("Deze opname is te lang. Neem alleen het woord op, een paar seconden is genoeg."); return; }
+  $("e-err").hidden = true; newAudio = f; audioRemoved = false; syncAudioState(); toast("Opname toegevoegd");
+}
+
+/* ---------- settings ---------- */
+function renderVoices() {
+  const help = $("s-voice-help");
+  if (!synth) { help.textContent = "Dit toestel of deze browser kan geen tekst uitspreken. Eigen opnames werken wel."; $("s-voices").innerHTML = ""; return; }
+  if (!voices.length) { help.innerHTML = "Er is nog geen Nederlandse stem gevonden op dit toestel. Op Android: Instellingen, Systeem, Talen, Tekst-naar-spraak, en installeer Nederlands. Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, Nederlands."; $("s-voices").innerHTML = ""; return; }
+  help.textContent = "Kies de stem die het natuurlijkst klinkt. Stemmen met het label Natuurlijk klinken meestal het best.";
+  const cur = currentVoice();
+  $("s-voices").innerHTML = voices.map((v, i) => `<label class="voice"><input type="radio" name="voice" value="${i}" ${v === cur ? "checked" : ""}><span><span class="vn">${esc(v.name)}</span><br><span class="vl">${/be/i.test(v.lang) ? "Nederlands (België)" : /nl[-_]nl/i.test(v.lang) ? "Nederlands (Nederland)" : "Nederlands"}</span></span>${scoreVoice(v) >= 3.5 ? '<span class="tag">Natuurlijk</span>' : ""}</label>`).join("");
+}
+function rateLabel() { const r = Number(prefs.get("rate", 0.9)); $("s-rate-label").textContent = r < 0.85 ? "Rustig" : r > 1.05 ? "Snel" : "Normaal"; }
+
+/* ---------- toast ---------- */
+let toastT = 0;
+function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
+
+/* ---------- events ---------- */
+$("chips").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; prefs.set("filter", filter); renderChips(); renderGrid(); });
+$("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
+$("grid").addEventListener("click", (e) => {
+  const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
+  const c = e.target.closest(".card"); if (c) openView(+c.dataset.i);
+});
+$("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
+$("v-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("view"); };
+$("v-play").onclick = () => say(list[current]);
+$("v-slow").onclick = () => say(list[current], true);
+$("v-say-sentence").onclick = () => speak(list[current].sentence);
+$("v-prev").onclick = () => openView(current - 1);
+$("v-next").onclick = () => openView(current + 1);
+$("v-edit").onclick = () => openEditor(list[current]);
+$("btn-add").onclick = () => openEditor(null);
+$("e-cancel").onclick = () => closeOverlay("editor");
+$("e-photo-btn").onclick = () => $("e-photo").click();
+$("e-photo").onchange = async (e) => {
+  const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
+  try { newImg = await shrinkImage(f); const u = URL.createObjectURL(newImg); $("e-photo-btn").innerHTML = `<img src="${u}" alt="Gekozen foto">`; $("e-err").hidden = true; }
+  catch (_) { showErr("Deze afbeelding kan niet worden geopend. Kies een foto in JPG- of PNG-formaat."); }
+};
+$("e-rec").onclick = () => $("e-audio-rec").click();
+$("e-audio-pick").onclick = () => $("e-audio-file").click();
+$("e-audio-rec").onchange = (e) => pickAudio(e.target);
+$("e-audio-file").onchange = (e) => pickAudio(e.target);
+$("e-audio-play").onclick = async () => {
+  stopAudio();
+  const url = newAudio ? URL.createObjectURL(newAudio) : await store.audioUrl(editRec);
+  if (url) { audioEl = new Audio(url); audioEl.play().catch(() => toast("Deze opname kan niet worden afgespeeld.")); }
+};
+$("e-audio-del").onclick = () => { newAudio = null; audioRemoved = true; syncAudioState(); };
+$("e-del").onclick = () => { $("e-confirm").hidden = false; $("e-del").hidden = true; };
+$("e-del-no").onclick = () => { $("e-confirm").hidden = true; $("e-del").hidden = false; };
+$("e-del-yes").onclick = async () => {
+  try { await store.remove(editRec); closeOverlay("editor"); closeOverlay("view"); toast("Woord verwijderd"); }
+  catch (_) { showErr("Verwijderen is niet gelukt. Probeer het opnieuw."); }
+};
+$("e-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const word = $("e-word").value.trim().replace(/\s+/g, " ");
+  if (!word) { showErr("Vul het woord in."); $("e-word").focus(); return; }
+  if (!newImg && !(editRec && (editRec.imageId || editRec.imageData))) { showErr("Kies eerst een foto of pictogram."); return; }
+  const art = document.querySelector('input[name=art]:checked').value;
+  const id = editRec ? editRec.id : "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow() };
+  const audio = newAudio ? newAudio : (audioRemoved ? "remove" : null);
+  $("e-save").disabled = true; $("e-save").textContent = "Bezig met opslaan";
+  try {
+    await store.save(rec, newImg, audio);
+    closeOverlay("editor"); closeOverlay("view"); toast(editRec ? "Woord bewaard" : "Woord toegevoegd");
+  } catch (err) {
+    const c = err && err.code;
+    showErr(c === "too_large" || c === "invalid_argument" ? "De foto of opname is te groot. Kies een kleinere." : c === "quota_or_state" || c === "quota_exceeded" ? "De opslag is vol. Verwijder eerst enkele woorden." : "Opslaan is niet gelukt. Controleer de verbinding en probeer opnieuw.");
+  } finally { $("e-save").disabled = false; $("e-save").textContent = "Opslaan"; }
+});
+$("btn-settings").onclick = () => { loadVoices(); renderVoices(); $("s-rate").value = prefs.get("rate", 0.9); rateLabel(); $("s-starter").checked = prefs.get("starter", true);
+  $("s-storage").textContent = store.mode === "site" ? "Stem en snelheid gelden alleen voor dit toestel." : store.mode === "cloud" ? "Eigen woorden worden gedeeld met iedereen die deze app opent. Stem en snelheid gelden alleen voor dit toestel." : "Eigen woorden worden bewaard in de browser van dit toestel.";
+  $("settings").hidden = false; document.body.style.overflow = "hidden"; };
+$("s-close").onclick = () => closeOverlay("settings");
+$("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.value]; if (v) { prefs.set("voice", v.voiceURI); speak("de brandblusser"); } });
+$("s-rate").addEventListener("input", (e) => { prefs.set("rate", Number(e.target.value)); rateLabel(); });
+$("s-test").onclick = () => speak("Welkom. Dit is de handbrandmelder.");
+$("s-starter").onchange = (e) => { prefs.set("starter", e.target.checked); renderGrid(); };
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
+
+/* ---------- boot ---------- */
+renderAll();
+async function boot() {
+  if (document.documentElement.dataset.site === "1") {
+    store = siteStore;
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+    store.subscribe((rows) => { userWords = rows.filter((r) => r && r.word); renderGrid(); renderNotice(); });
+    renderNotice();
+    return;
+  }
+  const c = window.claude;
+  if (c && typeof c.use === "function") {
+    const db = await c.use("db").catch(() => null);
+    if (db) {
+      const [assets, user] = await Promise.all([c.use("assets").catch(() => null), c.use("user").catch(() => null)]);
+      const canData = user ? await user.can("data.write").catch(() => null) : null;
+      store = cloudStore(db, assets, !!assets && canData !== false);
+      store.subscribe((rows) => { userWords = rows.filter((r) => r && r.word); renderGrid(); renderNotice(); });
+      renderNotice();
+      return;
+    }
+  }
+  try { localStore.subscribe((rows) => { userWords = rows; renderGrid(); renderNotice(); }); }
+  catch (_) { localStore.canWrite = false; renderNotice(); }
+}
+boot();
+})();
+</script>
+
+</body>
+</html>
