@@ -3,7 +3,7 @@
 
 Gebruik: python3 sync_from_artifact.py <export-map> <assets-map> <site-map>
 <export-map>: ArtifactData-export met words/<id>.json en audio/<id>.json
-<assets-map>: gedownloade assets, bestandsnaam begint met het asset-id
+<assets-map>: gedownloade assets (foto's en filmpjes), bestandsnaam begint met het asset-id
 Schrijft <site-map>/woorden.json en <site-map>/media/*.
 """
 import base64, json, re, shutil, sys, pathlib
@@ -29,6 +29,13 @@ for f in sorted((exp / "words").glob("*.json")):
             name = f"{wid}.jpg"
             shutil.copyfile(hits[0], media / name)
             rec["image"] = "media/" + name; keep.add(name)
+    vid_id = w.get("videoId")
+    if vid_id:
+        hits = list(assets.glob(vid_id + "*"))
+        if hits:
+            name = wid + (hits[0].suffix or ".mp4")
+            shutil.copyfile(hits[0], media / name)
+            rec["video"] = "media/" + name; rec["hasVideo"] = True; keep.add(name)
     a = exp / "audio" / f"{wid}.json"
     if w.get("hasAudio") and a.exists():
         m = re.match(r"data:([^;]+);base64,(.*)", body(a).get("data", ""), re.S)

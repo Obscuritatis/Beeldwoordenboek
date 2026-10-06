@@ -108,6 +108,10 @@ label.f .hint{font-weight:400;color:var(--muted);font-size:.85rem}
 .audio-box{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
 .audio-box p{margin:0;font-size:.88rem;color:var(--muted)}
 .hide-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.video-box{border-radius:16px;overflow:hidden;background:#000}
+.video-box video{display:block;width:100%;max-width:100%;max-height:70vh}
+.vid-badge{position:absolute;top:8px;right:8px;background:var(--ink);color:var(--bg);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;display:flex;gap:4px;align-items:center}
+.vid-badge svg{width:10px;height:10px}
 .err{color:var(--fire);font-weight:700;margin:0}
 .confirm{border:1.5px solid var(--fire);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
 .confirm p{margin:0}
@@ -159,6 +163,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <button class="btn" id="v-slow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>Langzaam</button>
       <button class="btn" id="v-say-sentence"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Zin</button>
     </div>
+    <div id="v-video-wrap" hidden>
+      <div class="video-box"><video id="v-video" controls playsinline preload="metadata"></video></div>
+    </div>
     <p class="src" id="v-src"></p>
     <div class="nav">
       <button class="btn" id="v-prev">Vorige</button>
@@ -208,12 +215,27 @@ input[type=range]{width:100%;accent-color:var(--accent)}
         </div>
         <p>Op een iPhone: neem op met de app Dictafoon en kies het bestand hier.</p>
       </div>
+      <div class="audio-box">
+        <strong>Filmpje</strong>
+        <p>Niet verplicht. Een kort filmpje toont hoe iets werkt, bijvoorbeeld hoe je een brandblusser gebruikt. Hou het kort, tot ongeveer 30 seconden.</p>
+        <input type="file" id="e-video-rec" accept="video/*" capture="environment" class="hide-input" tabindex="-1">
+        <input type="file" id="e-video-file" accept="video/mp4,video/webm,video/quicktime,video/*" class="hide-input" tabindex="-1">
+        <div class="row2">
+          <button type="button" class="btn" id="e-vrec">Filmen</button>
+          <button type="button" class="btn" id="e-video-pick">Kies filmpje</button>
+        </div>
+        <div id="e-video-state" class="row2" hidden>
+          <button type="button" class="btn" id="e-video-play">Bekijk filmpje</button>
+          <button type="button" class="btn danger" id="e-video-del">Verwijder filmpje</button>
+        </div>
+        <div id="e-video-preview" class="video-box" hidden><video id="e-video-el" controls playsinline preload="metadata"></video></div>
+      </div>
       <p class="err" id="e-err" hidden></p>
       <button type="submit" class="btn primary huge" id="e-save">Opslaan</button>
       <div id="e-del-zone" hidden>
         <button type="button" class="btn danger" id="e-del" style="width:100%">Woord verwijderen</button>
         <div class="confirm" id="e-confirm" hidden>
-          <p>Dit woord, de foto en de opname worden voor iedereen verwijderd.</p>
+          <p>Dit woord, de foto, de opname en het filmpje worden voor iedereen verwijderd.</p>
           <div class="row2"><button type="button" class="btn" id="e-del-no">Niet verwijderen</button><button type="button" class="btn danger" id="e-del-yes">Ja, verwijderen</button></div>
         </div>
       </div>
@@ -370,6 +392,7 @@ async function say(rec, slow) {
 
 /* ---------- storage: shared (claude db + assets) or on this device (IndexedDB) ---------- */
 const AUDIO_MAX = 170 * 1024;
+const localVideoUrls = new Map();
 const localStore = (() => {
   let dbp = null;
   const open = () => dbp || (dbp = new Promise((res, rej) => {
@@ -383,9 +406,11 @@ const localStore = (() => {
   return {
     mode: "local", canWrite: true,
     subscribe(cb) { listener = cb; emit().catch(() => cb([])); },
-    async save(rec, imgBlob, audio) {
+    async save(rec, imgBlob, audio, video) {
       const out = { ...rec };
       if (imgBlob) out.imageData = await blobToDataUrl(imgBlob);
+      if (video === "remove") { delete out.videoBlob; out.hasVideo = false; localVideoUrls.delete(rec.id); }
+      else if (video) { out.videoBlob = video; out.hasVideo = true; localVideoUrls.delete(rec.id); }
       if (audio === "remove") { delete out.audioData; out.hasAudio = false; }
       else if (audio) { out.audioData = await blobToDataUrl(audio); out.hasAudio = true; }
       await tx("readwrite", (s) => s.put(out)); await emit();
@@ -393,6 +418,11 @@ const localStore = (() => {
     async remove(rec) { await tx("readwrite", (s) => s.delete(rec.id)); await emit(); },
     imageUrl: (rec) => rec.imageData || "",
     audioUrl: async (rec) => rec.audioData || "",
+    videoUrl(rec) {
+      if (!rec.videoBlob) return "";
+      if (!localVideoUrls.has(rec.id)) localVideoUrls.set(rec.id, URL.createObjectURL(rec.videoBlob));
+      return localVideoUrls.get(rec.id);
+    },
   };
 })();
 
@@ -405,10 +435,12 @@ function cloudStore(db, assets, canWrite) {
         (snap) => cb(snap.docs.map((d) => ({ id: d.id, ...d.data() }))),
         () => toast("De gedeelde woordenlijst is niet bereikbaar. Herlaad de pagina."));
     },
-    async save(rec, imgBlob, audio) {
+    async save(rec, imgBlob, audio, video) {
       const out = { ...rec };
-      delete out.imageData; delete out.audioData;
+      delete out.imageData; delete out.audioData; delete out.videoBlob;
       if (imgBlob) { const up = await assets.upload(imgBlob, { type: "image/jpeg" }); out.imageId = up.id; }
+      if (video === "remove") { delete out.videoId; out.hasVideo = false; }
+      else if (video) { const up = await assets.upload(video, { type: video.type === "video/webm" ? "video/webm" : "video/mp4" }); out.videoId = up.id; out.hasVideo = true; }
       if (audio === "remove") { await db.doc("audio/" + rec.id).delete(); out.hasAudio = false; audioCache.delete(rec.id); }
       else if (audio) {
         const data = await blobToDataUrl(audio);
@@ -417,13 +449,16 @@ function cloudStore(db, assets, canWrite) {
       }
       await db.doc("words/" + rec.id).set(out);
       if (imgBlob && rec.imageId && rec.imageId !== out.imageId) assets.delete(rec.imageId).catch(() => {});
+      if (video && rec.videoId && rec.videoId !== out.videoId) assets.delete(rec.videoId).catch(() => {}); // vervangen of verwijderd
     },
     async remove(rec) {
       await db.doc("words/" + rec.id).delete();
       if (rec.hasAudio) await db.doc("audio/" + rec.id).delete().catch(() => {});
       if (rec.imageId && assets) await assets.delete(rec.imageId).catch(() => {});
+      if (rec.videoId && assets) await assets.delete(rec.videoId).catch(() => {});
     },
     imageUrl: (rec) => (rec.imageId ? "/_blob/" + rec.imageId : ""),
+    videoUrl: (rec) => (rec.videoId ? "/_blob/" + rec.videoId : ""),
     async audioUrl(rec) {
       if (audioCache.has(rec.id)) return audioCache.get(rec.id);
       const s = await db.doc("audio/" + rec.id).get().catch(() => null);
@@ -440,6 +475,7 @@ const siteStore = {
     fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => cb(Array.isArray(d.words) ? d.words : [])).catch(() => cb([]));
   },
   imageUrl: (rec) => rec.image || "",
+  videoUrl: (rec) => rec.video || "",
   audioUrl: async (rec) => rec.audio || "",
 };
 
@@ -487,7 +523,7 @@ function renderGrid() {
   list = allWords().filter((r) => (filter === "all" || r.theme === filter) && (!q || r.word.toLowerCase().includes(q) || spoken(r).toLowerCase().includes(q)));
   $("grid").innerHTML = list.length ? list.map((r, i) => `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
-      ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}
+      ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>Filmpje</span>' : ""}
       <div class="pic">${picHtml(r)}</div>
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>
         <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
@@ -515,6 +551,10 @@ function openView(i) {
   $("v-sentence").textContent = r.sentence || ""; $("v-sentence").hidden = !r.sentence;
   $("v-say-sentence").hidden = !r.sentence;
   $("v-slow").classList.toggle("wide", !r.sentence);
+  const vurl = r.hasVideo ? store.videoUrl(r) : "";
+  const vel = $("v-video"); vel.pause();
+  if (vurl) { if (vel.getAttribute("src") !== vurl) vel.src = vurl; } else vel.removeAttribute("src");
+  $("v-video-wrap").hidden = !vurl;
   $("v-src").textContent = r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
   $("v-edit").hidden = !(store.canWrite && !r.starter);
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
@@ -523,9 +563,9 @@ function openView(i) {
 function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden) document.body.style.overflow = ""; }
 
 /* ---------- editor ---------- */
-let editRec = null, newImg = null, newAudio = null, audioRemoved = false;
+let editRec = null, newImg = null, newAudio = null, audioRemoved = false, newVideo = null, videoRemoved = false;
 function openEditor(rec) {
-  editRec = rec || null; newImg = null; newAudio = null; audioRemoved = false;
+  editRec = rec || null; newImg = null; newAudio = null; audioRemoved = false; newVideo = null; videoRemoved = false;
   $("e-title").textContent = rec ? "Woord bewerken" : "Woord toevoegen";
   $("e-word").value = rec ? rec.word : "";
   document.querySelectorAll('input[name=art]').forEach((x) => (x.checked = x.value === (rec ? rec.article || "" : "de")));
@@ -535,11 +575,21 @@ function openEditor(rec) {
   const u = rec ? store.imageUrl(rec) : "";
   $("e-photo-btn").innerHTML = u ? `<img src="${esc(u)}" alt="Gekozen foto">` : `<span>Tik om een foto te maken<br>of een afbeelding te kiezen</span>`;
   $("e-err").hidden = true; $("e-del-zone").hidden = !rec; $("e-confirm").hidden = true; $("e-del").hidden = false;
-  syncAudioState();
+  syncAudioState(); syncVideoState();
   $("editor").hidden = false; document.body.style.overflow = "hidden";
 }
 function hasAudioNow() { return !!newAudio || (!!editRec?.hasAudio && !audioRemoved); }
 function syncAudioState() { $("e-audio-state").hidden = !hasAudioNow(); }
+function hasVideoNow() { return !!newVideo || (!!editRec?.hasVideo && !videoRemoved); }
+function syncVideoState() { $("e-video-state").hidden = !hasVideoNow(); $("e-video-preview").hidden = true; $("e-video-el").pause(); }
+const VIDEO_MAX = 20 * 1024 * 1024;
+function pickVideo(input) {
+  const f = input.files && input.files[0]; input.value = "";
+  if (!f) return;
+  if (store.mode === "cloud" && f.size > VIDEO_MAX) { showErr("Dit filmpje is te groot (meer dan 20 MB). Film korter, of kies een kleiner filmpje."); return; }
+  if (f.type && !/^video\//.test(f.type)) { showErr("Dit bestand is geen filmpje. Kies een video in MP4- of MOV-formaat."); return; }
+  $("e-err").hidden = true; newVideo = f; videoRemoved = false; syncVideoState(); toast("Filmpje toegevoegd");
+}
 function showErr(m) { $("e-err").textContent = m; $("e-err").hidden = false; }
 async function pickAudio(input) {
   const f = input.files && input.files[0]; input.value = "";
@@ -571,15 +621,15 @@ $("grid").addEventListener("click", (e) => {
   const c = e.target.closest(".card"); if (c) openView(+c.dataset.i);
 });
 $("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
-$("v-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("view"); };
+$("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); };
 $("v-play").onclick = () => say(list[current]);
 $("v-slow").onclick = () => say(list[current], true);
 $("v-say-sentence").onclick = () => speak(list[current].sentence);
-$("v-prev").onclick = () => openView(current - 1);
-$("v-next").onclick = () => openView(current + 1);
+$("v-prev").onclick = () => { $("v-video").pause(); openView(current - 1); };
+$("v-next").onclick = () => { $("v-video").pause(); openView(current + 1); };
 $("v-edit").onclick = () => openEditor(list[current]);
 $("btn-add").onclick = () => openEditor(null);
-$("e-cancel").onclick = () => closeOverlay("editor");
+$("e-cancel").onclick = () => { $("e-video-el").pause(); closeOverlay("editor"); };
 $("e-photo-btn").onclick = () => $("e-photo").click();
 $("e-photo").onchange = async (e) => {
   const f = e.target.files && e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -595,6 +645,16 @@ $("e-audio-play").onclick = async () => {
   const url = newAudio ? URL.createObjectURL(newAudio) : await store.audioUrl(editRec);
   if (url) { audioEl = new Audio(url); audioEl.play().catch(() => toast("Deze opname kan niet worden afgespeeld.")); }
 };
+$("e-vrec").onclick = () => $("e-video-rec").click();
+$("e-video-pick").onclick = () => $("e-video-file").click();
+$("e-video-rec").onchange = (e) => pickVideo(e.target);
+$("e-video-file").onchange = (e) => pickVideo(e.target);
+$("e-video-play").onclick = () => {
+  const url = newVideo ? URL.createObjectURL(newVideo) : store.videoUrl(editRec);
+  if (!url) return;
+  const v = $("e-video-el"); v.src = url; $("e-video-preview").hidden = false; v.play().catch(() => {});
+};
+$("e-video-del").onclick = () => { newVideo = null; videoRemoved = true; syncVideoState(); };
 $("e-audio-del").onclick = () => { newAudio = null; audioRemoved = true; syncAudioState(); };
 $("e-del").onclick = () => { $("e-confirm").hidden = false; $("e-del").hidden = true; };
 $("e-del-no").onclick = () => { $("e-confirm").hidden = true; $("e-del").hidden = false; };
@@ -609,11 +669,13 @@ $("e-form").addEventListener("submit", async (e) => {
   if (!newImg && !(editRec && (editRec.imageId || editRec.imageData))) { showErr("Kies eerst een foto of pictogram."); return; }
   const art = document.querySelector('input[name=art]:checked').value;
   const id = editRec ? editRec.id : "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow() };
+  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
   const audio = newAudio ? newAudio : (audioRemoved ? "remove" : null);
-  $("e-save").disabled = true; $("e-save").textContent = "Bezig met opslaan";
+  const video = newVideo ? newVideo : (videoRemoved ? "remove" : null);
+  $("e-save").disabled = true; $("e-save").textContent = newVideo ? "Filmpje wordt opgeladen" : "Bezig met opslaan";
   try {
-    await store.save(rec, newImg, audio);
+    $("e-video-el").pause();
+    await store.save(rec, newImg, audio, video);
     closeOverlay("editor"); closeOverlay("view"); toast(editRec ? "Woord bewaard" : "Woord toegevoegd");
   } catch (err) {
     const c = err && err.code;
