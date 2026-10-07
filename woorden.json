@@ -154,6 +154,96 @@
       "id": "wmuxqaxvwox1e",
       "createdAt": 1791354644492,
       "image": "media/wmuxqaxvwox1e.jpg"
+    },
+    {
+      "word": "honger",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Heb je honger?",
+      "id": "wmuxqmp88ft0v",
+      "createdAt": 1791355193144,
+      "image": "media/wmuxqmp88ft0v.jpg"
+    },
+    {
+      "word": "dorst",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Heb je dorst?",
+      "id": "wmuxr0y7m58tg",
+      "createdAt": 1791355857970,
+      "image": "media/wmuxr0y7m58tg.jpg"
+    },
+    {
+      "word": "moe",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Ben je moe?",
+      "id": "wmuxr4dp8pzor",
+      "createdAt": 1791356018012,
+      "image": "media/wmuxr4dp8pzor.jpg"
+    },
+    {
+      "word": "warm",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Heb je het te warm?",
+      "id": "wmuxr91foe64x",
+      "createdAt": 1791356235396,
+      "image": "media/wmuxr91foe64x.jpg"
+    },
+    {
+      "word": "koud",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Heb je het koud?",
+      "id": "wmuxret9nwm9r",
+      "createdAt": 1791356504747,
+      "image": "media/wmuxret9nwm9r.jpg"
+    },
+    {
+      "word": "schoonmaken",
+      "article": "het",
+      "theme": "onderhoud",
+      "sentence": "Ik ga de gang schoonmaken met een borstel.",
+      "id": "wmuxrku3wm4i9",
+      "createdAt": 1791356785772,
+      "image": "media/wmuxrku3wm4i9.jpg"
+    },
+    {
+      "word": "stofzuiger",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "Ik maak het tapijt proper met de stofzuiger.",
+      "id": "wmuxrnne8qmy1",
+      "createdAt": 1791356917040,
+      "image": "media/wmuxrnne8qmy1.jpg"
+    },
+    {
+      "word": "veegborstel",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "Met de veegborstel veeg je het vuil van de vloer.",
+      "id": "wmuxrqtryun1x",
+      "createdAt": 1791357065278,
+      "image": "media/wmuxrqtryun1x.jpg"
+    },
+    {
+      "word": "poetskar",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "De schoonmaker gebruikt de poetskar om alle schoonmaakspullen makkelijk mee te nemen.",
+      "id": "wmuxrw8bfo8nx",
+      "createdAt": 1791357317403,
+      "image": "media/wmuxrw8bfo8nx.jpg"
+    },
+    {
+      "word": "emmer",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "Vul de emmer met water.",
+      "id": "wmuxry9ay7tk0",
+      "createdAt": 1791357411994,
+      "image": "media/wmuxry9ay7tk0.jpg"
     }
   ],
   "hiddenStarters": [
