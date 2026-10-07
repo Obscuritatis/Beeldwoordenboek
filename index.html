@@ -130,6 +130,18 @@ label.f .hint{font-weight:400;color:var(--muted);font-size:.85rem}
 .fav[aria-pressed="true"] svg path{fill:currentColor}
 .bar .fav{position:static;width:48px;height:48px}
 .chip .heart{width:14px;height:14px;color:var(--fire)}
+.chip.quiz{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip.quiz svg{width:15px;height:15px}
+.q-score{font-weight:700;color:var(--muted)}
+.q-ask{text-align:center;font-family:var(--font-display);font-weight:600;font-size:1.2rem;margin:0}
+.q-opts{display:flex;flex-direction:column;gap:10px}
+.q-opt{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:14px;font-family:var(--font-display);font-weight:600;font-size:1.25rem;cursor:pointer;min-height:60px;text-align:center}
+.q-opt .art{color:var(--muted);font-weight:500;font-size:.85em}
+.q-opt.ok{border-color:var(--exit);background:color-mix(in srgb,var(--exit) 14%,var(--surface))}
+.q-opt.bad{border-color:var(--fire);background:color-mix(in srgb,var(--fire) 12%,var(--surface))}
+.q-opt:disabled{cursor:default;color:inherit}
+.q-msg{text-align:center;font-weight:700;margin:0;min-height:1.5em}
+.q-msg.ok{color:var(--exit)}.q-msg.bad{color:var(--fire)}
 .vid-badge{position:absolute;top:8px;left:8px;background:var(--ink);color:var(--bg);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;display:flex;gap:4px;align-items:center}
 .vid-badge svg{width:10px;height:10px}
 .err{color:var(--fire);font-weight:700;margin:0}
@@ -309,6 +321,20 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <button type="button" class="btn" id="s-restore">Zet alle voorbeelden terug</button>
     </div>
     <p class="notice" style="margin:0" id="s-storage"></p>
+  </div>
+</section>
+
+<section lang="nl" class="overlay" id="quiz" hidden aria-modal="true" role="dialog" aria-labelledby="q-title">
+  <div class="inner">
+    <div class="bar">
+      <button class="btn" id="q-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Stoppen</button>
+      <span class="q-score" id="q-score" aria-live="polite"></span>
+    </div>
+    <h2 class="q-ask" id="q-title">Welk woord hoort bij de foto?</h2>
+    <div class="big-pic" id="q-pic"></div>
+    <div class="q-opts" id="q-opts"></div>
+    <p class="q-msg" id="q-msg" aria-live="polite"></p>
+    <button class="btn primary huge" id="q-next" hidden>Volgende</button>
   </div>
 </section>
 
@@ -625,7 +651,8 @@ function wordHtml(r) { return (r.article ? `<span class="art">${esc(r.article)}<
 
 function renderChips() {
   const items = [{ id: "all", name: "Alles", c: "var(--ink)" }].concat(THEMES.filter((t) => !t.hidden), [{ id: "fav", name: "Favorieten", c: "var(--fire)" }]);
-  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("");
+  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("")
+    + `<button class="chip quiz" id="btn-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg>Quiz</button>`;
 }
 function renderGrid() {
   const q = query.trim().toLowerCase();
@@ -684,7 +711,44 @@ function renderViewLang() {
   $("v-slow").classList.toggle("wide", !sent);
   $("v-src").textContent = l !== "nl" ? (l === "fr" ? "Je hoort de Franse computerstem." : "Je hoort de Engelse computerstem.") : r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
 }
-function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
+
+/* ---------- quiz: willekeurige foto, kies het Nederlandse woord uit drie ---------- */
+let qDeck = [], qCur = null, qRight = 0, qDone = 0;
+const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function quizPool() { return allWords().filter((r) => r.starter || store.imageUrl(r)); }
+function openQuiz() {
+  const pool = quizPool();
+  if (pool.length < 3) { toast("Voor de quiz zijn minstens drie woorden nodig."); return; }
+  qDeck = []; qRight = 0; qDone = 0;
+  $("quiz").hidden = false; document.body.style.overflow = "hidden";
+  nextQuestion();
+}
+function nextQuestion() {
+  const pool = quizPool();
+  if (!qDeck.length) qDeck = shuffle(pool.slice());
+  qCur = qDeck.pop();
+  const others = shuffle(pool.filter((r) => spoken(r) !== spoken(qCur))).slice(0, 2);
+  const opts = shuffle([qCur, ...others]);
+  $("q-pic").innerHTML = qCur.starter ? PICTOS[qCur.word] : `<img src="${esc(store.imageUrl(qCur))}" alt="">`;
+  $("q-opts").innerHTML = opts.map((r) => `<button class="q-opt" data-ok="${r === qCur}">${wordHtml(r)}</button>`).join("");
+  $("q-msg").textContent = ""; $("q-msg").className = "q-msg"; $("q-next").hidden = true;
+  renderScore();
+}
+function renderScore() { $("q-score").textContent = qDone ? `${qRight} van ${qDone} juist` : ""; }
+$("q-opts").addEventListener("click", (e) => {
+  const b = e.target.closest(".q-opt"); if (!b || b.disabled) return;
+  const ok = b.dataset.ok === "true";
+  $("q-opts").querySelectorAll(".q-opt").forEach((x) => { x.disabled = true; if (x.dataset.ok === "true") x.classList.add("ok"); });
+  if (!ok) b.classList.add("bad");
+  qDone++; if (ok) qRight++;
+  $("q-msg").textContent = ok ? "Goed zo!" : "Jammer. Het juiste woord is groen.";
+  $("q-msg").className = "q-msg " + (ok ? "ok" : "bad");
+  $("q-next").hidden = false; renderScore();
+  say(qCur);
+});
+$("q-next").onclick = () => nextQuestion();
+$("q-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("quiz"); };
 
 /* ---------- editor ---------- */
 let editRec = null, newImg = null, newAudio = null, audioRemoved = false, newVideo = null, videoRemoved = false;
@@ -740,7 +804,7 @@ let toastT = 0;
 function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
 
 /* ---------- events ---------- */
-$("chips").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; prefs.set("filter", filter); renderChips(); renderGrid(); });
+$("chips").addEventListener("click", (e) => { if (e.target.closest("#btn-quiz")) { openQuiz(); return; } const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; prefs.set("filter", filter); renderChips(); renderGrid(); });
 $("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
 $("grid").addEventListener("click", (e) => {
   const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
@@ -847,7 +911,7 @@ $("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.val
 $("s-rate").addEventListener("input", (e) => { prefs.set("rate", Number(e.target.value)); rateLabel(); });
 $("s-test").onclick = () => speak("Welkom. Dit is de nooduitgang.");
 $("s-starter").onchange = (e) => { prefs.set("starter", e.target.checked); renderGrid(); };
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "quiz", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
 
 /* ---------- boot ---------- */
 $("v-fav").innerHTML = HEART;
