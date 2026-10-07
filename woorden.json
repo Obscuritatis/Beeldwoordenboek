@@ -73,10 +73,60 @@
       "id": "wmuwupnjqmjrv",
       "createdAt": 1791301583223,
       "image": "media/wmuwupnjqmjrv.jpg"
+    },
+    {
+      "word": "rolstoel",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "De bewoner zit in een rolstoel",
+      "id": "wmuwuymerdk9o",
+      "createdAt": 1791302001651,
+      "image": "media/wmuwuymerdk9o.jpg"
+    },
+    {
+      "word": "handschoenen",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Trek handschoenen aan voor de verzorging van een bewoner of patiënt.",
+      "id": "wmuwv3a0vh3yz",
+      "createdAt": 1791302218879,
+      "image": "media/wmuwv3a0vh3yz.jpg"
+    },
+    {
+      "word": "thermometer",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Met de thermometer meet je de temperatuur van iemand.",
+      "id": "wmuxosyj9h33i",
+      "createdAt": 1791352125909,
+      "image": "media/wmuxosyj9h33i.jpg"
+    },
+    {
+      "word": "mondmasker",
+      "article": "het",
+      "theme": "zorg",
+      "sentence": "Zet een mondmasker op wanneer je ziek bent.",
+      "id": "wmuxov6gj6l9y",
+      "createdAt": 1791352229491,
+      "image": "media/wmuxov6gj6l9y.jpg"
+    },
+    {
+      "word": "zorgbed",
+      "article": "het",
+      "theme": "zorg",
+      "sentence": "Het zorgbed wordt gebruikt bij bewoners in een woonzorgcentrum.",
+      "id": "wmuxoz2b0a7kt",
+      "createdAt": 1791352410732,
+      "image": "media/wmuxoz2b0a7kt.jpg"
     }
   ],
   "hiddenStarters": [
     "start-nooduitgang",
-    "start-verzamelplaats"
+    "start-verzamelplaats",
+    "start-rolstoel",
+    "start-handschoenen",
+    "start-thermometer",
+    "start-mondmasker",
+    "start-bed"
   ]
 }
