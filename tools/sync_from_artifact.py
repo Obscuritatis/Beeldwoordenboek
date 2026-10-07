@@ -21,6 +21,7 @@ for f in sorted((exp / "words").glob("*.json")):
     w = body(f)
     wid = w.get("id") or f.stem
     rec = {k: w.get(k, "") for k in ("word", "article", "theme", "sentence")}
+    rec.update({k: w[k] for k in ("wordFr", "sentenceFr", "wordEn", "sentenceEn") if w.get(k)})
     rec["id"], rec["createdAt"] = wid, w.get("createdAt", 0)
     img_id = w.get("imageId")
     if img_id:

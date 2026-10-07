@@ -38,6 +38,16 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
 .chip{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:700;font-size:.92rem;cursor:pointer;display:flex;align-items:center;gap:7px}
 .chip .dot{width:10px;height:10px;border-radius:3px;background:var(--c,var(--muted))}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.langs{display:flex;align-items:center;gap:6px;margin-top:10px}
+.langs svg{width:20px;height:20px;flex:none;color:var(--muted)}
+.langs button{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 4px;font-weight:700;font-size:.9rem;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card .tr{display:block;margin-top:3px;font-size:.88rem;color:var(--muted);font-style:italic;line-height:1.25;overflow-wrap:break-word}
+.lang-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--surface-2);padding:4px;border-radius:12px}
+.lang-tabs button{border:none;background:transparent;border-radius:9px;padding:9px 4px;font-weight:700;cursor:pointer;min-height:44px}
+.lang-tabs button[aria-selected="true"]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.lang-tabs button:disabled{opacity:.4;cursor:default}
+.helper-tr{text-align:center;color:var(--muted);font-style:italic;margin:-6px 0 0;font-size:1.05rem}
 .notice{margin-block:12px 0;font-size:.9rem;color:var(--muted)}
 .notice b{color:var(--ink)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
@@ -128,6 +138,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       </button>
     </div>
     <div class="search"><input id="q" type="text" inputmode="search" placeholder="Zoek een woord" aria-label="Zoek een woord" autocomplete="off"></div>
+    <div class="langs" role="group" aria-label="Vertaling tonen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+      <button data-help="nl" lang="nl">Alleen NL</button><button data-help="fr" lang="fr">Français</button><button data-help="en" lang="en">English</button>
+    </div>
     <div class="chips" id="chips" role="toolbar" aria-label="Thema's"></div>
   </header>
   <p class="notice" id="notice"></p>
@@ -145,8 +159,12 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <button class="btn" id="v-edit" hidden>Bewerken</button>
     </div>
     <div class="big-pic" id="v-pic"></div>
+    <div class="lang-tabs" role="tablist" aria-label="Taal">
+      <button role="tab" data-vl="nl" lang="nl">Nederlands</button><button role="tab" data-vl="fr" lang="fr">Français</button><button role="tab" data-vl="en" lang="en">English</button>
+    </div>
     <span class="theme-tag" id="v-theme"></span>
     <h2 class="big-word" id="v-word"></h2>
+    <p class="helper-tr" id="v-helper" hidden></p>
     <p class="sentence" id="v-sentence"></p>
     <div class="play-row">
       <button class="btn primary huge wide" id="v-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Luister</button>
@@ -194,6 +212,14 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <label class="f">Voorbeeldzin <span class="hint">Niet verplicht. Een korte zin helpt om het woord te leren gebruiken.</span>
         <textarea id="e-sentence" rows="2" placeholder="bijvoorbeeld: Met de brandblusser blus je een klein vuur."></textarea>
       </label>
+      <div class="audio-box">
+        <strong>Vertalingen</strong>
+        <p>Niet verplicht. Met een vertaling kunnen collega's het woord ook in het Frans of Engels bekijken en beluisteren.</p>
+        <label class="f">Frans <span class="hint">Met lidwoord, bijvoorbeeld: la chaise</span><input type="text" id="e-word-fr" lang="fr" autocomplete="off"></label>
+        <label class="f">Franse zin<textarea id="e-sentence-fr" lang="fr" rows="2"></textarea></label>
+        <label class="f">Engels <span class="hint">Bijvoorbeeld: chair</span><input type="text" id="e-word-en" lang="en" autocomplete="off"></label>
+        <label class="f">Engelse zin<textarea id="e-sentence-en" lang="en" rows="2"></textarea></label>
+      </div>
       <div class="audio-box">
         <strong>Eigen uitspraak</strong>
         <p>Niet verplicht. Zonder opname spreekt de computerstem het woord uit. Met een opname van een collega hoor je die stem.</p>
@@ -317,21 +343,21 @@ const PICTOS = {
   telefoon: plain(`<rect x="32" y="12" width="36" height="76" rx="7" ${K}/><path d="M44 20h12" ${kw(3.5)}/><circle cx="50" cy="78" r="3.5" fill="${INK}"/><rect x="38" y="28" width="24" height="40" rx="2" fill="${INK}" opacity=".15"/>`),
 };
 const STARTER = [
-  ["nooduitgang","de","brand","Volg de groene bordjes naar de nooduitgang."],
-  ["verzamelplaats","de","brand","Ga bij brand naar de verzamelplaats buiten."],
-  ["rolstoel","de","zorg","De bewoner zit in een rolstoel."],
-  ["handschoenen","de","zorg","Trek handschoenen aan voor de verzorging."],
-  ["thermometer","de","zorg","Met de thermometer meet je de temperatuur."],
-  ["mondmasker","het","zorg","Zet een mondmasker op bij een besmetting."],
-  ["bed","het","zorg","Maak het bed elke ochtend op."],
-  ["pleister","de","zorg","Plak een pleister op de wonde."],
-  ["stoel","de","alledaags","Neem een stoel en ga zitten."],
-  ["tafel","de","alledaags","Het eten staat op tafel."],
-  ["sleutel","de","alledaags","Ik heb de sleutel van de kast."],
-  ["beker","de","alledaags","Wil je een beker koffie?"],
-  ["deur","de","alledaags","Doe de deur dicht, alsjeblieft."],
-  ["telefoon","de","alledaags","Mijn telefoon ligt in de personeelsruimte."],
-].map(([word, article, theme, sentence]) => ({ id: "start-" + word, word, article, theme, sentence, starter: true, createdAt: 0 }));
+  ["nooduitgang","de","brand","Volg de groene bordjes naar de nooduitgang.","la sortie de secours","Suis les panneaux verts vers la sortie de secours.","emergency exit","Follow the green signs to the emergency exit."],
+  ["verzamelplaats","de","brand","Ga bij brand naar de verzamelplaats buiten.","le point de rassemblement","En cas d'incendie, va au point de rassemblement dehors.","assembly point","In case of fire, go to the assembly point outside."],
+  ["rolstoel","de","zorg","De bewoner zit in een rolstoel.","le fauteuil roulant","Le résident est dans un fauteuil roulant.","wheelchair","The resident is in a wheelchair."],
+  ["handschoenen","de","zorg","Trek handschoenen aan voor de verzorging.","les gants","Mets des gants pour les soins.","gloves","Put on gloves for personal care."],
+  ["thermometer","de","zorg","Met de thermometer meet je de temperatuur.","le thermomètre","Avec le thermomètre, on mesure la température.","thermometer","You measure the temperature with the thermometer."],
+  ["mondmasker","het","zorg","Zet een mondmasker op bij een besmetting.","le masque buccal","Mets un masque buccal en cas d'infection.","face mask","Wear a face mask in case of infection."],
+  ["bed","het","zorg","Maak het bed elke ochtend op.","le lit","Fais le lit chaque matin.","bed","Make the bed every morning."],
+  ["pleister","de","zorg","Plak een pleister op de wonde.","le pansement","Mets un pansement sur la plaie.","plaster","Put a plaster on the wound."],
+  ["stoel","de","alledaags","Neem een stoel en ga zitten.","la chaise","Prends une chaise et assieds-toi.","chair","Take a chair and sit down."],
+  ["tafel","de","alledaags","Het eten staat op tafel.","la table","Le repas est sur la table.","table","The food is on the table."],
+  ["sleutel","de","alledaags","Ik heb de sleutel van de kast.","la clé","J'ai la clé de l'armoire.","key","I have the key to the cupboard."],
+  ["beker","de","alledaags","Wil je een beker koffie?","le gobelet","Veux-tu un gobelet de café ?","mug","Would you like a mug of coffee?"],
+  ["deur","de","alledaags","Doe de deur dicht, alsjeblieft.","la porte","Ferme la porte, s'il te plaît.","door","Close the door, please."],
+  ["telefoon","de","alledaags","Mijn telefoon ligt in de personeelsruimte.","le téléphone","Mon téléphone est dans la salle du personnel.","phone","My phone is in the staff room."],
+].map(([word, article, theme, sentence, wordFr, sentenceFr, wordEn, sentenceEn]) => ({ id: "start-" + word, word, article, theme, sentence, wordFr, sentenceFr, wordEn, sentenceEn, starter: true, createdAt: 0 }));
 
 /* ---------- prefs (per device) ---------- */
 const prefs = (() => {
@@ -346,47 +372,56 @@ const prefs = (() => {
 /* ---------- speech ---------- */
 const synth = window.speechSynthesis || null;
 let voices = [];
+const LANGS = { nl: { name: "Nederlands", tag: "nl-NL", pref: ["nl-nl", "nl-be"] }, fr: { name: "Français", tag: "fr-FR", pref: ["fr-be", "fr-fr"] }, en: { name: "English", tag: "en-GB", pref: ["en-gb", "en-us"] } };
+let voicesByLang = { nl: [], fr: [], en: [] };
 function scoreVoice(v) {
   const n = (v.name || "").toLowerCase();
+  const l = v.lang.toLowerCase().replace("_", "-");
   let s = 0;
   if (/natural|neural|online|premium|enhanced|siri|wavenet/.test(n)) s += 4;
   if (/google/.test(n)) s += 2;
   if (/compact|espeak/.test(n)) s -= 3;
-  if (v.lang.toLowerCase().replace("_", "-").startsWith("nl-nl")) s += 0.5;
-  if (v.lang.toLowerCase().replace("_", "-").startsWith("nl-be")) s += 0.4;
+  const pref = (LANGS[l.slice(0, 2)] || { pref: [] }).pref;
+  if (l.startsWith(pref[0])) s += 0.5;
+  if (l.startsWith(pref[1])) s += 0.4;
   return s;
 }
 function loadVoices() {
   if (!synth) return;
-  voices = synth.getVoices().filter((v) => /^nl([-_]|$)/i.test(v.lang)).sort((a, b) => scoreVoice(b) - scoreVoice(a));
+  const all = synth.getVoices();
+  for (const k of Object.keys(LANGS)) voicesByLang[k] = all.filter((v) => new RegExp("^" + k + "([-_]|$)", "i").test(v.lang)).sort((a, b) => scoreVoice(b) - scoreVoice(a));
+  voices = voicesByLang.nl;
   if (!$("settings").hidden) renderVoices();
 }
 if (synth) { loadVoices(); synth.addEventListener?.("voiceschanged", loadVoices); setTimeout(loadVoices, 600); }
-function currentVoice() {
+function currentVoice(lang = "nl") {
+  if (lang !== "nl") return voicesByLang[lang][0] || null;
   const want = prefs.get("voice", "");
   return voices.find((v) => v.voiceURI === want) || voices[0] || null;
 }
 let speakTimer = 0, speakSeq = 0, lastUtterance = null, speechHelpShown = false;
-function speak(text, slow) {
+function speak(text, slow, lang = "nl") {
   stopAudio();
-  if (!synth) { showSpeechHelp(); return; }
+  // De hulp gaat over een Nederlandse stem; voor Frans en Engels volstaat een korte melding.
+  const fail = () => (lang === "nl" ? showSpeechHelp() : toast(lang === "fr" ? "Geen Franse stem gevonden op dit toestel." : "Geen Engelse stem gevonden op dit toestel."));
+  if (!synth) { fail(); return; }
   const seq = ++speakSeq;
   const go = () => {
     if (seq !== speakSeq) return;
     const u = new SpeechSynthesisUtterance(text);
-    const v = currentVoice();
-    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "nl-NL";
+    const v = currentVoice(lang);
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = LANGS[lang].tag;
     const rate = Number(prefs.get("rate", 0.9));
     u.rate = slow ? Math.max(0.5, rate * 0.65) : rate;
     clearTimeout(speakTimer);
     u.onstart = () => clearTimeout(speakTimer);
     u.onend = () => clearTimeout(speakTimer);
-    u.onerror = (e) => { clearTimeout(speakTimer); if (e.error !== "interrupted" && e.error !== "canceled") showSpeechHelp(); };
+    u.onerror = (e) => { clearTimeout(speakTimer); if (e.error !== "interrupted" && e.error !== "canceled") fail(); };
     lastUtterance = u; // Android Chrome laat anders soms de uitspraak vallen
     try { synth.resume(); } catch (_) {}
     synth.speak(u);
     // Start de stem niet binnen enkele seconden, dan ontbreekt meestal een Nederlandse spraakmotor.
-    speakTimer = setTimeout(() => { if (seq === speakSeq && !synth.speaking) showSpeechHelp(); }, 3000);
+    speakTimer = setTimeout(() => { if (seq === speakSeq && !synth.speaking) fail(); }, 3000);
   };
   // Op Android gaat spreken direct na annuleren vaak verloren: even wachten.
   if (synth.speaking || synth.pending) { synth.cancel(); setTimeout(go, 150); } else go();
@@ -422,7 +457,10 @@ async function playOwn(rec, slow) {
   try { await audioEl.play(); return true; } catch (_) { return false; }
 }
 const spoken = (r) => (r.article ? r.article + " " : "") + r.word;
-async function say(rec, slow) {
+const trWord = (r, l) => (l === "fr" ? r.wordFr : l === "en" ? r.wordEn : spoken(r)) || "";
+const trSentence = (r, l) => (l === "fr" ? r.sentenceFr : l === "en" ? r.sentenceEn : r.sentence) || "";
+async function say(rec, slow, lang = "nl") {
+  if (lang !== "nl") { const t = trWord(rec, lang); if (t) speak(t, slow, lang); return; }
   if (rec.hasAudio && await playOwn(rec, slow)) return;
   speak(spoken(rec), slow);
 }
@@ -538,6 +576,8 @@ async function shrinkImage(file) {
 let store = localStore;
 let userWords = [];
 let filter = prefs.get("filter", "all");
+let helpLang = prefs.get("help", "nl");
+let viewLang = "nl";
 let query = "";
 let list = [];
 let current = -1;
@@ -563,12 +603,12 @@ function renderChips() {
 }
 function renderGrid() {
   const q = query.trim().toLowerCase();
-  list = allWords().filter((r) => (filter === "all" || r.theme === filter) && (!q || r.word.toLowerCase().includes(q) || spoken(r).toLowerCase().includes(q)));
+  list = allWords().filter((r) => (filter === "all" || r.theme === filter) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
   $("grid").innerHTML = list.length ? list.map((r, i) => `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
       ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>Filmpje</span>' : ""}
       <div class="pic">${picHtml(r)}</div>
-      <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>
+      <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>${helpLang !== "nl" && trWord(r, helpLang) ? `<span class="tr" lang="${helpLang}">${esc(trWord(r, helpLang))}</span>` : ""}
         <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
       </div>
     </div>`).join("") : `<p class="empty">${q ? "Geen woord gevonden voor “" + esc(query) + "”." : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : "Nog geen woorden in dit thema.")}</p>`;
@@ -582,28 +622,39 @@ function renderNotice() {
   $("notice").innerHTML = t;
   $("btn-add").hidden = !store.canWrite;
 }
-function renderAll() { renderChips(); renderGrid(); renderNotice(); }
+function renderLangs() { document.querySelectorAll("[data-help]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.help === helpLang))); }
+function renderAll() { renderLangs(); renderChips(); renderGrid(); renderNotice(); }
 
 /* ---------- word view ---------- */
 function openView(i) {
   current = i; const r = list[i]; if (!r) return;
+  viewLang = "nl";
   const th = themeOf(r.theme);
   $("v-pic").innerHTML = r.starter ? PICTOS[r.word] : (store.imageUrl(r) ? `<img src="${esc(store.imageUrl(r))}" alt="">` : picHtml(r));
   $("v-theme").textContent = th.name; $("v-theme").style.setProperty("--c", th.c);
-  $("v-word").innerHTML = wordHtml(r);
-  $("v-sentence").textContent = r.sentence || ""; $("v-sentence").hidden = !r.sentence;
-  $("v-say-sentence").hidden = !r.sentence;
-  $("v-slow").classList.toggle("wide", !r.sentence);
+  renderViewLang();
   const vurl = r.hasVideo ? store.videoUrl(r) : "";
   const vel = $("v-video"); vel.pause();
   if (vurl) { if (vel.getAttribute("src") !== vurl) vel.src = vurl; } else vel.removeAttribute("src");
   $("v-video-wrap").hidden = !vurl;
-  $("v-src").textContent = r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
   $("v-edit").hidden = !store.canWrite;
   $("v-edit").textContent = r.starter ? "Verwijderen" : "Bewerken";
   $("v-hide-confirm").hidden = true;
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
+}
+function renderViewLang() {
+  const r = list[current], l = viewLang;
+  document.querySelectorAll("[data-vl]").forEach((b) => { b.setAttribute("aria-selected", String(b.dataset.vl === l)); b.disabled = b.dataset.vl !== "nl" && !trWord(r, b.dataset.vl); });
+  $("v-word").innerHTML = l === "nl" ? wordHtml(r) : esc(trWord(r, l));
+  $("v-word").lang = l;
+  const helper = l === "nl" && helpLang !== "nl" ? trWord(r, helpLang) : "";
+  $("v-helper").textContent = helper; $("v-helper").lang = helpLang; $("v-helper").hidden = !helper;
+  const sent = trSentence(r, l);
+  $("v-sentence").textContent = sent; $("v-sentence").lang = l; $("v-sentence").hidden = !sent;
+  $("v-say-sentence").hidden = !sent;
+  $("v-slow").classList.toggle("wide", !sent);
+  $("v-src").textContent = l !== "nl" ? (l === "fr" ? "Je hoort de Franse computerstem." : "Je hoort de Engelse computerstem.") : r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
 }
 function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
 
@@ -617,6 +668,8 @@ function openEditor(rec) {
   $("e-theme").innerHTML = THEMES.map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
   $("e-theme").value = rec ? rec.theme : (filter !== "all" ? filter : "alledaags");
   $("e-sentence").value = rec ? rec.sentence || "" : "";
+  $("e-word-fr").value = rec ? rec.wordFr || "" : ""; $("e-sentence-fr").value = rec ? rec.sentenceFr || "" : "";
+  $("e-word-en").value = rec ? rec.wordEn || "" : ""; $("e-sentence-en").value = rec ? rec.sentenceEn || "" : "";
   const u = rec ? store.imageUrl(rec) : "";
   $("e-photo-btn").innerHTML = u ? `<img src="${esc(u)}" alt="Gekozen foto">` : `<span>Tik om een foto te maken<br>of een afbeelding te kiezen</span>`;
   $("e-err").hidden = true; $("e-del-zone").hidden = !rec; $("e-confirm").hidden = true; $("e-del").hidden = false;
@@ -667,9 +720,11 @@ $("grid").addEventListener("click", (e) => {
 });
 $("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
 $("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); };
-$("v-play").onclick = () => say(list[current]);
-$("v-slow").onclick = () => say(list[current], true);
-$("v-say-sentence").onclick = () => speak(list[current].sentence);
+$("v-play").onclick = () => say(list[current], false, viewLang);
+$("v-slow").onclick = () => say(list[current], true, viewLang);
+$("v-say-sentence").onclick = () => speak(trSentence(list[current], viewLang), false, viewLang);
+document.querySelector(".lang-tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-vl]"); if (!b || b.disabled) return; stopAudio(); synth && synth.cancel(); viewLang = b.dataset.vl; renderViewLang(); say(list[current], false, viewLang); });
+document.querySelector(".langs").addEventListener("click", (e) => { const b = e.target.closest("[data-help]"); if (!b) return; helpLang = b.dataset.help; prefs.set("help", helpLang); renderLangs(); renderGrid(); });
 $("v-prev").onclick = () => { $("v-video").pause(); openView(current - 1); };
 $("v-next").onclick = () => { $("v-video").pause(); openView(current + 1); };
 $("v-edit").onclick = () => { const r = list[current]; if (r.starter) { $("v-hide-confirm").hidden = false; $("v-hide-confirm").scrollIntoView({ block: "center" }); } else openEditor(r); };
@@ -738,7 +793,7 @@ $("e-form").addEventListener("submit", async (e) => {
   if (!newImg && !(editRec && (editRec.imageId || editRec.imageData))) { showErr("Kies eerst een foto of pictogram."); return; }
   const art = document.querySelector('input[name=art]:checked').value;
   const id = editRec ? editRec.id : "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
+  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), wordFr: $("e-word-fr").value.trim(), sentenceFr: $("e-sentence-fr").value.trim(), wordEn: $("e-word-en").value.trim(), sentenceEn: $("e-sentence-en").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
   const audio = newAudio ? newAudio : (audioRemoved ? "remove" : null);
   const video = newVideo ? newVideo : (videoRemoved ? "remove" : null);
   $("e-save").disabled = true; $("e-save").textContent = newVideo ? "Filmpje wordt opgeladen" : "Bezig met opslaan";
