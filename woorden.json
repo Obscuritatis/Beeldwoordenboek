@@ -307,6 +307,69 @@
       "id": "wmuxt7bzruml7",
       "createdAt": 1791359514999,
       "image": "media/wmuxt7bzruml7.jpg"
+    },
+    {
+      "word": "dweilen",
+      "article": "het",
+      "theme": "onderhoud",
+      "sentence": "Dweilen doe je met water en een dweil.",
+      "id": "wmuy1cumj65o8",
+      "createdAt": 1791373209355,
+      "image": "media/wmuy1cumj65o8.jpg"
+    },
+    {
+      "word": "GFT-vuilnisbak",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "In de GFT-vuilnisbak gooi ik fruit, groenten en tuinafval.",
+      "id": "wmuy1ttlqhyyy",
+      "createdAt": 1791374001182,
+      "image": "media/wmuy1ttlqhyyy.jpg"
+    },
+    {
+      "word": "restafval-vuilnisbak",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "In de rest-afvalvuilnisbak gooi ik wat niet in de andere vuilnisbakken mag gegooid worden.",
+      "id": "wmuy21jgwcd99",
+      "createdAt": 1791374361296,
+      "image": "media/wmuy21jgwcd99.jpg"
+    },
+    {
+      "word": "PMD-vuilnisbak",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "In de PMD-vuilnisbak gooi ik plastics, metalen verpakkingen en drankkartons.",
+      "id": "wmuy26c69d4mg",
+      "createdAt": 1791374585121,
+      "image": "media/wmuy26c69d4mg.jpg"
+    },
+    {
+      "word": "papier-vuilnisbak",
+      "article": "de",
+      "theme": "onderhoud",
+      "sentence": "In de papier-vuilnisbak gooi ik papier en karton.",
+      "id": "wmuy2a6jkk7ji",
+      "createdAt": 1791374764448,
+      "image": "media/wmuy2a6jkk7ji.jpg"
+    },
+    {
+      "word": "rollator",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Met de rollator kan de bewoner makkelijker wandelen.",
+      "id": "wmuy2gbr55mn7",
+      "createdAt": 1791375051138,
+      "image": "media/wmuy2gbr55mn7.jpg"
+    },
+    {
+      "word": "bloeddrukmeter",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Met de bloeddrukmeter kan ik makkelijk de bloeddruk van een bewoner meten.",
+      "id": "wmuy2i8y2a3dv",
+      "createdAt": 1791375140810,
+      "image": "media/wmuy2i8y2a3dv.jpg"
     }
   ],
   "hiddenStarters": [
