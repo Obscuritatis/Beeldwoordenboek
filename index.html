@@ -128,6 +128,7 @@ label.f .hint{font-weight:400;color:var(--muted);font-size:.85rem}
 input[type=range]{width:100%;accent-color:var(--accent)}
 .toggle{display:flex;align-items:center;gap:10px;font-weight:700}
 .toggle input{width:22px;height:22px;accent-color:var(--accent)}
+.steps ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:40;font-weight:700;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:transform .12s}.card:active{transform:scale(.98)}}
 @media (min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
@@ -279,6 +280,14 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   </div>
 </section>
 
+<section class="overlay" id="speech-help" hidden aria-modal="true" role="dialog" aria-labelledby="sh-title">
+  <div class="inner">
+    <div class="bar"><h2 id="sh-title">Je hoort de stem niet?</h2><button class="btn" id="sh-close">Sluiten</button></div>
+    <p class="notice" style="margin:0">Deze telefoon spreekt het woord niet uit. Meestal ontbreekt een Nederlandse stem. Zo los je het op:</p>
+    <div id="sh-steps" class="steps"></div>
+    <button class="btn primary" id="sh-test">Probeer opnieuw</button>
+  </div>
+</section>
 <div class="toast" id="toast" hidden role="status"></div>
 
 <script>
@@ -371,16 +380,49 @@ function currentVoice() {
   const want = prefs.get("voice", "");
   return voices.find((v) => v.voiceURI === want) || voices[0] || null;
 }
+let speakTimer = 0, speakSeq = 0, lastUtterance = null, speechHelpShown = false;
 function speak(text, slow) {
   stopAudio();
-  if (!synth) { toast("Dit toestel kan geen tekst uitspreken."); return; }
-  synth.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  const v = currentVoice();
-  if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "nl-NL";
-  const rate = Number(prefs.get("rate", 0.9));
-  u.rate = slow ? Math.max(0.5, rate * 0.65) : rate;
-  synth.speak(u);
+  if (!synth) { showSpeechHelp(); return; }
+  const seq = ++speakSeq;
+  const go = () => {
+    if (seq !== speakSeq) return;
+    const u = new SpeechSynthesisUtterance(text);
+    const v = currentVoice();
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "nl-NL";
+    const rate = Number(prefs.get("rate", 0.9));
+    u.rate = slow ? Math.max(0.5, rate * 0.65) : rate;
+    clearTimeout(speakTimer);
+    u.onstart = () => clearTimeout(speakTimer);
+    u.onend = () => clearTimeout(speakTimer);
+    u.onerror = (e) => { clearTimeout(speakTimer); if (e.error !== "interrupted" && e.error !== "canceled") showSpeechHelp(); };
+    lastUtterance = u; // Android Chrome laat anders soms de uitspraak vallen
+    try { synth.resume(); } catch (_) {}
+    synth.speak(u);
+    // Start de stem niet binnen enkele seconden, dan ontbreekt meestal een Nederlandse spraakmotor.
+    speakTimer = setTimeout(() => { if (seq === speakSeq && !synth.speaking) showSpeechHelp(); }, 3000);
+  };
+  // Op Android gaat spreken direct na annuleren vaak verloren: even wachten.
+  if (synth.speaking || synth.pending) { synth.cancel(); setTimeout(go, 150); } else go();
+}
+const isSamsung = /SamsungBrowser|SM-[A-Z0-9]/i.test(navigator.userAgent);
+const isAndroid = /Android/i.test(navigator.userAgent);
+function speechSteps() {
+  if (isAndroid) return `<ol>
+    <li>Zet het volume van je telefoon hoger. De stem gebruikt het mediavolume, niet het belvolume.</li>
+    <li>Open ${isSamsung ? "op een Samsung " : ""}de app <b>Instellingen</b> en zoek op <b>Tekst-naar-spraak</b>${isSamsung ? " (bij Algemeen beheer)" : ""}.</li>
+    <li>Kies bij Voorkeursengine <b>Google Spraakservices</b>.</li>
+    <li>Tik op het tandwiel ernaast, kies <b>Spraakgegevens installeren</b> en installeer <b>Nederlands</b> (België of Nederland).</li>
+    <li>Werkt het nog niet? Open de app dan in <b>Chrome</b>${isSamsung ? " in plaats van Samsung Internet" : ""}.</li>
+  </ol>`;
+  return `<ol>
+    <li>Zet het volume hoger en controleer dat de stille modus uit staat.</li>
+    <li>Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.</li>
+  </ol>`;
+}
+function showSpeechHelp() {
+  $("sh-steps").innerHTML = speechSteps();
+  $("speech-help").hidden = false; speechHelpShown = true;
 }
 let audioEl = null;
 function stopAudio() { if (audioEl) { audioEl.pause(); audioEl = null; } }
@@ -577,7 +619,7 @@ function openView(i) {
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
 }
-function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden) document.body.style.overflow = ""; }
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
 
 /* ---------- editor ---------- */
 let editRec = null, newImg = null, newAudio = null, audioRemoved = false, newVideo = null, videoRemoved = false;
@@ -619,7 +661,7 @@ async function pickAudio(input) {
 function renderVoices() {
   const help = $("s-voice-help");
   if (!synth) { help.textContent = "Dit toestel of deze browser kan geen tekst uitspreken. Eigen opnames werken wel."; $("s-voices").innerHTML = ""; return; }
-  if (!voices.length) { help.innerHTML = "Er is nog geen Nederlandse stem gevonden op dit toestel. Op Android: Instellingen, Systeem, Talen, Tekst-naar-spraak, en installeer Nederlands. Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, Nederlands."; $("s-voices").innerHTML = ""; return; }
+  if (!voices.length) { help.innerHTML = "Er is nog geen Nederlandse stem gevonden op dit toestel. Test de stem hieronder. Hoor je niets, volg dan deze stappen:" + speechSteps(); $("s-voices").innerHTML = ""; return; }
   help.textContent = "Kies de stem die het natuurlijkst klinkt. Stemmen met het label Natuurlijk klinken meestal het best.";
   const cur = currentVoice();
   $("s-voices").innerHTML = voices.map((v, i) => `<label class="voice"><input type="radio" name="voice" value="${i}" ${v === cur ? "checked" : ""}><span><span class="vn">${esc(v.name)}</span><br><span class="vl">${/be/i.test(v.lang) ? "Nederlands (België)" : /nl[-_]nl/i.test(v.lang) ? "Nederlands (Nederland)" : "Nederlands"}</span></span>${scoreVoice(v) >= 3.5 ? '<span class="tag">Natuurlijk</span>' : ""}</label>`).join("");
@@ -727,6 +769,8 @@ $("btn-settings").onclick = () => { loadVoices(); renderVoices(); $("s-rate").va
   $("s-storage").textContent = store.mode === "site" ? "Stem en snelheid gelden alleen voor dit toestel." : store.mode === "cloud" ? "Eigen woorden worden gedeeld met iedereen die deze app opent. Stem en snelheid gelden alleen voor dit toestel." : "Eigen woorden worden bewaard in de browser van dit toestel.";
   $("settings").hidden = false; document.body.style.overflow = "hidden"; };
 $("s-close").onclick = () => closeOverlay("settings");
+$("sh-close").onclick = () => closeOverlay("speech-help");
+$("sh-test").onclick = () => { closeOverlay("speech-help"); speak("Dit is de nooduitgang."); };
 $("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.value]; if (v) { prefs.set("voice", v.voiceURI); speak("de nooduitgang"); } });
 $("s-rate").addEventListener("input", (e) => { prefs.set("rate", Number(e.target.value)); rateLabel(); });
 $("s-test").onclick = () => speak("Welkom. Dit is de nooduitgang.");
