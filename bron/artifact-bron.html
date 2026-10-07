@@ -7,7 +7,7 @@
 :root{
   --bg:#f3f5f7; --surface:#ffffff; --surface-2:#e8ecf0; --ink:#17212b; --muted:#5a6876; --line:#d3dae1;
   --accent:#1f4e79; --accent-ink:#ffffff; --focus:#e0a100;
-  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --maint:#6a4c9c; --other:#56606b;
+  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --maint:#6a4c9c; --prac:#2f7d9a; --other:#56606b;
   --font-display:"Lexend","Segoe UI",system-ui,sans-serif;
   --font-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
   --r:14px;
@@ -286,6 +286,7 @@ const THEMES = [
   { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
   { id: "onderhoud", name: "Onderhoud", c: "var(--maint)" },
   { id: "zorg", name: "Zorg", c: "var(--care)" },
+  { id: "praktisch", name: "Praktisch", c: "var(--prac)" },
   { id: "overig", name: "Overig", c: "var(--other)" },
 ];
 const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES.find((t) => t.id === "overig");
