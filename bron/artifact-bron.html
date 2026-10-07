@@ -284,8 +284,8 @@ const $ = (id) => document.getElementById(id);
 const THEMES = [
   { id: "alledaags", name: "Alledaags", c: "var(--daily)" },
   { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
-  { id: "zorg", name: "Zorg", c: "var(--care)" },
   { id: "onderhoud", name: "Onderhoud", c: "var(--maint)" },
+  { id: "zorg", name: "Zorg", c: "var(--care)" },
   { id: "overig", name: "Overig", c: "var(--other)" },
 ];
 const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES.find((t) => t.id === "overig");

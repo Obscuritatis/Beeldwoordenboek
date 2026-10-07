@@ -118,6 +118,15 @@
       "id": "wmuxoz2b0a7kt",
       "createdAt": 1791352410732,
       "image": "media/wmuxoz2b0a7kt.jpg"
+    },
+    {
+      "word": "pleister",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Plak een pleister op de wonde.",
+      "id": "wmuxppfm5ysm4",
+      "createdAt": 1791353641037,
+      "image": "media/wmuxppfm5ysm4.jpg"
     }
   ],
   "hiddenStarters": [
@@ -127,6 +136,7 @@
     "start-handschoenen",
     "start-thermometer",
     "start-mondmasker",
-    "start-bed"
+    "start-bed",
+    "start-pleister"
   ]
 }
