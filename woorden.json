@@ -127,6 +127,24 @@
       "id": "wmuxppfm5ysm4",
       "createdAt": 1791353641037,
       "image": "media/wmuxppfm5ysm4.jpg"
+    },
+    {
+      "word": "medicatie",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Breng gevonden medicatie altijd terug naar de verpleegpost.",
+      "id": "wmuxpxsvf9347",
+      "createdAt": 1791354031467,
+      "image": "media/wmuxpxsvf9347.jpg"
+    },
+    {
+      "word": "toiletbezoek",
+      "article": "het",
+      "theme": "zorg",
+      "sentence": "Heb je nood aan een toiletbezoek?",
+      "id": "wmuxq177m3n3l",
+      "createdAt": 1791354190018,
+      "image": "media/wmuxq177m3n3l.jpg"
     }
   ],
   "hiddenStarters": [
