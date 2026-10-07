@@ -124,7 +124,13 @@ label.f .hint{font-weight:400;color:var(--muted);font-size:.85rem}
 .hide-input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .video-box{border-radius:16px;overflow:hidden;background:#000}
 .video-box video{display:block;width:100%;max-width:100%;max-height:70vh}
-.vid-badge{position:absolute;top:8px;right:8px;background:var(--ink);color:var(--bg);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;display:flex;gap:4px;align-items:center}
+.fav{position:absolute;top:6px;right:6px;z-index:1;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0}
+.fav svg{width:22px;height:22px}
+.fav[aria-pressed="true"]{color:var(--fire)}
+.fav[aria-pressed="true"] svg path{fill:currentColor}
+.bar .fav{position:static;width:48px;height:48px}
+.chip .heart{width:14px;height:14px;color:var(--fire)}
+.vid-badge{position:absolute;top:8px;left:8px;background:var(--ink);color:var(--bg);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;display:flex;gap:4px;align-items:center}
 .vid-badge svg{width:10px;height:10px}
 .err{color:var(--fire);font-weight:700;margin:0}
 .confirm{border:1.5px solid var(--fire);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
@@ -171,7 +177,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
   <div class="inner">
     <div class="bar">
       <button class="btn" id="v-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button>
-      <button class="btn" id="v-edit" hidden>Bewerken</button>
+      <span style="display:flex;gap:8px"><button class="btn" id="v-edit" hidden>Bewerken</button><button class="fav" id="v-fav" aria-pressed="false" aria-label="Favoriet"></button></span>
     </div>
     <div class="big-pic" id="v-pic"></div>
     <div class="lang-tabs" role="tablist" aria-label="Taal">
@@ -328,7 +334,7 @@ const THEMES = [
   { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
   { id: "onderhoud", name: "Onderhoud", c: "var(--maint)" },
   { id: "zorg", name: "Zorg", c: "var(--care)" },
-  { id: "overig", name: "Overig", c: "var(--other)" },
+  { id: "overig", name: "Overig", c: "var(--other)", hidden: true }, // alleen nog als terugval voor oude woorden
 ];
 const themeOf = (id) => THEMES.find((t) => t.id === id) || THEMES.find((t) => t.id === "overig");
 
@@ -590,7 +596,12 @@ async function shrinkImage(file) {
 /* ---------- state + render ---------- */
 let store = localStore;
 let userWords = [];
+const HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-9.3-9.2C1.5 7.5 3.7 4.5 7 4.5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3.3 0 5.5 3 4.3 6.3C19.5 15.4 12 20 12 20z"/></svg>';
+let favs = new Set(prefs.get("favs", []));
+const isFav = (r) => favs.has(r.id);
+function toggleFav(r) { favs.has(r.id) ? favs.delete(r.id) : favs.add(r.id); prefs.set("favs", [...favs]); return favs.has(r.id); }
 let filter = prefs.get("filter", "all");
+if (filter === "overig") filter = "all";
 let helpLang = prefs.get("help", "nl");
 let viewLang = "nl";
 let query = "";
@@ -613,20 +624,21 @@ function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 function wordHtml(r) { return (r.article ? `<span class="art">${esc(r.article)}</span> ` : "") + esc(r.word); }
 
 function renderChips() {
-  const items = [{ id: "all", name: "Alles", c: "var(--ink)" }].concat(THEMES);
-  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("");
+  const items = [{ id: "all", name: "Alles", c: "var(--ink)" }].concat(THEMES.filter((t) => !t.hidden), [{ id: "fav", name: "Favorieten", c: "var(--fire)" }]);
+  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("");
 }
 function renderGrid() {
   const q = query.trim().toLowerCase();
-  list = allWords().filter((r) => (filter === "all" || r.theme === filter) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
+  list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
   $("grid").innerHTML = list.length ? list.map((r, i) => `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
       ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>Filmpje</span>' : ""}
+      <button class="fav" data-fav="${i}" aria-pressed="${isFav(r)}" aria-label="${isFav(r) ? "Verwijder uit favorieten" : "Zet bij favorieten"}">${HEART}</button>
       <div class="pic">${picHtml(r)}</div>
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>${helpLang !== "nl" && trWord(r, helpLang) ? `<span class="tr" lang="${helpLang}">${esc(trWord(r, helpLang))}</span>` : ""}
         <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
       </div>
-    </div>`).join("") : `<p class="empty">${q ? "Geen woord gevonden voor “" + esc(query) + "”." : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : "Nog geen woorden in dit thema.")}</p>`;
+    </div>`).join("") : `<p class="empty">${filter === "fav" && !q ? "Nog geen favorieten. Tik op het hartje bij een woord om het hier te bewaren." : q ? "Geen woord gevonden voor “" + esc(query) + "”." : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : "Nog geen woorden in dit thema.")}</p>`;
 }
 function renderNotice() {
   const own = userWords.length;
@@ -647,7 +659,7 @@ function openView(i) {
   const th = themeOf(r.theme);
   $("v-pic").innerHTML = r.starter ? PICTOS[r.word] : (store.imageUrl(r) ? `<img src="${esc(store.imageUrl(r))}" alt="">` : picHtml(r));
   $("v-theme").textContent = th.name; $("v-theme").style.setProperty("--c", th.c);
-  renderViewLang();
+  renderViewLang(); syncViewFav();
   const vurl = r.hasVideo ? store.videoUrl(r) : "";
   const vel = $("v-video"); vel.pause();
   if (vurl) { if (vel.getAttribute("src") !== vurl) vel.src = vurl; } else vel.removeAttribute("src");
@@ -658,6 +670,7 @@ function openView(i) {
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
 }
+function syncViewFav() { const f = isFav(list[current]); $("v-fav").setAttribute("aria-pressed", String(f)); $("v-fav").setAttribute("aria-label", f ? "Verwijder uit favorieten" : "Zet bij favorieten"); }
 function renderViewLang() {
   const r = list[current], l = viewLang;
   document.querySelectorAll("[data-vl]").forEach((b) => { b.setAttribute("aria-selected", String(b.dataset.vl === l)); b.disabled = b.dataset.vl !== "nl" && !trWord(r, b.dataset.vl); });
@@ -680,8 +693,8 @@ function openEditor(rec) {
   $("e-title").textContent = rec ? "Woord bewerken" : "Woord toevoegen";
   $("e-word").value = rec ? rec.word : "";
   document.querySelectorAll('input[name=art]').forEach((x) => (x.checked = x.value === (rec ? rec.article || "" : "de")));
-  $("e-theme").innerHTML = THEMES.map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
-  $("e-theme").value = rec ? rec.theme : (filter !== "all" ? filter : "alledaags");
+  $("e-theme").innerHTML = THEMES.filter((t) => !t.hidden || (rec && rec.theme === t.id)).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
+  $("e-theme").value = rec ? rec.theme : (filter !== "all" && filter !== "fav" ? filter : "alledaags");
   $("e-sentence").value = rec ? rec.sentence || "" : "";
   $("e-word-fr").value = rec ? rec.wordFr || "" : ""; $("e-sentence-fr").value = rec ? rec.sentenceFr || "" : "";
   $("e-word-en").value = rec ? rec.wordEn || "" : ""; $("e-sentence-en").value = rec ? rec.sentenceEn || "" : "";
@@ -731,10 +744,13 @@ $("chips").addEventListener("click", (e) => { const b = e.target.closest("[data-
 $("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
 $("grid").addEventListener("click", (e) => {
   const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
+  const h = e.target.closest("[data-fav]"); if (h) { e.stopPropagation(); toast(toggleFav(list[+h.dataset.fav]) ? "Bij favorieten gezet" : "Uit favorieten gehaald"); renderGrid(); return; }
   const c = e.target.closest(".card"); if (c) openView(+c.dataset.i);
 });
 $("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
-$("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); };
+$("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); renderGrid(); };
+// Het raster pas na sluiten bijwerken, anders verschuift de lijst onder het open woord.
+$("v-fav").onclick = () => { toast(toggleFav(list[current]) ? "Bij favorieten gezet" : "Uit favorieten gehaald"); syncViewFav(); };
 $("v-play").onclick = () => say(list[current], false, viewLang);
 $("v-slow").onclick = () => say(list[current], true, viewLang);
 $("v-say-sentence").onclick = () => speak(trSentence(list[current], viewLang), false, viewLang);
@@ -834,6 +850,7 @@ $("s-starter").onchange = (e) => { prefs.set("starter", e.target.checked); rende
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
 
 /* ---------- boot ---------- */
+$("v-fav").innerHTML = HEART;
 renderAll();
 async function boot() {
   if (document.documentElement.dataset.site === "1") {
