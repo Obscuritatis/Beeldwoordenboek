@@ -244,6 +244,69 @@
       "id": "wmuxry9ay7tk0",
       "createdAt": 1791357411994,
       "image": "media/wmuxry9ay7tk0.jpg"
+    },
+    {
+      "word": "stoel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Neem een stoel en ga zitten.",
+      "id": "wmuxsqb811lkn",
+      "createdAt": 1791358720849,
+      "image": "media/wmuxsqb811lkn.jpg"
+    },
+    {
+      "word": "tafel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Het eten staat op de tafel.",
+      "id": "wmuxsvmz3s6uk",
+      "createdAt": 1791358969359,
+      "image": "media/wmuxsvmz3s6uk.jpg"
+    },
+    {
+      "word": "sleutel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Met de sleutel kan ik de deur losmaken.",
+      "id": "wmuxsxhemtm6a",
+      "createdAt": 1791359055454,
+      "image": "media/wmuxsxhemtm6a.jpg"
+    },
+    {
+      "word": "tas",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Wil je een tas koffie?",
+      "id": "wmuxszpb0a2zh",
+      "createdAt": 1791359159004,
+      "image": "media/wmuxszpb0a2zh.jpg"
+    },
+    {
+      "word": "pauzeren",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Wil je samen pauzeren?",
+      "id": "wmuxt2b0zx819",
+      "createdAt": 1791359280467,
+      "image": "media/wmuxt2b0zx819.jpg"
+    },
+    {
+      "word": "telefoon",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Mijn telefoon ligt in mijn locker.",
+      "id": "wmuxt5gwi0q6p",
+      "createdAt": 1791359428050,
+      "image": "media/wmuxt5gwi0q6p.jpg"
+    },
+    {
+      "word": "deur",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Doe de deur dicht, alsjeblieft.",
+      "id": "wmuxt7bzruml7",
+      "createdAt": 1791359514999,
+      "image": "media/wmuxt7bzruml7.jpg"
     }
   ],
   "hiddenStarters": [
@@ -254,6 +317,12 @@
     "start-thermometer",
     "start-mondmasker",
     "start-bed",
-    "start-pleister"
+    "start-pleister",
+    "start-stoel",
+    "start-tafel",
+    "start-sleutel",
+    "start-beker",
+    "start-telefoon",
+    "start-deur"
   ]
 }
