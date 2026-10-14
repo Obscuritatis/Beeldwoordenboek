@@ -173,7 +173,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     <div class="search"><input id="q" type="text" inputmode="search" placeholder="Zoek een woord" aria-label="Zoek een woord" autocomplete="off"></div>
     <div class="langs" role="group" aria-label="Vertaling tonen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
-      <button data-help="nl" lang="nl">Alleen NL</button><button data-help="fr" lang="fr">Français</button><button data-help="en" lang="en">English</button>
+      <button data-help="nl" lang="nl">Nederlands</button><button data-help="fr" lang="fr">Français</button><button data-help="en" lang="en">English</button>
     </div>
     <div class="chips" id="chips" role="toolbar" aria-label="Thema's"></div>
   </header>
@@ -706,7 +706,7 @@ function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz
 
 /* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
 const UI = {
-  nl: { sub: "Kijk, lees en luister", search: "Zoek een woord", settings: "Instellingen voor de stem", onlyNl: "Alleen NL", themes: "Thema's", all: "Alles",
+  nl: { sub: "Kijk, lees en luister", search: "Zoek een woord", settings: "Instellingen voor de stem", themes: "Thema's", all: "Alles",
     th: { praktisch: "Praktisch", alledaags: "Alledaags", brand: "Brand en veiligheid", onderhoud: "Onderhoud", zorg: "Zorg", overig: "Overig", fav: "Favorieten" },
     tapCard: "Tik op een kaart om het woord te horen.", noFav: "Nog geen favorieten. Tik op het hartje bij een woord om het hier te bewaren.", notFound: (q) => `Geen woord gevonden voor “${q}”.`, emptyTheme: "Nog geen woorden in dit thema.",
     example: "Voorbeeld", video: "Filmpje", listenTo: (w) => `Luister naar ${w}`, favAdd: "Zet bij favorieten", favRemove: "Verwijder uit favorieten", favAdded: "Bij favorieten gezet", favRemoved: "Uit favorieten gehaald",
@@ -719,7 +719,7 @@ const UI = {
     stepsAndroid: (sam) => [`Zet het volume van je telefoon hoger. De stem gebruikt het mediavolume, niet het belvolume.`, `Open ${sam ? "op een Samsung " : ""}de app <b>Instellingen</b> en zoek op <b>Tekst-naar-spraak</b>${sam ? " (bij Algemeen beheer)" : ""}.`, `Kies bij Voorkeursengine <b>Google Spraakservices</b>.`, `Tik op het tandwiel ernaast, kies <b>Spraakgegevens installeren</b> en installeer <b>Nederlands</b> (België of Nederland).`, `Werkt het nog niet? Open de app dan in <b>Chrome</b>${sam ? " in plaats van Samsung Internet" : ""}.`],
     stepsIos: [`Zet het volume hoger en controleer dat de stille modus uit staat.`, `Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.`],
     stop: "Stoppen", ask: "Welk woord hoort bij de foto?", good: "Goed zo!", wrong: "Jammer. Het juiste woord is groen.", score: (a, b) => `${a} van ${b} juist`, need3: "Voor de quiz zijn minstens drie woorden nodig." },
-  fr: { sub: "Regarde, lis et écoute", search: "Cherche un mot", settings: "Réglages de la voix", onlyNl: "NL seul", themes: "Thèmes", all: "Tout",
+  fr: { sub: "Regarde, lis et écoute", search: "Cherche un mot", settings: "Réglages de la voix", themes: "Thèmes", all: "Tout",
     th: { praktisch: "Pratique", alledaags: "Quotidien", brand: "Incendie et sécurité", onderhoud: "Entretien", zorg: "Soins", overig: "Autre", fav: "Favoris" },
     tapCard: "Touche une carte pour entendre le mot en néerlandais.", noFav: "Pas encore de favoris. Touche le cœur d'un mot pour le garder ici.", notFound: (q) => `Aucun mot trouvé pour « ${q} ».`, emptyTheme: "Pas encore de mots dans ce thème.",
     example: "Exemple", video: "Vidéo", listenTo: (w) => `Écouter ${w}`, favAdd: "Ajouter aux favoris", favRemove: "Retirer des favoris", favAdded: "Ajouté aux favoris", favRemoved: "Retiré des favoris",
@@ -732,7 +732,7 @@ const UI = {
     stepsAndroid: (sam) => [`Monte le volume du téléphone. La voix utilise le volume multimédia, pas celui de la sonnerie.`, `Ouvre l'app <b>Paramètres</b>${sam ? " du Samsung" : ""} et cherche <b>Synthèse vocale</b>${sam ? " (dans Gestion globale)" : ""}.`, `Comme moteur préféré, choisis <b>Services vocaux Google</b>.`, `Touche la roue dentée à côté, choisis <b>Installer les données vocales</b> et installe le <b>néerlandais</b> (Belgique ou Pays-Bas).`, `Ça ne marche toujours pas ? Ouvre l'app dans <b>Chrome</b>${sam ? " au lieu de Samsung Internet" : ""}.`],
     stepsIos: [`Monte le volume et vérifie que le mode silencieux est désactivé.`, `Sur iPhone : Réglages, Accessibilité, Contenu énoncé, Voix, puis télécharge une voix néerlandaise.`],
     stop: "Arrêter", ask: "Quel mot correspond à la photo ?", good: "Bravo !", wrong: "Dommage. Le bon mot est en vert.", score: (a, b) => `${a} sur ${b} correct${a > 1 ? "s" : ""}`, need3: "Il faut au moins trois mots pour le quiz." },
-  en: { sub: "Look, read and listen", search: "Search for a word", settings: "Voice settings", onlyNl: "NL only", themes: "Themes", all: "All",
+  en: { sub: "Look, read and listen", search: "Search for a word", settings: "Voice settings", themes: "Themes", all: "All",
     th: { praktisch: "Practical", alledaags: "Everyday", brand: "Fire and safety", onderhoud: "Maintenance", zorg: "Care", overig: "Other", fav: "Favourites" },
     tapCard: "Tap a card to hear the word in Dutch.", noFav: "No favourites yet. Tap the heart on a word to keep it here.", notFound: (q) => `No word found for “${q}”.`, emptyTheme: "No words in this theme yet.",
     example: "Example", video: "Video", listenTo: (w) => `Listen to ${w}`, favAdd: "Add to favourites", favRemove: "Remove from favourites", favAdded: "Added to favourites", favRemoved: "Removed from favourites",
@@ -755,7 +755,6 @@ function applyUi() {
   document.querySelector(".brand h1 small").textContent = t("sub");
   $("q").placeholder = t("search"); $("q").setAttribute("aria-label", t("search"));
   $("btn-settings").setAttribute("aria-label", t("settings"));
-  document.querySelector('[data-help="nl"]').textContent = t("onlyNl");
   $("chips").setAttribute("aria-label", t("themes"));
   [["v-close", "back"], ["v-play", "listen"], ["v-slow", "slow"], ["v-say-sentence", "sentence"], ["v-prev", "prev"], ["v-next", "next"], ["s-close", "done"], ["s-test", "test"], ["sh-close", "close"], ["sh-test", "retry"], ["q-close", "stop"], ["q-next", "next"]].forEach(([id, k]) => setLabel($(id), t(k)));
   $("s-title").textContent = t("sTitle"); $("sh-title").textContent = t("shTitle"); $("q-title").textContent = t("ask");
