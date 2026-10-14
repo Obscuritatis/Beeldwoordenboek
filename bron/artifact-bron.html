@@ -47,6 +47,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
 .lang-tabs button{border:none;background:transparent;border-radius:9px;padding:9px 4px;font-weight:700;cursor:pointer;min-height:44px}
 .lang-tabs button[aria-selected="true"]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .lang-tabs button:disabled{opacity:.4;cursor:default}
+.tr-p{color:var(--muted);font-style:italic}
 .helper-tr{text-align:center;color:var(--muted);font-style:italic;margin:-6px 0 0;font-size:1.05rem}
 .notice{margin-block:12px 0;font-size:.9rem;color:var(--muted)}
 .notice b{color:var(--ink)}
@@ -290,7 +291,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
     </div>
     <p id="s-voice-help" class="notice" style="margin:0"></p>
     <div class="voice-list" id="s-voices"></div>
-    <label class="f">Spreeksnelheid <span class="hint" id="s-rate-label"></span>
+    <label class="f"><span id="s-rate-text">Spreeksnelheid</span> <span class="hint" id="s-rate-label"></span>
       <input type="range" id="s-rate" min="0.6" max="1.2" step="0.05" value="0.9">
     </label>
     <button class="btn primary" id="s-test">Test de stem</button>
@@ -326,7 +327,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 <section class="overlay" id="speech-help" hidden aria-modal="true" role="dialog" aria-labelledby="sh-title">
   <div class="inner">
     <div class="bar"><h2 id="sh-title">Je hoort de stem niet?</h2><button class="btn" id="sh-close">Sluiten</button></div>
-    <p class="notice" style="margin:0">Deze telefoon spreekt het woord niet uit. Meestal ontbreekt een Nederlandse stem. Zo los je het op:</p>
+    <p class="notice" style="margin:0" id="sh-intro">Deze telefoon spreekt het woord niet uit. Meestal ontbreekt een Nederlandse stem. Zo los je het op:</p>
     <div id="sh-steps" class="steps"></div>
     <button class="btn primary" id="sh-test">Probeer opnieuw</button>
   </div>
@@ -435,7 +436,7 @@ let speakTimer = 0, speakSeq = 0, lastUtterance = null, speechHelpShown = false;
 function speak(text, slow, lang = "nl") {
   stopAudio();
   // De hulp gaat over een Nederlandse stem; voor Frans en Engels volstaat een korte melding.
-  const fail = () => (lang === "nl" ? showSpeechHelp() : toast(lang === "fr" ? "Geen Franse stem gevonden op dit toestel." : "Geen Engelse stem gevonden op dit toestel."));
+  const fail = () => (lang === "nl" ? showSpeechHelp() : toast(t(lang === "fr" ? "noFr" : "noEn")));
   if (!synth) { fail(); return; }
   const seq = ++speakSeq;
   const go = () => {
@@ -461,17 +462,9 @@ function speak(text, slow, lang = "nl") {
 const isSamsung = /SamsungBrowser|SM-[A-Z0-9]/i.test(navigator.userAgent);
 const isAndroid = /Android/i.test(navigator.userAgent);
 function speechSteps() {
-  if (isAndroid) return `<ol>
-    <li>Zet het volume van je telefoon hoger. De stem gebruikt het mediavolume, niet het belvolume.</li>
-    <li>Open ${isSamsung ? "op een Samsung " : ""}de app <b>Instellingen</b> en zoek op <b>Tekst-naar-spraak</b>${isSamsung ? " (bij Algemeen beheer)" : ""}.</li>
-    <li>Kies bij Voorkeursengine <b>Google Spraakservices</b>.</li>
-    <li>Tik op het tandwiel ernaast, kies <b>Spraakgegevens installeren</b> en installeer <b>Nederlands</b> (België of Nederland).</li>
-    <li>Werkt het nog niet? Open de app dan in <b>Chrome</b>${isSamsung ? " in plaats van Samsung Internet" : ""}.</li>
-  </ol>`;
-  return `<ol>
-    <li>Zet het volume hoger en controleer dat de stille modus uit staat.</li>
-    <li>Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.</li>
-  </ol>`;
+  const k = isAndroid ? "stepsAndroid" : "stepsIos";
+  const nl = tIn("nl", k, isSamsung), o = helpLang === "nl" ? [] : tIn(helpLang, k, isSamsung);
+  return "<ol>" + nl.map((x, i) => `<li>${x}${o[i] ? `<br><span class="tr-p">(${o[i]})</span>` : ""}</li>`).join("") + "</ol>";
 }
 function showSpeechHelp() {
   $("sh-steps").innerHTML = speechSteps();
@@ -635,7 +628,7 @@ function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 function wordHtml(r) { return (r.article ? `<span class="art">${esc(r.article)}</span> ` : "") + esc(r.word); }
 
 function renderChips() {
-  const items = [{ id: "all", name: "Alles", c: "var(--ink)" }].concat(THEMES.filter((t) => !t.hidden), [{ id: "fav", name: "Favorieten", c: "var(--fire)" }]);
+  const items = [{ id: "all", name: t("all"), c: "var(--ink)" }].concat(THEMES.filter((x) => !x.hidden).map((x) => ({ ...x, name: themeName(x.id) })), [{ id: "fav", name: themeName("fav"), c: "var(--fire)" }]);
   $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("")
     + `<button class="chip quiz" id="btn-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg>Quiz</button>`;
 }
@@ -644,24 +637,24 @@ function renderGrid() {
   list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
   $("grid").innerHTML = list.length ? list.map((r, i) => `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
-      ${r.starter ? '<span class="badge">Voorbeeld</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>Filmpje</span>' : ""}
-      <button class="fav" data-fav="${i}" aria-pressed="${isFav(r)}" aria-label="${isFav(r) ? "Verwijder uit favorieten" : "Zet bij favorieten"}">${HEART}</button>
+      ${r.starter ? '<span class="badge">${t("example")}</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>${t("video")}</span>' : ""}
+      <button class="fav" data-fav="${i}" aria-pressed="${isFav(r)}" aria-label="${t(isFav(r) ? "favRemove" : "favAdd")}">${HEART}</button>
       <div class="pic">${picHtml(r)}</div>
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>${helpLang !== "nl" && trWord(r, helpLang) ? `<span class="tr" lang="${helpLang}">${esc(trWord(r, helpLang))}</span>` : ""}
-        <button class="say" data-say="${i}" aria-label="Luister naar ${esc(spoken(r))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <button class="say" data-say="${i}" aria-label="${esc(t("listenTo", spoken(r)))}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
       </div>
-    </div>`).join("") : `<p class="empty">${filter === "fav" && !q ? "Nog geen favorieten. Tik op het hartje bij een woord om het hier te bewaren." : q ? "Geen woord gevonden voor “" + esc(query) + "”." : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : "Nog geen woorden in dit thema.")}</p>`;
+    </div>`).join("") : `<p class="empty">${filter === "fav" && !q ? t("noFav") : q ? esc(t("notFound", query)) : (store.canWrite ? "Nog geen woorden in dit thema. Voeg er een toe met de knop onderaan." : t("emptyTheme"))}</p>`;
 }
 function renderNotice() {
   const own = userWords.length;
   let t;
   if (store.mode === "cloud") t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, gedeeld met iedereen die deze app opent.` : "Voeg je eigen foto's en woorden toe. Ze worden gedeeld met iedereen die deze app opent.";
   else t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, bewaard op dit toestel.` : "Voeg je eigen foto's en woorden toe met de knop onderaan.";
-  if (!store.canWrite) t = "Tik op een kaart om het woord te horen.";
+  if (!store.canWrite) t = tIn("nl", "tapCard") + (helpLang === "nl" ? "" : ` (${tIn(helpLang, "tapCard")})`);
   $("notice").innerHTML = t;
   $("btn-add").hidden = !store.canWrite;
 }
-function renderLangs() { document.querySelectorAll("[data-help]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.help === helpLang))); }
+function renderLangs() { document.querySelectorAll("[data-help]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.help === helpLang))); applyUi(); }
 function renderAll() { renderLangs(); renderChips(); renderGrid(); renderNotice(); }
 
 /* ---------- word view ---------- */
@@ -670,7 +663,7 @@ function openView(i) {
   viewLang = "nl";
   const th = themeOf(r.theme);
   $("v-pic").innerHTML = r.starter ? PICTOS[r.word] : (store.imageUrl(r) ? `<img src="${esc(store.imageUrl(r))}" alt="">` : picHtml(r));
-  $("v-theme").textContent = th.name; $("v-theme").style.setProperty("--c", th.c);
+  $("v-theme").textContent = themeName(r.theme); $("v-theme").style.setProperty("--c", th.c);
   renderViewLang(); syncViewFav();
   const vurl = r.hasVideo ? store.videoUrl(r) : "";
   const vel = $("v-video"); vel.pause();
@@ -682,7 +675,7 @@ function openView(i) {
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
 }
-function syncViewFav() { const f = isFav(list[current]); $("v-fav").setAttribute("aria-pressed", String(f)); $("v-fav").setAttribute("aria-label", f ? "Verwijder uit favorieten" : "Zet bij favorieten"); }
+function syncViewFav() { const f = isFav(list[current]); $("v-fav").setAttribute("aria-pressed", String(f)); $("v-fav").setAttribute("aria-label", t(f ? "favRemove" : "favAdd")); }
 function renderViewLang() {
   const r = list[current], l = viewLang;
   document.querySelectorAll("[data-vl]").forEach((b) => { b.setAttribute("aria-selected", String(b.dataset.vl === l)); b.disabled = b.dataset.vl !== "nl" && !trWord(r, b.dataset.vl); });
@@ -694,9 +687,70 @@ function renderViewLang() {
   $("v-sentence").textContent = sent; $("v-sentence").lang = l; $("v-sentence").hidden = !sent;
   $("v-say-sentence").hidden = !sent;
   $("v-slow").classList.toggle("wide", !sent);
-  $("v-src").textContent = l !== "nl" ? (l === "fr" ? "Je hoort de Franse computerstem." : "Je hoort de Engelse computerstem.") : r.hasAudio ? "Je hoort een opname van een collega." : "Je hoort de computerstem.";
+  $("v-src").textContent = t(l === "fr" ? "srcFr" : l === "en" ? "srcEn" : r.hasAudio ? "srcOwn" : "srcNl");
 }
 function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
+
+/* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
+const UI = {
+  nl: { sub: "Kijk, lees en luister", search: "Zoek een woord", settings: "Instellingen voor de stem", themes: "Thema's", all: "Alles",
+    th: { praktisch: "Praktisch", alledaags: "Alledaags", brand: "Brand en veiligheid", onderhoud: "Onderhoud", zorg: "Zorg", overig: "Overig", fav: "Favorieten" },
+    tapCard: "Tik op een kaart om het woord te horen.", noFav: "Nog geen favorieten. Tik op het hartje bij een woord om het hier te bewaren.", notFound: (q) => `Geen woord gevonden voor “${q}”.`, emptyTheme: "Nog geen woorden in dit thema.",
+    example: "Voorbeeld", video: "Filmpje", listenTo: (w) => `Luister naar ${w}`, favAdd: "Zet bij favorieten", favRemove: "Verwijder uit favorieten", favAdded: "Bij favorieten gezet", favRemoved: "Uit favorieten gehaald",
+    back: "Terug", listen: "Luister", slow: "Langzaam", sentence: "Zin", prev: "Vorige", next: "Volgende",
+    srcOwn: "Je hoort een opname van een collega.", srcNl: "Je hoort de computerstem.", srcFr: "Je hoort de Franse computerstem.", srcEn: "Je hoort de Engelse computerstem.",
+    noFr: "Geen Franse stem gevonden op dit toestel.", noEn: "Geen Engelse stem gevonden op dit toestel.",
+    sTitle: "Stem en uitspraak", done: "Klaar", rate: "Spreeksnelheid", rates: ["Rustig", "Normaal", "Snel"], test: "Test de stem", starters: "Toon de voorbeeldwoorden", siteNote: "Stem en snelheid gelden alleen voor dit toestel.",
+    noSynth: "Dit toestel of deze browser kan geen tekst uitspreken. Eigen opnames werken wel.", noVoice: "Er is nog geen Nederlandse stem gevonden op dit toestel. Test de stem hieronder. Hoor je niets, volg dan deze stappen:", pickVoice: "Kies de stem die het natuurlijkst klinkt. Stemmen met het label Natuurlijk klinken meestal het best.", natural: "Natuurlijk", dutch: "Nederlands", nlBe: "Nederlands (België)", nlNl: "Nederlands (Nederland)",
+    shTitle: "Je hoort de stem niet?", close: "Sluiten", shIntro: "Deze telefoon spreekt het woord niet uit. Meestal ontbreekt een Nederlandse stem. Zo los je het op:", retry: "Probeer opnieuw",
+    stepsAndroid: (sam) => [`Zet het volume van je telefoon hoger. De stem gebruikt het mediavolume, niet het belvolume.`, `Open ${sam ? "op een Samsung " : ""}de app <b>Instellingen</b> en zoek op <b>Tekst-naar-spraak</b>${sam ? " (bij Algemeen beheer)" : ""}.`, `Kies bij Voorkeursengine <b>Google Spraakservices</b>.`, `Tik op het tandwiel ernaast, kies <b>Spraakgegevens installeren</b> en installeer <b>Nederlands</b> (België of Nederland).`, `Werkt het nog niet? Open de app dan in <b>Chrome</b>${sam ? " in plaats van Samsung Internet" : ""}.`],
+    stepsIos: [`Zet het volume hoger en controleer dat de stille modus uit staat.`, `Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.`],
+    stop: "Stoppen", ask: "Welk woord hoort bij de foto?", good: "Goed zo!", wrong: "Jammer. Het juiste woord is groen.", score: (a, b) => `${a} van ${b} juist`, need3: "Voor de quiz zijn minstens drie woorden nodig." },
+  fr: { sub: "Regarde, lis et écoute", search: "Cherche un mot", settings: "Réglages de la voix", themes: "Thèmes", all: "Tout",
+    th: { praktisch: "Pratique", alledaags: "Quotidien", brand: "Incendie et sécurité", onderhoud: "Entretien", zorg: "Soins", overig: "Autre", fav: "Favoris" },
+    tapCard: "Touche une carte pour entendre le mot en néerlandais.", noFav: "Pas encore de favoris. Touche le cœur d'un mot pour le garder ici.", notFound: (q) => `Aucun mot trouvé pour « ${q} ».`, emptyTheme: "Pas encore de mots dans ce thème.",
+    example: "Exemple", video: "Vidéo", listenTo: (w) => `Écouter ${w}`, favAdd: "Ajouter aux favoris", favRemove: "Retirer des favoris", favAdded: "Ajouté aux favoris", favRemoved: "Retiré des favoris",
+    back: "Retour", listen: "Écouter", slow: "Lentement", sentence: "Phrase", prev: "Précédent", next: "Suivant",
+    srcOwn: "Tu entends l'enregistrement d'un collègue.", srcNl: "Tu entends la voix de l'ordinateur.", srcFr: "Tu entends la voix française de l'ordinateur.", srcEn: "Tu entends la voix anglaise de l'ordinateur.",
+    noFr: "Pas de voix française sur cet appareil.", noEn: "Pas de voix anglaise sur cet appareil.",
+    sTitle: "Voix et prononciation", done: "OK", rate: "Vitesse de la voix", rates: ["Lente", "Normale", "Rapide"], test: "Tester la voix", starters: "Afficher les mots d'exemple", siteNote: "La voix et la vitesse valent seulement pour cet appareil.",
+    noSynth: "Cet appareil ou ce navigateur ne peut pas lire le texte à voix haute. Les enregistrements fonctionnent quand même.", noVoice: "Aucune voix néerlandaise trouvée sur cet appareil. Teste la voix ci-dessous. Si tu n'entends rien, suis ces étapes :", pickVoice: "Choisis la voix la plus naturelle. Les voix avec l'étiquette Naturelle sonnent le mieux.", natural: "Naturelle", dutch: "Néerlandais", nlBe: "Néerlandais (Belgique)", nlNl: "Néerlandais (Pays-Bas)",
+    shTitle: "Tu n'entends pas la voix ?", close: "Fermer", shIntro: "Ce téléphone ne prononce pas le mot. Souvent, il manque une voix néerlandaise. Voici comment faire :", retry: "Réessayer",
+    stepsAndroid: (sam) => [`Monte le volume du téléphone. La voix utilise le volume multimédia, pas celui de la sonnerie.`, `Ouvre l'app <b>Paramètres</b>${sam ? " du Samsung" : ""} et cherche <b>Synthèse vocale</b>${sam ? " (dans Gestion globale)" : ""}.`, `Comme moteur préféré, choisis <b>Services vocaux Google</b>.`, `Touche la roue dentée à côté, choisis <b>Installer les données vocales</b> et installe le <b>néerlandais</b> (Belgique ou Pays-Bas).`, `Ça ne marche toujours pas ? Ouvre l'app dans <b>Chrome</b>${sam ? " au lieu de Samsung Internet" : ""}.`],
+    stepsIos: [`Monte le volume et vérifie que le mode silencieux est désactivé.`, `Sur iPhone : Réglages, Accessibilité, Contenu énoncé, Voix, puis télécharge une voix néerlandaise.`],
+    stop: "Arrêter", ask: "Quel mot correspond à la photo ?", good: "Bravo !", wrong: "Dommage. Le bon mot est en vert.", score: (a, b) => `${a} sur ${b} correct${a > 1 ? "s" : ""}`, need3: "Il faut au moins trois mots pour le quiz." },
+  en: { sub: "Look, read and listen", search: "Search for a word", settings: "Voice settings", themes: "Themes", all: "All",
+    th: { praktisch: "Practical", alledaags: "Everyday", brand: "Fire and safety", onderhoud: "Maintenance", zorg: "Care", overig: "Other", fav: "Favourites" },
+    tapCard: "Tap a card to hear the word in Dutch.", noFav: "No favourites yet. Tap the heart on a word to keep it here.", notFound: (q) => `No word found for “${q}”.`, emptyTheme: "No words in this theme yet.",
+    example: "Example", video: "Video", listenTo: (w) => `Listen to ${w}`, favAdd: "Add to favourites", favRemove: "Remove from favourites", favAdded: "Added to favourites", favRemoved: "Removed from favourites",
+    back: "Back", listen: "Listen", slow: "Slowly", sentence: "Sentence", prev: "Previous", next: "Next",
+    srcOwn: "You hear a recording by a colleague.", srcNl: "You hear the computer voice.", srcFr: "You hear the French computer voice.", srcEn: "You hear the English computer voice.",
+    noFr: "No French voice found on this device.", noEn: "No English voice found on this device.",
+    sTitle: "Voice and pronunciation", done: "Done", rate: "Speaking speed", rates: ["Slow", "Normal", "Fast"], test: "Test the voice", starters: "Show the example words", siteNote: "Voice and speed only apply to this device.",
+    noSynth: "This device or browser cannot read text aloud. Recordings still work.", noVoice: "No Dutch voice was found on this device yet. Test the voice below. If you hear nothing, follow these steps:", pickVoice: "Choose the voice that sounds most natural. Voices labelled Natural usually sound best.", natural: "Natural", dutch: "Dutch", nlBe: "Dutch (Belgium)", nlNl: "Dutch (Netherlands)",
+    shTitle: "Can't hear the voice?", close: "Close", shIntro: "This phone does not say the word. Usually a Dutch voice is missing. Here is how to fix it:", retry: "Try again",
+    stepsAndroid: (sam) => [`Turn up your phone's volume. The voice uses the media volume, not the ringer volume.`, `Open the <b>Settings</b> app${sam ? " on your Samsung" : ""} and search for <b>Text-to-speech</b>${sam ? " (under General management)" : ""}.`, `As the preferred engine, choose <b>Speech Services by Google</b>.`, `Tap the gear next to it, choose <b>Install voice data</b> and install <b>Dutch</b> (Belgium or Netherlands).`, `Still not working? Open the app in <b>Chrome</b>${sam ? " instead of Samsung Internet" : ""}.`],
+    stepsIos: [`Turn up the volume and check that silent mode is off.`, `On iPhone: Settings, Accessibility, Spoken Content, Voices, and download a Dutch voice.`],
+    stop: "Stop", ask: "Which word goes with the photo?", good: "Well done!", wrong: "Too bad. The right word is green.", score: (a, b) => `${a} of ${b} correct`, need3: "The quiz needs at least three words." },
+};
+// De interface blijft Nederlands; bij Frans of Engels staat de vertaling tussen haakjes erachter.
+const tIn = (L, k, ...a) => { const v = UI[L][k] ?? UI.nl[k]; return typeof v === "function" ? v(...a) : v; };
+const both = (n, o) => (helpLang === "nl" || !o || n === o ? n : `${n} (${o})`);
+const t = (k, ...a) => { const n = tIn("nl", k, ...a); if (helpLang === "nl") return n; const o = tIn(helpLang, k, ...a); return Array.isArray(n) ? n.map((x, i) => both(x, o[i])) : both(n, o); };
+const themeName = (id) => both(UI.nl.th[id] || themeOf(id).name, UI[helpLang].th[id]);
+// Vervang alleen de tekst van een knop, zodat het icoon blijft staan.
+function setLabel(el, text) { const n = [...el.childNodes].reverse().find((c) => c.nodeType === 3); if (n) n.nodeValue = text; else el.append(text); }
+function applyUi() {
+  document.documentElement.lang = helpLang;
+  document.querySelector(".brand h1 small").textContent = t("sub");
+  $("q").placeholder = t("search"); $("q").setAttribute("aria-label", t("search"));
+  $("btn-settings").setAttribute("aria-label", t("settings"));
+  $("chips").setAttribute("aria-label", t("themes"));
+  [["v-close", "back"], ["v-play", "listen"], ["v-slow", "slow"], ["v-say-sentence", "sentence"], ["v-prev", "prev"], ["v-next", "next"], ["s-close", "done"], ["s-test", "test"], ["sh-close", "close"], ["sh-test", "retry"], ["q-close", "stop"], ["q-next", "next"]].forEach(([id, k]) => setLabel($(id), t(k)));
+  $("s-title").textContent = t("sTitle"); $("sh-title").textContent = t("shTitle"); $("q-title").textContent = t("ask");
+  $("s-rate-text").textContent = t("rate"); setLabel($("s-starter").closest("label"), " " + t("starters"));
+  $("sh-intro").textContent = t("shIntro");
+}
 
 /* ---------- quiz: willekeurige foto, kies het Nederlandse woord uit drie ---------- */
 let qDeck = [], qCur = null, qRight = 0, qDone = 0;
@@ -704,7 +758,7 @@ const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math
 function quizPool() { return allWords().filter((r) => r.starter || store.imageUrl(r)); }
 function openQuiz() {
   const pool = quizPool();
-  if (pool.length < 3) { toast("Voor de quiz zijn minstens drie woorden nodig."); return; }
+  if (pool.length < 3) { toast(t("need3")); return; }
   qDeck = []; qRight = 0; qDone = 0;
   $("quiz").hidden = false; document.body.style.overflow = "hidden";
   nextQuestion();
@@ -720,14 +774,14 @@ function nextQuestion() {
   $("q-msg").textContent = ""; $("q-msg").className = "q-msg"; $("q-next").hidden = true;
   renderScore();
 }
-function renderScore() { $("q-score").textContent = qDone ? `${qRight} van ${qDone} juist` : ""; }
+function renderScore() { $("q-score").textContent = qDone ? t("score", qRight, qDone) : ""; }
 $("q-opts").addEventListener("click", (e) => {
   const b = e.target.closest(".q-opt"); if (!b || b.disabled) return;
   const ok = b.dataset.ok === "true";
   $("q-opts").querySelectorAll(".q-opt").forEach((x) => { x.disabled = true; if (x.dataset.ok === "true") x.classList.add("ok"); });
   if (!ok) b.classList.add("bad");
   qDone++; if (ok) qRight++;
-  $("q-msg").textContent = ok ? "Goed zo!" : "Jammer. Het juiste woord is groen.";
+  $("q-msg").textContent = t(ok ? "good" : "wrong");
   $("q-msg").className = "q-msg " + (ok ? "ok" : "bad");
   $("q-next").hidden = false; renderScore();
   say(qCur);
@@ -776,13 +830,13 @@ async function pickAudio(input) {
 /* ---------- settings ---------- */
 function renderVoices() {
   const help = $("s-voice-help");
-  if (!synth) { help.textContent = "Dit toestel of deze browser kan geen tekst uitspreken. Eigen opnames werken wel."; $("s-voices").innerHTML = ""; return; }
-  if (!voices.length) { help.innerHTML = "Er is nog geen Nederlandse stem gevonden op dit toestel. Test de stem hieronder. Hoor je niets, volg dan deze stappen:" + speechSteps(); $("s-voices").innerHTML = ""; return; }
-  help.textContent = "Kies de stem die het natuurlijkst klinkt. Stemmen met het label Natuurlijk klinken meestal het best.";
+  if (!synth) { help.textContent = t("noSynth"); $("s-voices").innerHTML = ""; return; }
+  if (!voices.length) { help.innerHTML = esc(t("noVoice")) + speechSteps(); $("s-voices").innerHTML = ""; return; }
+  help.textContent = t("pickVoice");
   const cur = currentVoice();
-  $("s-voices").innerHTML = voices.map((v, i) => `<label class="voice"><input type="radio" name="voice" value="${i}" ${v === cur ? "checked" : ""}><span><span class="vn">${esc(v.name)}</span><br><span class="vl">${/be/i.test(v.lang) ? "Nederlands (België)" : /nl[-_]nl/i.test(v.lang) ? "Nederlands (Nederland)" : "Nederlands"}</span></span>${scoreVoice(v) >= 3.5 ? '<span class="tag">Natuurlijk</span>' : ""}</label>`).join("");
+  $("s-voices").innerHTML = voices.map((v, i) => `<label class="voice"><input type="radio" name="voice" value="${i}" ${v === cur ? "checked" : ""}><span><span class="vn">${esc(v.name)}</span><br><span class="vl">${t(/be/i.test(v.lang) ? "nlBe" : /nl[-_]nl/i.test(v.lang) ? "nlNl" : "dutch")}</span></span>${scoreVoice(v) >= 3.5 ? '<span class="tag">${t("natural")}</span>' : ""}</label>`).join("");
 }
-function rateLabel() { const r = Number(prefs.get("rate", 0.9)); $("s-rate-label").textContent = r < 0.85 ? "Rustig" : r > 1.05 ? "Snel" : "Normaal"; }
+function rateLabel() { const r = Number(prefs.get("rate", 0.9)); $("s-rate-label").textContent = t("rates")[r < 0.85 ? 0 : r > 1.05 ? 2 : 1]; }
 
 /* ---------- toast ---------- */
 let toastT = 0;
@@ -793,18 +847,18 @@ $("chips").addEventListener("click", (e) => { if (e.target.closest("#btn-quiz"))
 $("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
 $("grid").addEventListener("click", (e) => {
   const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
-  const h = e.target.closest("[data-fav]"); if (h) { e.stopPropagation(); toast(toggleFav(list[+h.dataset.fav]) ? "Bij favorieten gezet" : "Uit favorieten gehaald"); renderGrid(); return; }
+  const h = e.target.closest("[data-fav]"); if (h) { e.stopPropagation(); toast(t(toggleFav(list[+h.dataset.fav]) ? "favAdded" : "favRemoved")); renderGrid(); return; }
   const c = e.target.closest(".card"); if (c) openView(+c.dataset.i);
 });
 $("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
 $("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); renderGrid(); };
 // Het raster pas na sluiten bijwerken, anders verschuift de lijst onder het open woord.
-$("v-fav").onclick = () => { toast(toggleFav(list[current]) ? "Bij favorieten gezet" : "Uit favorieten gehaald"); syncViewFav(); };
+$("v-fav").onclick = () => { toast(t(toggleFav(list[current]) ? "favAdded" : "favRemoved")); syncViewFav(); };
 $("v-play").onclick = () => say(list[current], false, viewLang);
 $("v-slow").onclick = () => say(list[current], true, viewLang);
 $("v-say-sentence").onclick = () => speak(trSentence(list[current], viewLang), false, viewLang);
 document.querySelector(".lang-tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-vl]"); if (!b || b.disabled) return; stopAudio(); synth && synth.cancel(); viewLang = b.dataset.vl; renderViewLang(); say(list[current], false, viewLang); });
-document.querySelector(".langs").addEventListener("click", (e) => { const b = e.target.closest("[data-help]"); if (!b) return; helpLang = b.dataset.help; prefs.set("help", helpLang); renderLangs(); renderGrid(); });
+document.querySelector(".langs").addEventListener("click", (e) => { const b = e.target.closest("[data-help]"); if (!b) return; helpLang = b.dataset.help; prefs.set("help", helpLang); renderAll(); });
 $("v-prev").onclick = () => { $("v-video").pause(); openView(current - 1); };
 $("v-next").onclick = () => { $("v-video").pause(); openView(current + 1); };
 $("v-edit").onclick = () => { const r = list[current]; if (r.starter) { $("v-hide-confirm").hidden = false; $("v-hide-confirm").scrollIntoView({ block: "center" }); } else openEditor(r); };
@@ -887,7 +941,7 @@ $("e-form").addEventListener("submit", async (e) => {
   } finally { $("e-save").disabled = false; $("e-save").textContent = "Opslaan"; }
 });
 $("btn-settings").onclick = () => { loadVoices(); renderVoices(); $("s-rate").value = prefs.get("rate", 0.9); rateLabel(); $("s-starter").checked = prefs.get("starter", true); renderAdmin();
-  $("s-storage").textContent = store.mode === "site" ? "Stem en snelheid gelden alleen voor dit toestel." : store.mode === "cloud" ? "Eigen woorden worden gedeeld met iedereen die deze app opent. Stem en snelheid gelden alleen voor dit toestel." : "Eigen woorden worden bewaard in de browser van dit toestel.";
+  $("s-storage").textContent = store.mode === "site" ? t("siteNote") : store.mode === "cloud" ? "Eigen woorden worden gedeeld met iedereen die deze app opent. Stem en snelheid gelden alleen voor dit toestel." : "Eigen woorden worden bewaard in de browser van dit toestel.";
   $("settings").hidden = false; document.body.style.overflow = "hidden"; };
 $("s-close").onclick = () => closeOverlay("settings");
 $("sh-close").onclick = () => closeOverlay("speech-help");
