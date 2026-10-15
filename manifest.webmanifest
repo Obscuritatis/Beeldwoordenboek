@@ -1,6 +1,6 @@
 {
   "name": "Beeldwoordenboek",
-  "short_name": "Woordenboek",
+  "short_name": "Beeldwoordenboek",
   "description": "Foto's en pictogrammen met het Nederlandse woord en de uitspraak.",
   "lang": "nl",
   "start_url": "./",
@@ -20,7 +20,7 @@
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "icons/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
