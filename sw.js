@@ -1,5 +1,5 @@
-const CACHE = "bwb-20261015124828";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png"];
+const CACHE = "bwb-20261022115217";
+const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "fonts/atkinson-hyperlegible-latin-1.woff2", "fonts/atkinson-hyperlegible-latin-3.woff2", "fonts/atkinson-hyperlegible-latin-ext-0.woff2", "fonts/atkinson-hyperlegible-latin-ext-2.woff2", "fonts/fonts.css", "fonts/lexend-latin-5.woff2", "fonts/lexend-latin-ext-4.woff2"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {

@@ -4,22 +4,35 @@
 Gebruik: python3 build_site.py <artifact-bron.html> <site-map>
 Schrijft index.html, manifest.webmanifest en sw.js. woorden.json en media/ blijven staan.
 """
-import json, sys, time, pathlib
+import base64, hashlib, json, re, sys, time, pathlib
 
 src, out = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 out.mkdir(parents=True, exist_ok=True)
 (out / "media").mkdir(exist_ok=True)
 body = src.read_text(encoding="utf-8")
+# Lettertypes komen van de site zelf (fonts/), niet van Google: geen bezoekersgegevens naar derden.
+body = re.sub(r'<link rel="(preconnect|stylesheet)" href="https://fonts\.(googleapis|gstatic)\.com[^>]*>\n?', "", body)
+assert "googleapis" not in body and "gstatic" not in body, "externe lettertypes nog in de bron"
+# Strikte beveiligingsregels: alleen code en inhoud van de eigen site. Het ene inline script mag via zijn hash.
+scripts = re.findall(r"<script>(.*?)</script>", body, re.S)
+assert len(scripts) == 1, "verwacht precies een inline script"
+script_hash = base64.b64encode(hashlib.sha256(scripts[0].encode("utf-8")).digest()).decode()
+csp = ("default-src 'self'; script-src 'self' 'sha256-%s'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
+       "media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; "
+       "object-src 'none'; base-uri 'none'; form-action 'none'") % script_hash
 version = time.strftime("%Y%m%d%H%M%S")
 
 head = f"""<!doctype html>
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{csp}">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f4e79">
 <meta name="description" content="Foto's en pictogrammen met het Nederlandse woord en de uitspraak.">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -49,7 +62,7 @@ manifest = {
 (out / "manifest.webmanifest").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
 sw = """const CACHE = "bwb-%s";
-const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png"];
+const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", %s];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
@@ -65,7 +78,7 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => { if (r.ok || r.type === "opaque") { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); } return r; })));
   }
 });
-""" % version
+""" % (version, ", ".join(json.dumps("fonts/" + f.name) for f in sorted((out / "fonts").glob("*"))))
 (out / "sw.js").write_text(sw, encoding="utf-8")
 if not (out / "woorden.json").exists():
     (out / "woorden.json").write_text(json.dumps({"words": []}, indent=2), encoding="utf-8")
