@@ -21,7 +21,9 @@ for f in sorted((exp / "words").glob("*.json")):
     w = body(f)
     wid = w.get("id") or f.stem
     rec = {k: w.get(k, "") for k in ("word", "article", "theme", "sentence")}
-    rec.update({k: w[k] for k in ("wordFr", "sentenceFr", "wordEn", "sentenceEn") if w.get(k)})
+    rec.update({k: w[k] for k in ("wordFr", "sentenceFr", "wordEn", "sentenceEn", "group") if w.get(k)})
+    if isinstance(w.get("order"), (int, float)):
+        rec["order"] = w["order"]
     rec["id"], rec["createdAt"] = wid, w.get("createdAt", 0)
     img_id = w.get("imageId")
     if img_id:
@@ -55,9 +57,10 @@ for f in sorted((exp / "words").glob("*.json")):
 for f in media.iterdir():
     if f.name not in keep:
         f.unlink()
-hidden = []
+hidden, groups = [], []
 s = exp / "settings" / "app.json"
 if s.exists():
     hidden = body(s).get("hiddenStarters", []) or []
-(site / "woorden.json").write_text(json.dumps({"words": words, "hiddenStarters": hidden}, indent=2, ensure_ascii=False), encoding="utf-8")
+    groups = [{k: g[k] for k in ("nl", "fr", "en") if g.get(k)} for g in (body(s).get("groups") or []) if isinstance(g, dict) and g.get("nl")]
+(site / "woorden.json").write_text(json.dumps({"words": words, "hiddenStarters": hidden, "groups": groups}, indent=2, ensure_ascii=False), encoding="utf-8")
 print(len(words), "woorden,", len(keep), "mediabestanden")

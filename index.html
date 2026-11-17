@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ERsAhy9Su1PqoH8ml5DVSGip9piimfEDmu9rD9THZx0='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jwwqwq5LV9zzYXeG70mXkp8PuukbAsxM74kbZoR8FoY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1f4e79">
@@ -80,6 +80,12 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
 .card .say svg{width:18px;height:18px}
 .badge{position:absolute;top:8px;left:8px;background:var(--surface);color:var(--muted);font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line)}
 .empty{padding:28px 6px;color:var(--muted);text-align:center}
+.grp{grid-column:1/-1;margin:14px 0 -2px;font-family:var(--font-display);font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.grp:first-child{margin-top:0}
+.grp::before{content:"";width:6px;height:1.1em;border-radius:3px;background:var(--c,var(--muted))}
+.grp .n{color:var(--muted);font-weight:500;font-size:.85rem}
+.chips.sub{padding-block:6px 0}
+.chips.sub .chip{font-size:.85rem;padding:5px 12px;font-weight:600}
 .fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:6;border:none;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:14px 20px;font-weight:700;font-size:1rem;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.22);cursor:pointer}
 .fab svg{width:20px;height:20px}
 /* overlays */
@@ -177,6 +183,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       <button data-help="nl" lang="nl">Nederlands</button><button data-help="fr" lang="fr">Français</button><button data-help="en" lang="en">English</button>
     </div>
     <div class="chips" id="chips" role="toolbar" aria-label="Thema's"></div>
+    <div class="chips sub" id="subchips" role="toolbar" aria-label="Groepen" hidden></div>
   </header>
   <p class="notice" id="notice"></p>
   <div class="grid" id="grid" aria-live="polite"></div>
@@ -242,6 +249,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
       </div>
       <label class="f">Thema
         <select id="e-theme"></select>
+      </label>
+      <label class="f">Groep <span class="hint">Niet verplicht. Kies een bestaande groep of typ een nieuwe, bijvoorbeeld Doeken.</span>
+        <input type="text" id="e-group" list="e-group-list" autocomplete="off">
+        <datalist id="e-group-list"></datalist>
       </label>
       <label class="f">Voorbeeldzin <span class="hint">Niet verplicht. Een korte zin helpt om het woord te leren gebruiken.</span>
         <textarea id="e-sentence" rows="2" placeholder="bijvoorbeeld: Met de brandblusser blus je een klein vuur."></textarea>
@@ -531,8 +542,9 @@ const localStore = (() => {
       await tx("readwrite", (s) => s.put(out)); await emit();
     },
     async remove(rec) { await tx("readwrite", (s) => s.delete(rec.id)); await emit(); },
-    subscribeHidden(cb) { cb(prefs.get("hiddenStarters", [])); },
+    subscribeHidden(cb) { setGroups(prefs.get("groups", [])); cb(prefs.get("hiddenStarters", [])); },
     async saveHidden(ids) { prefs.set("hiddenStarters", ids); },
+    async saveGroups(g) { prefs.set("groups", g); setGroups(g); },
     imageUrl: (rec) => rec.imageData || "",
     audioUrl: async (rec) => rec.audioData || "",
     videoUrl(rec) {
@@ -574,8 +586,9 @@ function cloudStore(db, assets, canWrite) {
       if (rec.imageId && assets) await assets.delete(rec.imageId).catch(() => {});
       if (rec.videoId && assets) await assets.delete(rec.videoId).catch(() => {});
     },
-    subscribeHidden(cb) { db.doc("settings/app").onSnapshot((s) => cb(s.exists ? s.data().hiddenStarters : []), () => {}); },
-    async saveHidden(ids) { await db.doc("settings/app").set({ hiddenStarters: ids }); },
+    subscribeHidden(cb) { db.doc("settings/app").onSnapshot((s) => { const d = s.exists ? s.data() : {}; setGroups(d.groups); cb(d.hiddenStarters); }, () => {}); },
+    async saveHidden(ids) { await db.doc("settings/app").set({ hiddenStarters: ids, groups }); },
+    async saveGroups(g) { await db.doc("settings/app").set({ hiddenStarters: [...hiddenStarters], groups: g }); },
     imageUrl: (rec) => (rec.imageId ? "/_blob/" + rec.imageId : ""),
     videoUrl: (rec) => (rec.videoId ? "/_blob/" + rec.videoId : ""),
     async audioUrl(rec) {
@@ -591,7 +604,7 @@ function cloudStore(db, assets, canWrite) {
 const siteStore = {
   mode: "site", canWrite: false,
   subscribe(cb) {
-    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => { setHidden(d.hiddenStarters); cb(Array.isArray(d.words) ? d.words : []); }).catch(() => cb([]));
+    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => { setGroups(d.groups); setHidden(d.hiddenStarters); cb(Array.isArray(d.words) ? d.words : []); }).catch(() => cb([]));
   },
   imageUrl: (rec) => rec.image || "",
   videoUrl: (rec) => rec.video || "",
@@ -629,6 +642,21 @@ let current = -1;
 
 let hiddenStarters = new Set();
 function setHidden(ids) { hiddenStarters = new Set(ids || []); renderGrid(); if (!$("settings").hidden) renderAdmin(); }
+/* ---------- groepen binnen een thema (bv. Onderhoud: Doeken, Sponzen) ---------- */
+let groups = []; // [{ nl, fr, en }] in vaste volgorde
+let sub = ""; // gekozen groep binnen het thema, "" = alle
+function setGroups(g) { groups = Array.isArray(g) ? g.filter((x) => x && x.nl) : []; renderChips(); renderGrid(); }
+const groupIdx = (n) => { const i = groups.findIndex((g) => g.nl === n); return i < 0 ? groups.length : i; };
+const OTHER = { nl: "Algemeen", fr: "Général", en: "General" };
+function groupName(n) { const g = n ? groups.find((x) => x.nl === n) || { nl: n } : OTHER; return both(g.nl, g[helpLang]); }
+function byGroup(a, b) {
+  const ga = a.group ? groupIdx(a.group) : -1, gb = b.group ? groupIdx(b.group) : -1;
+  if (ga !== gb) return ga - gb;
+  if ((a.group || "") !== (b.group || "")) return (a.group || "").localeCompare(b.group || "", "nl");
+  const oa = a.order ?? Infinity, ob = b.order ?? Infinity;
+  return oa !== ob ? oa - ob : a.word.localeCompare(b.word, "nl");
+}
+const themeGroups = (th) => { const seen = new Set(userWords.filter((r) => r.theme === th).map((r) => r.group || "")); return seen.size > 1 || !seen.has("") ? [...seen].sort((a, b) => (a ? groupIdx(a) : -1) - (b ? groupIdx(b) : -1) || a.localeCompare(b, "nl")) : []; };
 function allWords() {
   const showStarter = prefs.get("starter", true);
   const own = userWords.slice().sort((a, b) => a.word.localeCompare(b.word, "nl"));
@@ -647,12 +675,25 @@ function renderChips() {
   $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("")
     + `<button class="chip quiz" id="btn-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg>Quiz</button>`;
 }
+function renderSub() {
+  const gs = filter === "all" || filter === "fav" ? [] : themeGroups(filter);
+  if (sub && !gs.includes(sub)) sub = "";
+  $("subchips").hidden = !gs.length;
+  $("subchips").innerHTML = gs.length ? [`<button class="chip" data-g="" aria-pressed="${!sub}">${esc(t("all"))}</button>`].concat(gs.map((g) => `<button class="chip" data-g="${esc(g)}" aria-pressed="${sub === g}">${esc(groupName(g))}</button>`)).join("") : "";
+  return gs;
+}
 function renderGrid() {
   const q = query.trim().toLowerCase();
-  list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
-  $("grid").innerHTML = list.length ? list.map((r, i) => `
+  const gs = renderSub();
+  list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!sub || q || (r.group || "") === sub) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
+  const heads = gs.length && !q;
+  if (heads) list.sort((a, b) => (a.starter ? 1 : 0) - (b.starter ? 1 : 0) || (a.starter ? 0 : byGroup(a, b)));
+  const c = filter !== "all" && filter !== "fav" ? themeOf(filter).c : "";
+  let last = null;
+  const head = (r) => { if (!heads || sub) return ""; if (r.starter) { if (last === "\u0000") return ""; last = "\u0000"; return `<h3 class="grp" style="--c:${c}">${esc(both("Voorbeelden", { fr: "Exemples", en: "Examples" }[helpLang]))}</h3>`; } const g = r.group || ""; if (g === last) return ""; last = g; const n = list.filter((x) => !x.starter && (x.group || "") === g).length; return `<h3 class="grp" style="--c:${c}">${esc(groupName(g))} <span class="n">${n}</span></h3>`; };
+  $("grid").innerHTML = list.length ? list.map((r, i) => head(r) + `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
-      ${r.starter ? '<span class="badge">${t("example")}</span>' : ""}${r.hasVideo ? '<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>${t("video")}</span>' : ""}
+      ${r.starter ? `<span class="badge">${t("example")}</span>` : ""}${r.hasVideo ? `<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>${t("video")}</span>` : ""}
       <button class="fav" data-fav="${i}" aria-pressed="${isFav(r)}" aria-label="${t(isFav(r) ? "favRemove" : "favAdd")}">${HEART}</button>
       <div class="pic">${picHtml(r)}</div>
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>${helpLang !== "nl" && trWord(r, helpLang) ? `<span class="tr" lang="${helpLang}">${esc(trWord(r, helpLang))}</span>` : ""}
@@ -813,6 +854,8 @@ function openEditor(rec) {
   document.querySelectorAll('input[name=art]').forEach((x) => (x.checked = x.value === (rec ? rec.article || "" : "de")));
   $("e-theme").innerHTML = THEMES.filter((t) => !t.hidden || (rec && rec.theme === t.id)).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
   $("e-theme").value = rec ? rec.theme : (filter !== "all" && filter !== "fav" ? filter : "alledaags");
+  $("e-group").value = rec ? rec.group || "" : (sub || "");
+  fillGroupList();
   $("e-sentence").value = rec ? rec.sentence || "" : "";
   $("e-word-fr").value = rec ? rec.wordFr || "" : ""; $("e-sentence-fr").value = rec ? rec.sentenceFr || "" : "";
   $("e-word-en").value = rec ? rec.wordEn || "" : ""; $("e-sentence-en").value = rec ? rec.sentenceEn || "" : "";
@@ -822,6 +865,12 @@ function openEditor(rec) {
   syncAudioState(); syncVideoState();
   $("editor").hidden = false; document.body.style.overflow = "hidden";
 }
+function fillGroupList() {
+  const th = $("e-theme").value, names = new Set(groups.map((g) => g.nl));
+  userWords.forEach((r) => r.theme === th && r.group && names.add(r.group));
+  $("e-group-list").innerHTML = [...names].filter((n) => !userWords.length || userWords.some((r) => r.theme === th && r.group === n) || !userWords.some((r) => r.group === n)).map((n) => `<option value="${esc(n)}">`).join("");
+}
+$("e-theme").addEventListener("change", fillGroupList);
 function hasAudioNow() { return !!newAudio || (!!editRec?.hasAudio && !audioRemoved); }
 function syncAudioState() { $("e-audio-state").hidden = !hasAudioNow(); }
 function hasVideoNow() { return !!newVideo || (!!editRec?.hasVideo && !videoRemoved); }
@@ -858,7 +907,8 @@ let toastT = 0;
 function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
 
 /* ---------- events ---------- */
-$("chips").addEventListener("click", (e) => { if (e.target.closest("#btn-quiz")) { openQuiz(); return; } const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; prefs.set("filter", filter); renderChips(); renderGrid(); });
+$("chips").addEventListener("click", (e) => { if (e.target.closest("#btn-quiz")) { openQuiz(); return; } const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; sub = ""; prefs.set("filter", filter); renderChips(); renderGrid(); });
+$("subchips").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (!b) return; sub = b.dataset.g; renderGrid(); window.scrollTo({ top: 0 }); });
 $("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
 $("grid").addEventListener("click", (e) => {
   const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
@@ -942,13 +992,15 @@ $("e-form").addEventListener("submit", async (e) => {
   if (!newImg && !(editRec && (editRec.imageId || editRec.imageData))) { showErr("Kies eerst een foto of pictogram."); return; }
   const art = document.querySelector('input[name=art]:checked').value;
   const id = editRec ? editRec.id : "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, sentence: $("e-sentence").value.trim(), wordFr: $("e-word-fr").value.trim(), sentenceFr: $("e-sentence-fr").value.trim(), wordEn: $("e-word-en").value.trim(), sentenceEn: $("e-sentence-en").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
+  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, group: $("e-group").value.trim().replace(/\s+/g, " "), sentence: $("e-sentence").value.trim(), wordFr: $("e-word-fr").value.trim(), sentenceFr: $("e-sentence-fr").value.trim(), wordEn: $("e-word-en").value.trim(), sentenceEn: $("e-sentence-en").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
   const audio = newAudio ? newAudio : (audioRemoved ? "remove" : null);
   const video = newVideo ? newVideo : (videoRemoved ? "remove" : null);
   $("e-save").disabled = true; $("e-save").textContent = newVideo ? "Filmpje wordt opgeladen" : "Bezig met opslaan";
   try {
     $("e-video-el").pause();
+    if (!rec.group) delete rec.group;
     await store.save(rec, newImg, audio, video);
+    if (rec.group && !groups.some((g) => g.nl === rec.group) && store.saveGroups) await store.saveGroups(groups.concat([{ nl: rec.group }])).catch(() => {});
     closeOverlay("editor"); closeOverlay("view"); toast(editRec ? "Woord bewaard" : "Woord toegevoegd");
   } catch (err) {
     const c = err && err.code;
