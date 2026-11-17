@@ -69,7 +69,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
 .grp:first-child{margin-top:0}
 .grp::before{content:"";width:6px;height:1.1em;border-radius:3px;background:var(--c,var(--muted))}
 .grp .n{color:var(--muted);font-weight:500;font-size:.85rem}
-.chips.sub{padding-block:6px 0}
+.chips.sub{padding-block:6px 0;flex-wrap:wrap;overflow:visible;gap:6px}
 .chips.sub .chip{font-size:.85rem;padding:5px 12px;font-weight:600}
 .fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:6;border:none;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:14px 20px;font-weight:700;font-size:1rem;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.22);cursor:pointer}
 .fab svg{width:20px;height:20px}
@@ -662,15 +662,15 @@ function renderChips() {
 }
 function renderSub() {
   const gs = filter === "all" || filter === "fav" ? [] : themeGroups(filter);
-  if (sub && !gs.includes(sub)) sub = "";
+  if (sub && !gs.includes(sub === "~" ? "" : sub)) sub = "";
   $("subchips").hidden = !gs.length;
-  $("subchips").innerHTML = gs.length ? [`<button class="chip" data-g="" aria-pressed="${!sub}">${esc(t("all"))}</button>`].concat(gs.map((g) => `<button class="chip" data-g="${esc(g)}" aria-pressed="${sub === g}">${esc(groupName(g))}</button>`)).join("") : "";
+  $("subchips").innerHTML = gs.length ? [`<button class="chip" data-g="" aria-pressed="${!sub}">${esc(t("all"))}</button>`].concat(gs.map((g) => `<button class="chip" data-g="${esc(g || "~")}" aria-pressed="${sub === (g || "~")}">${esc(groupName(g))}</button>`)).join("") : "";
   return gs;
 }
 function renderGrid() {
   const q = query.trim().toLowerCase();
   const gs = renderSub();
-  list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!sub || q || (r.group || "") === sub) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
+  list = allWords().filter((r) => (filter === "all" || (filter === "fav" ? isFav(r) : r.theme === filter)) && (!sub || q || (r.group || "~") === sub) && (!q || [spoken(r), r.wordFr, r.wordEn].some((t) => t && t.toLowerCase().includes(q))));
   const heads = gs.length && !q;
   if (heads) list.sort((a, b) => (a.starter ? 1 : 0) - (b.starter ? 1 : 0) || (a.starter ? 0 : byGroup(a, b)));
   const c = filter !== "all" && filter !== "fav" ? themeOf(filter).c : "";
@@ -839,7 +839,7 @@ function openEditor(rec) {
   document.querySelectorAll('input[name=art]').forEach((x) => (x.checked = x.value === (rec ? rec.article || "" : "de")));
   $("e-theme").innerHTML = THEMES.filter((t) => !t.hidden || (rec && rec.theme === t.id)).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
   $("e-theme").value = rec ? rec.theme : (filter !== "all" && filter !== "fav" ? filter : "alledaags");
-  $("e-group").value = rec ? rec.group || "" : (sub || "");
+  $("e-group").value = rec ? rec.group || "" : (sub === "~" ? "" : sub);
   fillGroupList();
   $("e-sentence").value = rec ? rec.sentence || "" : "";
   $("e-word-fr").value = rec ? rec.wordFr || "" : ""; $("e-sentence-fr").value = rec ? rec.sentenceFr || "" : "";
