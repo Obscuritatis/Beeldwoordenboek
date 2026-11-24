@@ -152,14 +152,21 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:40;font-weight:700;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:transform .12s}.card:active{transform:scale(.98)}}
 @media (min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}}
-/* Huisstijl Alexianen Zorggroep Tienen: rood, wit, Montserrat en Lato, golf en lint */
+/* Huisstijl Alexianen Zorggroep Tienen (zoals alexianentienen.be): wijnrood #A32035, Montserrat en Lato, rode banner met golf. Licht en donker. */
 html:root:not(.x):not(.y){
-  --rood:#BE1622; --rood-donker:#8F0F19; --rood-zacht:#FBEDEE;
-  --bg:#ffffff; --surface:#ffffff; --surface-2:#F8F2F2; --ink:#2A1D1F; --muted:#6E5F61; --line:#EBDDDF;
-  --accent:#BE1622; --accent-ink:#ffffff; --focus:#BE1622;
+  --rood:#A32035; --rood-donker:#7E1828; --rood-zacht:#F7ECEE; --rood-tekst:#A32035;
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#F4F1F1; --ink:#2A1D1F; --muted:#6E5F61; --line:#E6DADC; --onder:#5A6876;
+  --accent:#A32035; --accent-ink:#ffffff; --focus:#A32035; --schaduw:rgba(42,29,31,.18);
   --font-display:"Montserrat","Segoe UI",Arial,sans-serif; --font-body:"Lato","Segoe UI",Arial,sans-serif;
   color-scheme:light}
-html,body{background:#fff}
+@media (prefers-color-scheme: dark){html:root:not(.x):not(.y):not([data-theme="light"]){
+  --rood:#A32035; --rood-donker:#7E1828; --rood-zacht:#3A1C22; --rood-tekst:#F2A0AB;
+  --bg:#151112; --surface:#1F191B; --surface-2:#2A2325; --ink:#F3EDEE; --muted:#B9ACAE; --line:#3A3033; --onder:#8A7C7F;
+  --accent:#A32035; --accent-ink:#ffffff; --focus:#F2A0AB; --schaduw:rgba(0,0,0,.5);
+  color-scheme:dark}}
+html:root:not(.x):not(.y)[data-theme="dark"]{
+  --rood-zacht:#3A1C22; --rood-tekst:#F2A0AB; --bg:#151112; --surface:#1F191B; --surface-2:#2A2325; --ink:#F3EDEE; --muted:#B9ACAE; --line:#3A3033; --onder:#8A7C7F; --focus:#F2A0AB; --schaduw:rgba(0,0,0,.5); color-scheme:dark}
+html,body{background:var(--bg)}
 html body .hero{background:var(--rood);color:#fff;margin-inline:-16px;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 0;position:relative;overflow:hidden}
 html body .hero .in{max-width:960px;margin-inline:auto;position:relative;z-index:1;padding-bottom:40px;display:grid;gap:14px}
 html body .hero .logos{display:flex;align-items:center;gap:18px}
@@ -167,59 +174,43 @@ html body .hero .logos img{height:52px;width:auto;display:block}
 html body .hero .logos img.ve{height:40px}
 html body .hero .brand{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 html body .hero .brand h1{font-family:var(--font-display);font-weight:800;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;margin:0;color:#fff;letter-spacing:-.01em}
-html body .hero .brand h1 small{display:block;font-family:var(--font-body);font-weight:400;font-size:1rem;color:#fff;opacity:.92;margin-top:6px}
+html body .hero .brand h1 small{display:block;font-family:var(--font-body);font-weight:400;font-size:1rem;color:#fff;opacity:.92;margin-top:6px;white-space:pre-line}
 html body .hero .icon-btn{background:rgba(255,255,255,.18);border:0;color:#fff}
 html body .hero .golf{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:46px;display:block}
-html body .hero .golf path{fill:#fff}
-html body header.top{background:#fff;border-bottom:1px solid var(--line);padding-block:6px 10px}
-html body .search input{border:1.5px solid var(--line);border-radius:999px;padding:10px 16px}
-html body .search input:focus{border-color:var(--rood);outline:none;box-shadow:0 0 0 3px rgba(190,22,34,.15)}
-html body .langs{background:var(--rood-zacht);border-radius:999px;padding:4px;gap:2px}
-html body .langs svg{color:var(--rood);margin-left:6px}
-html body .langs button{border:0;background:transparent;border-radius:999px;color:var(--rood);font-family:var(--font-display);font-size:.88rem}
-html body .langs button[aria-pressed="true"]{background:var(--rood);color:#fff}
-html body .chip{font-family:var(--font-display);font-weight:700;border-color:var(--line)}
-html body .chip[aria-pressed="true"]{background:var(--rood);border-color:var(--rood);color:#fff}
-html body .chip.quiz{background:var(--rood-zacht);border-color:var(--rood-zacht);color:var(--rood)}
-html body .chips.sub .chip{background:var(--rood-zacht);border-color:var(--rood-zacht);color:var(--rood);font-weight:700}
-html body .chips.sub .chip[aria-pressed="true"]{background:var(--rood);border-color:var(--rood);color:#fff}
-html body .grp{display:block;justify-self:start;background:var(--rood);color:#fff;text-transform:uppercase;letter-spacing:.06em;font-weight:800;font-size:.85rem;padding:6px 28px;margin-top:20px;width:fit-content;max-width:100%;line-height:1.3;clip-path:polygon(0 0,100% 0,calc(100% - 12px) 50%,100% 100%,0 100%,12px 50%)}
+html body .hero .golf path{fill:var(--bg)}
+html body header.top{background:var(--bg);border-bottom:1px solid var(--line);padding-block:6px 10px}
+html body .search input{border:0;border-bottom:1.5px solid var(--onder);border-radius:6px 6px 0 0;background:var(--surface);padding:10px 4px}
+html body .search input:focus{outline:none;border-bottom-color:var(--rood-tekst)}
+html body .langs{background:var(--surface-2);border-radius:8px;padding:4px;gap:2px}
+html body .langs svg{color:var(--muted);margin-left:6px}
+html body .langs button{border:0;background:transparent;border-radius:6px;color:var(--ink);font-family:var(--font-display);font-size:.88rem;font-weight:600}
+html body .langs button[aria-pressed="true"]{background:var(--surface);color:var(--rood-tekst);font-weight:700;box-shadow:0 1px 4px var(--schaduw)}
+/* keuzelijsten voor thema en groep */
+html body .filters{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;padding-top:10px}
+html body .filters .dd-g{grid-column:1/-1}
+html body .dd{display:grid;gap:3px;min-width:0;position:relative}
+html body .dd-l{font-size:.78rem;font-weight:700;color:var(--muted);white-space:pre-line;line-height:1.2}
+html body .dd select{appearance:none;-webkit-appearance:none;width:100%;min-width:0;font:700 .98rem var(--font-display);color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-left:6px solid var(--c,var(--line));border-radius:6px;padding:10px 38px 10px 12px;min-height:46px;cursor:pointer;text-overflow:ellipsis}
+html body .dd select:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+html body .dd::after{content:"";position:absolute;right:15px;bottom:19px;width:8px;height:8px;border-right:2.5px solid var(--muted);border-bottom:2.5px solid var(--muted);transform:rotate(45deg);pointer-events:none}
+html body .dd select option{color:var(--ink);background:var(--surface)}
+html body .quiz-btn{min-height:46px;border:1.5px solid var(--rood-tekst);background:var(--surface);color:var(--rood-tekst);border-radius:6px;padding:8px 14px;font:700 .95rem var(--font-display);display:flex;align-items:center;gap:7px;cursor:pointer}
+html body .quiz-btn svg{width:16px;height:16px}
+/* vertaling onder het Nederlands */
+html body .btn,html body .grp,html body .notice,html body .empty,html body .theme-tag,html body h2,html body .toast,html body .fab,html body label,html body .s-help,html body .q-title{white-space:pre-line}
+html body .grp{display:block;justify-self:start;background:var(--rood);color:#fff;font-family:var(--font-display);font-weight:700;font-size:1rem;padding:6px 14px;margin-top:20px;width:fit-content;max-width:100%;line-height:1.3;border-radius:6px}
 html body .grp::before{display:none}
 html body .grp .n{color:#fff;opacity:.8;font-weight:700;margin-left:4px}
-html body .card{border-color:var(--line)}
+html body .card{border-color:var(--line);border-radius:10px;background:var(--surface)}
 html body .card .w{font-family:var(--font-display);font-weight:700}
+html body .card .say{background:var(--surface);color:var(--rood-tekst);border:1.5px solid var(--line);box-shadow:0 2px 8px var(--schaduw)}
 html body .big-word,html body .btn,html body .fab{font-family:var(--font-display)}
-html body .btn.primary:hover{background:var(--rood-donker)}
-html body .notice{color:var(--muted)}
-/* rustiger knoppen: rood enkel als accent */
-html body .card .say{background:#fff;color:var(--rood);border:1.5px solid var(--line);box-shadow:0 2px 8px rgba(42,29,31,.18)}
-html body .langs{background:#F4F1F1}
-html body .langs svg{color:var(--muted)}
-html body .langs button{color:var(--ink);font-weight:600}
-html body .langs button[aria-pressed="true"]{background:#fff;color:var(--rood);font-weight:700;box-shadow:0 1px 4px rgba(42,29,31,.18)}
-html body .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
-html body .chip.quiz{background:#fff;border-color:var(--rood);color:var(--rood)}
-html body .chips.sub .chip{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600}
-html body .chips.sub .chip[aria-pressed="true"]{background:var(--rood-zacht);border-color:var(--rood);color:var(--rood);font-weight:700}
-html body .btn.primary{background:#fff;color:var(--rood);border:2px solid var(--rood)}
-html body .btn.primary:hover{background:var(--rood-zacht)}
-html body .fab{background:#fff;color:var(--rood);border:2px solid var(--rood)}
-/* afgestemd op alexianentienen.be: wijnrood #A32035, rechthoekige knoppen met kleine afronding */
-html:root:not(.x):not(.y):not(.z){--rood:#A32035;--rood-donker:#7E1828;--rood-zacht:#F7ECEE;--accent:#A32035;--focus:#A32035}
-html body .search input{border-radius:6px;border:0;border-bottom:1.5px solid #5A6876;background:#fff;padding-inline:4px}
-html body .search input:focus{box-shadow:none;border-bottom-color:var(--rood)}
-html body .langs{border-radius:8px}
-html body .langs button{border-radius:6px}
-html body .chip{border-radius:6px}
-html body .chips.sub .chip{border-radius:6px}
 html body .btn{border-radius:6px}
 html body .btn.primary{background:var(--rood);color:#fff;border-color:var(--rood);text-transform:uppercase;letter-spacing:.03em}
 html body .btn.primary:hover{background:var(--rood-donker)}
-html body .fab{border-radius:6px;background:var(--rood);color:#fff;border-color:var(--rood)}
-html body .card{border-radius:10px}
-html body .grp{clip-path:none;border-radius:6px;padding:6px 14px;text-transform:none;letter-spacing:0;font-size:1rem;font-weight:700}
-
-
+html body .fab{border-radius:6px;background:var(--rood);color:#fff;border:2px solid var(--rood)}
+html body .lang-tabs button[aria-selected="true"]{color:var(--rood-tekst)}
+html body .notice{color:var(--muted)}
 </style>
 
 <div class="hero"><div class="in">
@@ -239,8 +230,11 @@ html body .grp{clip-path:none;border-radius:6px;padding:6px 14px;text-transform:
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
       <button data-help="nl" lang="nl">Nederlands</button><button data-help="fr" lang="fr">Français</button><button data-help="en" lang="en">English</button>
     </div>
-    <div class="chips" id="chips" role="toolbar" aria-label="Thema's"></div>
-    <div class="chips sub" id="subchips" role="toolbar" aria-label="Groepen" hidden></div>
+    <div class="filters" id="chips" role="group" aria-label="Thema's">
+      <label class="dd dd-t" id="dd-theme"><span class="dd-l" id="l-theme">Thema</span><select id="f-theme"></select></label>
+      <button type="button" class="quiz-btn" id="btn-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg>Quiz</button>
+      <label class="dd dd-g" id="subchips" hidden><span class="dd-l" id="l-group">Groep</span><select id="f-group"></select></label>
+    </div>
   </header>
   <p class="notice" id="notice"></p>
   <div class="grid" id="grid" aria-live="polite"></div>
@@ -729,14 +723,17 @@ function wordHtml(r) { return (r.article ? `<span class="art">${esc(r.article)}<
 
 function renderChips() {
   const items = [{ id: "all", name: t("all"), c: "var(--ink)" }].concat(THEMES.filter((x) => !x.hidden).map((x) => ({ ...x, name: themeName(x.id) })), [{ id: "fav", name: themeName("fav"), c: "var(--fire)" }]);
-  $("chips").innerHTML = items.map((t) => `<button class="chip" data-f="${t.id}" aria-pressed="${filter === t.id}" style="--c:${t.c}">${t.id === "all" ? "" : t.id === "fav" ? HEART.replace("<svg", '<svg class="heart"') : '<span class="dot"></span>'}${esc(t.name)}</button>`).join("")
-    + `<button class="chip quiz" id="btn-quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg>Quiz</button>`;
+  $("f-theme").innerHTML = items.map((x) => `<option value="${x.id}"${filter === x.id ? " selected" : ""}>${esc(flat(x.name))}</option>`).join("");
+  const cur = items.find((x) => x.id === filter) || items[0];
+  $("dd-theme").style.setProperty("--c", cur.id === "all" ? "var(--line)" : cur.c);
+  $("l-theme").textContent = both("Thema", { fr: "Thème", en: "Theme" }[helpLang]);
+  $("l-group").textContent = both("Groep", { fr: "Groupe", en: "Group" }[helpLang]);
 }
 function renderSub() {
   const gs = filter === "all" || filter === "fav" ? [] : themeGroups(filter);
   if (sub && !gs.includes(sub === "~" ? "" : sub)) sub = "";
   $("subchips").hidden = !gs.length;
-  $("subchips").innerHTML = gs.length ? [`<button class="chip" data-g="" aria-pressed="${!sub}">${esc(t("all"))}</button>`].concat(gs.map((g) => `<button class="chip" data-g="${esc(g || "~")}" aria-pressed="${sub === (g || "~")}">${esc(groupName(g))}</button>`)).join("") : "";
+  $("f-group").innerHTML = gs.length ? [`<option value="">${esc(flat(t("all")))}</option>`].concat(gs.map((g) => `<option value="${esc(g || "~")}"${sub === (g || "~") ? " selected" : ""}>${esc(flat(groupName(g)))}</option>`)).join("") : "";
   return gs;
 }
 function renderGrid() {
@@ -763,7 +760,7 @@ function renderNotice() {
   let t;
   if (store.mode === "cloud") t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, gedeeld met iedereen die deze app opent.` : "Voeg je eigen foto's en woorden toe. Ze worden gedeeld met iedereen die deze app opent.";
   else t = own ? `<b>${own}</b> eigen ${own === 1 ? "woord" : "woorden"}, bewaard op dit toestel.` : "Voeg je eigen foto's en woorden toe met de knop onderaan.";
-  if (!store.canWrite) t = tIn("nl", "tapCard") + (helpLang === "nl" ? "" : ` (${tIn(helpLang, "tapCard")})`);
+  if (!store.canWrite) t = tIn("nl", "tapCard") + (helpLang === "nl" ? "" : `\n${tIn(helpLang, "tapCard")}`);
   $("notice").innerHTML = t;
   $("btn-add").hidden = !store.canWrite;
 }
@@ -848,7 +845,8 @@ const UI = {
 };
 // De interface blijft Nederlands; bij Frans of Engels staat de vertaling tussen haakjes erachter.
 const tIn = (L, k, ...a) => { const v = UI[L][k] ?? UI.nl[k]; return typeof v === "function" ? v(...a) : v; };
-const both = (n, o) => (helpLang === "nl" || !o || n === o ? n : `${n} (${o})`);
+const both = (n, o) => (helpLang === "nl" || !o || n === o ? n : `${n}\n${o}`);
+const flat = (s) => (String(s).includes("\n") ? String(s).replace("\n", " (") + ")" : String(s));
 const t = (k, ...a) => { const n = tIn("nl", k, ...a); if (helpLang === "nl") return n; const o = tIn(helpLang, k, ...a); return Array.isArray(n) ? n.map((x, i) => both(x, o[i])) : both(n, o); };
 const themeName = (id) => both(UI.nl.th[id] || themeOf(id).name, UI[helpLang].th[id]);
 // Vervang alleen de tekst van een knop, zodat het icoon blijft staan.
@@ -856,7 +854,7 @@ function setLabel(el, text) { const n = [...el.childNodes].reverse().find((c) =>
 function applyUi() {
   document.documentElement.lang = helpLang;
   document.querySelector(".brand h1 small").textContent = t("sub");
-  $("q").placeholder = t("search"); $("q").setAttribute("aria-label", t("search"));
+  $("q").placeholder = flat(t("search")); $("q").setAttribute("aria-label", flat(t("search")));
   $("btn-settings").setAttribute("aria-label", t("settings"));
   $("chips").setAttribute("aria-label", t("themes"));
   [["v-close", "back"], ["v-play", "listen"], ["v-slow", "slow"], ["v-say-sentence", "sentence"], ["v-prev", "prev"], ["v-next", "next"], ["s-close", "done"], ["s-test", "test"], ["sh-close", "close"], ["sh-test", "retry"], ["q-close", "stop"], ["q-next", "next"]].forEach(([id, k]) => setLabel($(id), t(k)));
@@ -964,8 +962,9 @@ let toastT = 0;
 function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
 
 /* ---------- events ---------- */
-$("chips").addEventListener("click", (e) => { if (e.target.closest("#btn-quiz")) { openQuiz(); return; } const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; sub = ""; prefs.set("filter", filter); renderChips(); renderGrid(); });
-$("subchips").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (!b) return; sub = b.dataset.g; renderGrid(); window.scrollTo({ top: 0 }); });
+$("btn-quiz").addEventListener("click", openQuiz);
+$("f-theme").addEventListener("change", (e) => { filter = e.target.value; sub = ""; prefs.set("filter", filter); renderChips(); renderGrid(); });
+$("f-group").addEventListener("change", (e) => { sub = e.target.value; renderGrid(); });
 $("q").addEventListener("input", (e) => { query = e.target.value; renderGrid(); });
 $("grid").addEventListener("click", (e) => {
   const s = e.target.closest("[data-say]"); if (s) { e.stopPropagation(); say(list[+s.dataset.say]); return; }
