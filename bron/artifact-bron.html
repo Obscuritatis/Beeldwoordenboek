@@ -256,6 +256,11 @@ html body .grp .n{color:var(--muted);opacity:1}
 .tile .dot{border:0;width:14px;height:14px;background:color-mix(in srgb,var(--c) 70%,#fff)}
 html body .fab{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 html body .overlay{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+html body .tile{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:14px;aspect-ratio:auto;min-height:120px}
+html body .tile .dot{position:static;flex:none}
+html body .tile span{position:static;margin-top:auto;display:grid;gap:3px;width:100%}
+html body .tile b{font-size:1.15rem;line-height:1.2;overflow-wrap:anywhere;hyphens:auto}
+html body .tile em{font:600 .92rem/1.2 var(--font-body);font-style:normal;color:var(--muted)}
 </style>
 
 <div class="hero"><div class="in">
@@ -791,7 +796,7 @@ function renderTiles() {
   tiles.push({ id: "fav", c: "#E07A9A", name: themeName("fav"), n: favs.length, img: fp ? store.imageUrl(fp) : "" });
   tiles.push({ id: "every", c: "var(--rood)", name: L("Alle woorden", "Tous les mots", "All words"), n: allWords().length, img: (() => { const used = new Set(tiles.map((x) => x.img)); const r = own.slice().reverse().find((r) => !used.has(store.imageUrl(r))); return r ? store.imageUrl(r) : ""; })() });
   list = [];
-  $("grid").innerHTML = `<h2 class="tiles-h">${esc(L("Kies een thema", "Choisis un thème", "Choose a theme"))}</h2><div class="tiles">` + tiles.map((x) => `<button class="tile" data-tile="${x.id}" style="--c:${x.c}">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy">` : ""}<i class="dot"></i><span><b>${esc(x.name)}</b><small>${x.n} ${x.n === 1 ? "woord" : "woorden"}</small></span></button>`).join("") + "</div>";
+  $("grid").innerHTML = `<h2 class="tiles-h">${esc(L("Kies een thema", "Choisis un thème", "Choose a theme"))}</h2><div class="tiles">` + tiles.map((x) => `<button class="tile" data-tile="${x.id}" style="--c:${x.c}">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy">` : ""}<i class="dot"></i><span><b>${esc(x.name.split("\n")[0])}</b>${x.name.includes("\n") ? `<em>${esc(x.name.split("\n")[1])}</em>` : ""}<small>${x.n} ${x.n === 1 ? "woord" : "woorden"}</small></span></button>`).join("") + "</div>";
 }
 function renderGrid() {
   syncTabs();
