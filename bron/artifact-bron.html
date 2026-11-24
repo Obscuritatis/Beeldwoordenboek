@@ -266,6 +266,7 @@ html body .copy{margin:32px 0 0;text-align:center;font:500 .75rem var(--font-bod
 html body .card .pic{background:#fff;padding:10px 10px 0}
 html body .card .pic img{position:static;inset:auto;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;background:transparent}
 html body #btn-settings{display:none}
+html body .hero h1,html body .mini{cursor:pointer}
 </style>
 
 <div class="hero"><div class="in">
@@ -1034,6 +1035,9 @@ function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; c
 /* ---------- events ---------- */
 $("btn-quiz").addEventListener("click", openQuiz);
 function syncTabs() { document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.tab === "fav" ? filter === "fav" : b.dataset.tab === "home" && filter !== "fav"))); }
+function goHome() { $("q").value = ""; query = ""; $("tabbar").querySelector('[data-tab="home"]').click(); }
+document.querySelector(".hero h1").addEventListener("click", goHome);
+document.querySelector(".mini").addEventListener("click", goHome);
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
   stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
   if (k === "quiz") { openQuiz(); return; } if (k === "set") { $("btn-settings").click(); return; }
