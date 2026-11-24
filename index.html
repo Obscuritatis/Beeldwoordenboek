@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-QgcpWwbHZCF1+p7/D0OEtaGMCxq/lu9vqa8wPbxq00c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-s4z0g9Rwfexm7ZYLR5k+f236ngHklfu0tminjVHEsbs='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -1038,6 +1038,7 @@ function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; c
 $("btn-quiz").addEventListener("click", openQuiz);
 function syncTabs() { document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.tab === "fav" ? filter === "fav" : b.dataset.tab === "home" && filter !== "fav"))); }
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
+  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
   if (k === "quiz") { openQuiz(); return; } if (k === "set") { $("btn-settings").click(); return; }
   filter = k === "fav" ? "fav" : "all"; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); });
 $("grid").addEventListener("click", (e) => { const tl = e.target.closest("[data-tile]"); if (!tl) return; filter = tl.dataset.tile; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: Math.max(0, document.querySelector(".hero").offsetHeight - 10), behavior: "smooth" }); });
