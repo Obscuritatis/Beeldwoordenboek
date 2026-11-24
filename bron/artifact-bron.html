@@ -159,13 +159,7 @@ html:root:not(.x):not(.y){
   --accent:#A32035; --accent-ink:#ffffff; --focus:#A32035; --schaduw:rgba(42,29,31,.18);
   --font-display:"Montserrat","Segoe UI",Arial,sans-serif; --font-body:"Lato","Segoe UI",Arial,sans-serif;
   color-scheme:light}
-@media (prefers-color-scheme: dark){html:root:not(.x):not(.y):not([data-theme="light"]){
-  --rood:#A32035; --rood-donker:#7E1828; --rood-zacht:#3A1C22; --rood-tekst:#F2A0AB;
-  --bg:#151112; --surface:#1F191B; --surface-2:#2A2325; --ink:#F3EDEE; --muted:#B9ACAE; --line:#3A3033; --onder:#8A7C7F;
-  --accent:#A32035; --accent-ink:#ffffff; --focus:#F2A0AB; --schaduw:rgba(0,0,0,.5);
-  color-scheme:dark}}
-html:root:not(.x):not(.y)[data-theme="dark"]{
-  --rood-zacht:#3A1C22; --rood-tekst:#F2A0AB; --bg:#151112; --surface:#1F191B; --surface-2:#2A2325; --ink:#F3EDEE; --muted:#B9ACAE; --line:#3A3033; --onder:#8A7C7F; --focus:#F2A0AB; --schaduw:rgba(0,0,0,.5); color-scheme:dark}
+/* donkere modus staat voorlopig uit (Johan, 24/11) */
 html,body{background:var(--bg)}
 html body .hero{background:var(--rood);color:#fff;margin-inline:-16px;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 0;position:relative;overflow:hidden}
 html body .hero .in{max-width:960px;margin-inline:auto;position:relative;z-index:1;padding-bottom:40px;display:grid;gap:14px}
