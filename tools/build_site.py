@@ -29,7 +29,7 @@ head = f"""<!doctype html>
 <meta http-equiv="Content-Security-Policy" content="{csp}">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f4e79">
+<meta name="theme-color" content="#A32035">
 <meta name="description" content="Foto's en pictogrammen met het Nederlandse woord en de uitspraak.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="fonts/fonts.css">
@@ -51,8 +51,8 @@ manifest = {
     "start_url": "./",
     "scope": "./",
     "display": "standalone",
-    "background_color": "#f3f5f7",
-    "theme_color": "#1f4e79",
+    "background_color": "#ffffff",
+    "theme_color": "#A32035",
     "icons": [
         {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
         {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
