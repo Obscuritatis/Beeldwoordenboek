@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-LBtEKnKRemi8LpFYQcn2HHIlsAgYKZpbq1xxBrndJzk='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-QvA81e/o6Tw7jIpJbS2NZNWh3mvE10SuQuMxBgc0Yos='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -282,6 +282,17 @@ html body .card .pic{background:#fff;padding:10px 10px 0}
 html body .card .pic img{position:static;inset:auto;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;background:transparent}
 html body #btn-settings{display:none}
 html body .hero h1,html body .mini{cursor:pointer}
+.inst{display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:18px;box-shadow:0 2px 10px rgba(42,29,31,.08);padding:14px;margin:6px 0 16px;border-left:5px solid var(--rood)}
+.inst-ico img{width:44px;height:44px;border-radius:10px;display:block}
+.inst-t{flex:1;min-width:0;display:grid;gap:3px}
+.inst-t b{font:800 1.02rem/1.2 var(--font-display);white-space:pre-line}
+.inst-t span{font-size:.9rem;line-height:1.35;color:var(--muted);white-space:pre-line}
+.inst-t ol{margin:6px 0 0;padding-left:20px;font-size:.92rem;line-height:1.45;white-space:pre-line}
+.inst-b{display:grid;gap:8px;justify-items:end}
+.inst-b .btn{padding:9px 12px;font-size:.85rem;white-space:nowrap}
+.inst-x{border:0;background:transparent;color:var(--muted);font-size:1rem;cursor:pointer;padding:2px 6px}
+.inst-link{border:0;background:transparent;color:var(--rood);font:700 .8rem var(--font-body);text-decoration:underline;cursor:pointer;margin-top:6px}
+@media (max-width:420px){.inst{flex-wrap:wrap}.inst-b{grid-auto-flow:column;align-items:center;width:100%;justify-content:space-between}.inst-ico{display:none}}
 </style>
 
 <div class="hero"><div class="in">
@@ -309,8 +320,9 @@ html body .hero h1,html body .mini{cursor:pointer}
     </div>
   </header>
   <p class="notice" id="notice"></p>
+  <div class="inst" id="inst" hidden></div>
   <div class="grid" id="grid" aria-live="polite"></div>
-  <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek</p>
+  <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek<br><button class="inst-link" id="inst-link" hidden>Installeer als app</button></p>
 </div>
 <nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Quiz</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
 <button class="fab" id="btn-add" hidden>
@@ -820,8 +832,32 @@ function renderTiles() {
   list = [];
   $("grid").innerHTML = `<h2 class="tiles-h">${esc(L("Kies een thema", "Choisis un thème", "Choose a theme"))}</h2><div class="tiles">` + tiles.map((x) => `<button class="tile" data-tile="${x.id}" style="--c:${x.c}">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy">` : ""}<i class="dot"></i><span><b>${esc(x.name.split("\n")[0])}</b>${x.name.includes("\n") ? `<em>${esc(x.name.split("\n")[1])}</em>` : ""}<small>${x.n} ${x.n === 1 ? "woord" : "woorden"}</small></span></button>`).join("") + "</div>";
 }
+/* ---------- installeren als app ---------- */
+let instPrompt = null, instOpen = false;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (/macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+const isStandalone = () => (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+const canInstall = () => document.documentElement.dataset.site === "1" && !isStandalone() && (instPrompt || isIOS || isAndroid);
+function renderInstall() {
+  const L = (nl, fr, en) => both(nl, { fr, en }[helpLang]);
+  const ok = canInstall();
+  $("inst-link").hidden = !ok; $("inst-link").textContent = flat(L("Installeer als app", "Installer comme app", "Install as app"));
+  const el = $("inst");
+  el.hidden = !ok || prefs.get("instHide", false) || filter !== "all" || !!query.trim();
+  if (el.hidden) return;
+  const steps = isIOS ? [L("Tik onderaan in Safari op Delen (het vierkant met het pijltje).", "Dans Safari, touche Partager (le carré avec la flèche).", "In Safari, tap Share (the square with the arrow)."), L("Kies \"Zet op beginscherm\".", "Choisis « Sur l'écran d'accueil ».", "Choose \"Add to Home Screen\"."), L("Tik op Voeg toe.", "Touche Ajouter.", "Tap Add.")]
+    : [L("Tik rechtsboven op de drie puntjes.", "Touche les trois points en haut à droite.", "Tap the three dots at the top right."), L("Kies \"App installeren\" of \"Toevoegen aan startscherm\".", "Choisis « Installer l'application » ou « Ajouter à l'écran d'accueil ».", "Choose \"Install app\" or \"Add to Home screen\".")];
+  el.innerHTML = `<div class="inst-ico"><img src="icons/icon-192.png" alt=""></div><div class="inst-t"><b>${esc(L("Installeer als app", "Installer comme app", "Install as app"))}</b><span>${esc(L("Zet het beeldwoordenboek op je startscherm. Dan open je het met één tik.", "Mets le dictionnaire sur ton écran d'accueil.", "Put the dictionary on your home screen."))}</span>${instOpen ? `<ol>${steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}</div><div class="inst-b"><button class="btn primary" id="inst-go">${esc(flat(L("Installeren", "Installer", "Install")))}</button><button class="inst-x" id="inst-x" aria-label="${esc(flat(L("Sluiten", "Fermer", "Close")))}">✕</button></div>`;
+  $("inst-go").onclick = doInstall; $("inst-x").onclick = () => { prefs.set("instHide", true); renderInstall(); };
+}
+async function doInstall() {
+  if (instPrompt) { instPrompt.prompt(); const r = await instPrompt.userChoice.catch(() => null); instPrompt = null; if (r && r.outcome === "accepted") prefs.set("instHide", true); renderInstall(); return; }
+  instOpen = true; prefs.set("instHide", false); if (filter !== "all") { filter = "all"; sub = ""; renderChips(); renderGrid(); } else renderInstall();
+  $("inst").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); instPrompt = e; renderInstall(); });
+addEventListener("appinstalled", () => { instPrompt = null; prefs.set("instHide", true); renderInstall(); });
 function renderGrid() {
-  syncTabs();
+  syncTabs(); renderInstall();
   if (filter === "all" && !query.trim()) { renderSub(); renderTiles(); return; }
   const q = query.trim().toLowerCase();
   const gs = renderSub();
@@ -1053,6 +1089,7 @@ function syncTabs() { document.querySelectorAll("[data-tab]").forEach((b) => b.s
 function goHome() { $("q").value = ""; query = ""; $("tabbar").querySelector('[data-tab="home"]').click(); }
 document.querySelector(".hero h1").addEventListener("click", goHome);
 document.querySelector(".mini").addEventListener("click", goHome);
+$("inst-link").addEventListener("click", doInstall);
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
   stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
   if (k === "quiz") { openQuiz(); return; } if (k === "set") { $("btn-settings").click(); return; }
