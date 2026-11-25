@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-OhEZL6Cxc8eMr4XV9dnJ/dUm54MPUtPIK3QViBvZDtA=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nUA48J4+d0sYplI1iREGLlPUiBEK0NM9MdRheQK5Y0s=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -1192,8 +1192,8 @@ $("ab-edit-btn").addEventListener("click", openContactEdit);
 $("about-link").addEventListener("click", () => { contactsEditing = false; renderContacts(); });
 $("ab-close").addEventListener("click", () => closeOverlay("about"));
 /* ---------- vertalen (proef, alleen op de website): op het toestel zelf, zonder tekst naar het internet ---------- */
-const VT_MB = { nlen: 23, ennl: 22, enfr: 26, fren: 27 };
-const vtPacks = new Set(prefs.get("vtPacks", []));
+const VT_MB = { nlen: 37, ennl: 37, enfr: 37, fren: 37 };
+const vtPacks = new Set(prefs.get("vtPacks2", []));
 let vtMod = null, vtBusy = false, vtLang = "fr";
 const vtNeed = (f, to) => (f === to ? [] : f === "en" || to === "en" ? [f + to] : [f + "en", "en" + to]);
 if (document.documentElement.dataset.site === "1" && "Worker" in window && typeof WebAssembly === "object") $("tab-vt").hidden = false;
@@ -1210,7 +1210,7 @@ async function doVertaal() {
   try {
     vtMod = vtMod || (await import("./vertaal/vertaal.js"));
     const out = await vtMod.translate(f, to, text);
-    need.forEach((p) => vtPacks.add(p)); prefs.set("vtPacks", [...vtPacks]);
+    need.forEach((p) => vtPacks.add(p)); prefs.set("vtPacks2", [...vtPacks]);
     show(out); $("vt-status").textContent = "";
   } catch (err) {
     console.error(err);
