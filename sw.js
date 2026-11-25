@@ -1,4 +1,4 @@
-const CACHE = "bwb-20261125152801";
+const CACHE = "bwb-20261125153124";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "fonts/fonts.css", "fonts/lato-latin-1.woff2", "fonts/lato-latin-3.woff2", "fonts/lato-latin-ext-0.woff2", "fonts/lato-latin-ext-2.woff2", "fonts/montserrat-latin-5.woff2", "fonts/montserrat-latin-ext-4.woff2"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 const PACKS = "bwb-vertaalpakketten-2"; // blijft bewaard bij updates, zodat de grote taalpakketten maar een keer gedownload worden

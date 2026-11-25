@@ -4,7 +4,7 @@ import { LatencyOptimisedTranslator } from "./lib/translator.js";
 
 let tr = null;
 export async function translate(from, to, text) {
-  tr = tr || new LatencyOptimisedTranslator({ registryUrl: new URL("./registry.json", import.meta.url).href, downloadTimeout: 0, pivotLanguage: "en" });
+  tr = tr || new LatencyOptimisedTranslator({ registryUrl: new URL("./registry.json?m=2", import.meta.url).href, downloadTimeout: 0, pivotLanguage: "en" });
   const r = await tr.translate({ from, to, text, html: false });
   return r.target.text;
 }

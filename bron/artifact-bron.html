@@ -1193,8 +1193,8 @@ async function doVertaal() {
   vtBusy = true; $("vt-go").disabled = true;
   $("vt-status").textContent = fresh.length ? `Eerste keer: taalpakket downloaden (ongeveer ${mb} MB). Dit kan even duren, laat dit scherm open.` : "Bezig met vertalen…";
   try {
-    vtMod = vtMod || (await import("./vertaal/vertaal.js"));
-    const out = await vtMod.translate(f, to, text);
+    vtMod = vtMod || (await import("./vertaal/vertaal.js?m=2"));
+    const out = await vtMod.translate(f, to, text.charAt(0).toUpperCase() + text.slice(1));
     need.forEach((p) => vtPacks.add(p)); prefs.set("vtPacks2", [...vtPacks]);
     show(out); $("vt-status").textContent = "";
   } catch (err) {
