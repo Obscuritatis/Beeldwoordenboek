@@ -1,0 +1,94 @@
+{
+ "nlen": {
+  "model": {
+   "name": "vertaal/models/nlen/model.nlen.intgemm.alphas.bin",
+   "size": 17140899,
+   "estimatedCompressedSize": 13117435,
+   "expectedSha256Hash": "187f9c8f1ffbcc8ecf0724b608ffed9f15bde262b9de5c4754f8d763b585969d",
+   "modelType": "dev"
+  },
+  "lex": {
+   "name": "vertaal/models/nlen/lex.50.50.nlen.s2t.bin",
+   "size": 4940304,
+   "estimatedCompressedSize": 2744604,
+   "expectedSha256Hash": "15c473e6e5aef1fa3fe5cc804844e19a2c671d2e39169dcbc06f456ca4f9b2c0",
+   "modelType": "dev"
+  },
+  "vocab": {
+   "name": "vertaal/models/nlen/vocab.nlen.spm",
+   "size": 807730,
+   "estimatedCompressedSize": 411834,
+   "expectedSha256Hash": "48a6331cb8a69d21dd24c6c2a15de44a07bcfd4a4470eaf4616849d77945f6b9",
+   "modelType": "dev"
+  }
+ },
+ "ennl": {
+  "model": {
+   "name": "vertaal/models/ennl/model.ennl.intgemm.alphas.bin",
+   "size": 17140899,
+   "estimatedCompressedSize": 13081379,
+   "expectedSha256Hash": "906690a58a0d72aff28bd4b941cbd0984d1e0a62958c0b21aebae378a656d822",
+   "modelType": "dev"
+  },
+  "lex": {
+   "name": "vertaal/models/ennl/lex.50.50.ennl.s2t.bin",
+   "size": 4494892,
+   "estimatedCompressedSize": 2454349,
+   "expectedSha256Hash": "f780a6d74af4b141f551dcc0da56bab44a05a90ef53d63381269710f35eaa41b",
+   "modelType": "dev"
+  },
+  "vocab": {
+   "name": "vertaal/models/ennl/vocab.ennl.spm",
+   "size": 807541,
+   "estimatedCompressedSize": 411799,
+   "expectedSha256Hash": "43ba3922c3bba2b76ca2e2124837c96518b0e31300b7d6d5ccce55ee10d86393",
+   "modelType": "dev"
+  }
+ },
+ "enfr": {
+  "model": {
+   "name": "vertaal/models/enfr/model.enfr.intgemm.alphas.bin",
+   "size": 17140961,
+   "estimatedCompressedSize": 12293754,
+   "expectedSha256Hash": "0678019c4d74c8c81d2de17e3e58d3aba5f5eb48f5595d9240c17f69d30461de",
+   "modelType": "prod"
+  },
+  "lex": {
+   "name": "vertaal/models/enfr/lex.50.50.enfr.s2t.bin",
+   "size": 7886500,
+   "estimatedCompressedSize": 4177155,
+   "expectedSha256Hash": "38fb44bad1fd5f1e6bfdcf15cc8baa09d61aad2a4f9c587914e24e7b5c25c32c",
+   "modelType": "prod"
+  },
+  "vocab": {
+   "name": "vertaal/models/enfr/vocab.fren.spm",
+   "size": 831382,
+   "estimatedCompressedSize": 419721,
+   "expectedSha256Hash": "4c84b95b62c930f0791466d73eb996841eef474c96d0c2f0e6c6d80640f2005a",
+   "modelType": "prod"
+  }
+ },
+ "fren": {
+  "model": {
+   "name": "vertaal/models/fren/model.fren.intgemm.alphas.bin",
+   "size": 17140961,
+   "estimatedCompressedSize": 12641501,
+   "expectedSha256Hash": "185f76d24c2d400fe4ea0cb2487df77722641b97a3ef10633872e8a7fdf40e09",
+   "modelType": "prod"
+  },
+  "lex": {
+   "name": "vertaal/models/fren/lex.50.50.fren.s2t.bin",
+   "size": 8818768,
+   "estimatedCompressedSize": 4761904,
+   "expectedSha256Hash": "3148abf21ea98a4d69d0e4504e0d68a6c060204a9b9a39b76855aee1d5b2c8ea",
+   "modelType": "prod"
+  },
+  "vocab": {
+   "name": "vertaal/models/fren/vocab.fren.spm",
+   "size": 831382,
+   "estimatedCompressedSize": 419721,
+   "expectedSha256Hash": "4c84b95b62c930f0791466d73eb996841eef474c96d0c2f0e6c6d80640f2005a",
+   "modelType": "prod"
+  }
+ }
+}

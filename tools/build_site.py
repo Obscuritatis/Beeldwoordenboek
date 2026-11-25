@@ -17,7 +17,7 @@ assert "googleapis" not in body and "gstatic" not in body, "externe lettertypes 
 scripts = re.findall(r"<script>(.*?)</script>", body, re.S)
 assert len(scripts) == 1, "verwacht precies een inline script"
 script_hash = base64.b64encode(hashlib.sha256(scripts[0].encode("utf-8")).digest()).decode()
-csp = ("default-src 'self'; script-src 'self' 'sha256-%s'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
+csp = ("default-src 'self'; script-src 'self' 'sha256-%s' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; "
        "media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; "
        "object-src 'none'; base-uri 'none'; form-action 'none'") % script_hash
 version = time.strftime("%Y%m%d%H%M%S")
@@ -64,11 +64,16 @@ manifest = {
 sw = """const CACHE = "bwb-%s";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", %s];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
-self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
+const PACKS = "bwb-vertaalpakketten"; // blijft bewaard bij updates, zodat de grote taalpakketten maar een keer gedownload worden
+self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE && k !== PACKS).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+  if (url.origin === location.origin && (url.pathname.includes("/vertaal/models/") || url.pathname.endsWith(".wasm"))) {
+    e.respondWith(caches.open(PACKS).then((c) => c.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }))));
+    return;
+  }
   const fresh = url.origin === location.origin && (url.pathname.endsWith("/") || url.pathname.endsWith(".html") || url.pathname.endsWith("woorden.json"));
   if (fresh) {
     // eerst netwerk, zodat nieuwe woorden meteen verschijnen; offline uit de cache

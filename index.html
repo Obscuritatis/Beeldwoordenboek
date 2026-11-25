@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1x7pAZNVKDvAFviY7cUUQywlRR3A7c/kX9mA13Fk4V8='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-OhEZL6Cxc8eMr4XV9dnJ/dUm54MPUtPIK3QViBvZDtA=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -313,6 +313,23 @@ html body #ab-edit .notice{margin:8px 0 0;font-size:.8rem}
 @media (max-width:420px){html body .ab-row{grid-template-columns:1fr auto}html body .ab-row input[type=email]{grid-column:1}html body .ab-row .ab-del{grid-row:1/3;grid-column:2}}
 html body .card .pic{container-type:inline-size}
 html body .card .pic img{max-height:calc(100cqw - 10px)}
+html body .tabbar{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:1fr}
+html body .vt h2{font:800 1.6rem var(--font-display);margin:6px 0 0}
+html body .vt .bar{display:flex;align-items:center;justify-content:space-between}
+html body .vt-badge{font:700 .75rem var(--font-display);color:var(--rood);background:var(--rood-zacht);border-radius:999px;padding:4px 10px}
+html body .vt-langs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+html body .vt-langs .dd select{width:100%;padding-left:14px}
+html body .vt-langs .dd::before{display:none}
+html body .vt-swap{border:0;background:#fff;border-radius:999px;width:44px;height:44px;display:grid;place-items:center;box-shadow:0 1px 3px rgba(42,29,31,.12);color:var(--rood);cursor:pointer}
+html body .vt-swap svg{width:22px;height:22px}
+html body #vt-in{font:inherit;font-size:1.05rem;line-height:1.45;border:0;border-radius:16px;padding:14px 16px;background:#fff;box-shadow:0 1px 3px rgba(42,29,31,.08);resize:vertical;min-height:110px;color:var(--ink)}
+html body .vt-status{margin:0;color:var(--muted);font-size:.92rem;min-height:1em}
+html body .vt-out{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(42,29,31,.07);padding:16px;display:grid;gap:12px;border-left:4px solid var(--rood)}
+html body .vt-out p{margin:0;font-size:1.2rem;line-height:1.45;white-space:pre-wrap}
+html body .vt-out .btn{justify-self:start}
+html body .vt-out .btn svg{width:18px;height:18px}
+html body .vt-note{margin:4px 0 0;color:var(--muted);font-size:.82rem;line-height:1.45}
+html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 
 <div class="hero"><div class="in">
@@ -344,7 +361,7 @@ html body .card .pic img{max-height:calc(100cqw - 10px)}
   <div class="grid" id="grid" aria-live="polite"></div>
   <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek<br><button class="inst-link" id="about-link">Over deze app</button> <button class="inst-link" id="inst-link" hidden>Installeer als app</button></p>
 </div>
-<nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Quiz</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
+<nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Quiz</span></button><button data-tab="vt" id="tab-vt" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h9M7.5 3v2M5 5c.5 3 2.5 5.5 5.5 7M10 5c-.7 3.5-3 6-6 7.5"/><path d="M12.5 21l4-10 4 10M14 17.5h5"/></svg><span>Vertaal</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
 <button class="fab" id="btn-add" hidden>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Woord toevoegen
 </button>
@@ -494,6 +511,18 @@ html body .card .pic img{max-height:calc(100cqw - 10px)}
   </div>
 </section>
 
+<section lang="nl" class="overlay" id="vt" hidden aria-modal="true" role="dialog" aria-labelledby="vt-title">
+  <div class="inner vt">
+    <div class="bar"><button class="btn" id="vt-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button><span class="vt-badge">Proef</span></div>
+    <h2 id="vt-title">Vertalen</h2>
+    <div class="vt-langs"><label class="dd"><span class="sr">Van</span><select id="vt-from"><option value="nl" selected>Nederlands</option><option value="fr">Français</option><option value="en">English</option></select></label><button type="button" class="vt-swap" id="vt-swap" aria-label="Talen wisselen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg></button><label class="dd"><span class="sr">Naar</span><select id="vt-to"><option value="nl">Nederlands</option><option value="fr" selected>Français</option><option value="en">English</option></select></label></div>
+    <textarea id="vt-in" rows="4" maxlength="1000" placeholder="Typ hier een zin" aria-label="Tekst om te vertalen"></textarea>
+    <button type="button" class="btn primary" id="vt-go">Vertaal</button>
+    <p class="vt-status" id="vt-status" aria-live="polite"></p>
+    <div class="vt-out" id="vt-outbox" hidden><p id="vt-out"></p><button type="button" class="btn" id="vt-say"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Luister</button></div>
+    <p class="vt-note">De vertaling gebeurt op je eigen toestel. Er gaat geen tekst naar het internet. De eerste keer download je wel een taalpakket van deze website. Een automatische vertaling kan fouten bevatten: controleer belangrijke of medische informatie altijd.</p>
+  </div>
+</section>
 <section lang="nl" class="overlay" id="about" hidden aria-modal="true" role="dialog" aria-labelledby="ab-title">
   <div class="inner about">
     <div class="bar"><button class="btn" id="ab-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button></div>
@@ -988,7 +1017,7 @@ function renderViewLang() {
   $("v-slow").classList.toggle("wide", !sent);
   $("v-src").textContent = t(l === "fr" ? "srcFr" : l === "en" ? "srcEn" : r.hasAudio ? "srcOwn" : "srcNl");
 }
-function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden && $("about").hidden) document.body.style.overflow = ""; }
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden && $("about").hidden && $("vt").hidden) document.body.style.overflow = ""; }
 
 /* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
 const UI = {
@@ -1162,9 +1191,40 @@ $("s-about").addEventListener("click", () => { closeOverlay("settings"); $("abou
 $("ab-edit-btn").addEventListener("click", openContactEdit);
 $("about-link").addEventListener("click", () => { contactsEditing = false; renderContacts(); });
 $("ab-close").addEventListener("click", () => closeOverlay("about"));
+/* ---------- vertalen (proef, alleen op de website): op het toestel zelf, zonder tekst naar het internet ---------- */
+const VT_MB = { nlen: 23, ennl: 22, enfr: 26, fren: 27 };
+const vtPacks = new Set(prefs.get("vtPacks", []));
+let vtMod = null, vtBusy = false, vtLang = "fr";
+const vtNeed = (f, to) => (f === to ? [] : f === "en" || to === "en" ? [f + to] : [f + "en", "en" + to]);
+if (document.documentElement.dataset.site === "1" && "Worker" in window && typeof WebAssembly === "object") $("tab-vt").hidden = false;
+function openVertaal() { $("vt").hidden = false; document.body.style.overflow = "hidden"; $("vt").scrollTop = 0; }
+async function doVertaal() {
+  const f = $("vt-from").value, to = $("vt-to").value, text = $("vt-in").value.trim();
+  if (!text || vtBusy) return;
+  const show = (out) => { $("vt-out").textContent = out; $("vt-out").lang = to; vtLang = to; $("vt-outbox").hidden = false; };
+  if (f === to) { show(text); return; }
+  const need = vtNeed(f, to), fresh = need.filter((p) => !vtPacks.has(p));
+  const mb = fresh.reduce((a, p) => a + VT_MB[p], 0);
+  vtBusy = true; $("vt-go").disabled = true;
+  $("vt-status").textContent = fresh.length ? `Eerste keer: taalpakket downloaden (ongeveer ${mb} MB). Dit kan even duren, laat dit scherm open.` : "Bezig met vertalen…";
+  try {
+    vtMod = vtMod || (await import("./vertaal/vertaal.js"));
+    const out = await vtMod.translate(f, to, text);
+    need.forEach((p) => vtPacks.add(p)); prefs.set("vtPacks", [...vtPacks]);
+    show(out); $("vt-status").textContent = "";
+  } catch (err) {
+    console.error(err);
+    $("vt-status").textContent = "Vertalen lukte niet. Controleer je internetverbinding (nodig voor de eerste download) en probeer opnieuw.";
+  } finally { vtBusy = false; $("vt-go").disabled = false; }
+}
+$("vt-go").addEventListener("click", doVertaal);
+$("vt-in").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); doVertaal(); } });
+$("vt-swap").addEventListener("click", () => { const a = $("vt-from").value; $("vt-from").value = $("vt-to").value; $("vt-to").value = a; if (!$("vt-outbox").hidden && $("vt-out").textContent) { $("vt-in").value = $("vt-out").textContent; $("vt-outbox").hidden = true; } });
+$("vt-say").addEventListener("click", () => speak($("vt-out").textContent, false, vtLang));
+$("vt-close").addEventListener("click", () => closeOverlay("vt"));
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
-  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help", "about"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
-  if (k === "quiz") { openQuiz(); return; } if (k === "set") { $("btn-settings").click(); return; }
+  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help", "about", "vt"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
+  if (k === "quiz") { openQuiz(); return; } if (k === "vt") { openVertaal(); return; } if (k === "set") { $("btn-settings").click(); return; }
   filter = k === "fav" ? "fav" : "all"; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); });
 $("grid").addEventListener("click", (e) => { const tl = e.target.closest("[data-tile]"); if (!tl) return; filter = tl.dataset.tile; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: Math.max(0, document.querySelector(".hero").offsetHeight - 10), behavior: "smooth" }); });
 addEventListener("scroll", () => document.body.classList.toggle("scrolled", scrollY > document.querySelector(".hero").offsetHeight - 20), { passive: true });
