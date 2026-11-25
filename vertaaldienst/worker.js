@@ -2,8 +2,9 @@
 // Houdt de API-sleutels geheim: de app stuurt de tekst hierheen, de worker vraagt
 // eerst DeepL en valt terug op Microsoft Translator als DeepL op is of faalt.
 // Geheimen (Settings > Variables and Secrets): DEEPL_KEY, MS_KEY, MS_REGION.
+// Optioneel SITES: extra websites die de dienst mogen gebruiken, bv. "https://werk.github.io".
 
-const ORIGINS = ["https://obscuritatis.github.io"];
+const ORIGINS = ["https://obscuritatis.github.io"]; // extra adressen: variabele SITES, komma-gescheiden
 const LANGS = ["nl", "fr", "en"];
 const MAX_CHARS = 1000;
 const PER_MIN = 30; // vragen per minuut per IP (per worker-instantie)
@@ -64,7 +65,8 @@ async function viaMicrosoft(env, from, to, text) {
 export default {
   async fetch(req, env) {
     const origin = req.headers.get("Origin") || "";
-    if (!ORIGINS.includes(origin)) return new Response("Niet toegestaan", { status: 403 });
+    const allowed = ORIGINS.concat(String(env.SITES || "").split(",").map((x) => x.trim().replace(/\/+$/, "")).filter(Boolean));
+    if (!allowed.includes(origin)) return new Response("Niet toegestaan", { status: 403 });
     if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });
     if (req.method !== "POST") return json({ error: "methode" }, 405, origin);
     if (tooMany(req.headers.get("CF-Connecting-IP") || "?")) return json({ error: "te veel vragen" }, 429, origin);
