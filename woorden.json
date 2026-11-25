@@ -206,6 +206,7 @@
       "sentenceFr": "As-tu besoin d'aller aux toilettes ?",
       "wordEn": "going to the toilet",
       "sentenceEn": "Do you need to go to the toilet?",
+      "group": "Dagelijkse zorg",
       "id": "wmuxq177m3n3l",
       "createdAt": 1791354190018,
       "image": "media/wmuxq177m3n3l.jpg"
@@ -219,6 +220,7 @@
       "sentenceFr": "As-tu des vertiges ?",
       "wordEn": "dizzy",
       "sentenceEn": "Are you dizzy?",
+      "group": "Hoe voel je je?",
       "id": "wmuxqaxvwox1e",
       "createdAt": 1791354644492,
       "image": "media/wmuxqaxvwox1e.jpg"
@@ -232,6 +234,7 @@
       "sentenceFr": "As-tu faim ?",
       "wordEn": "hungry",
       "sentenceEn": "Are you hungry?",
+      "group": "Hoe voel je je?",
       "id": "wmuxqmp88ft0v",
       "createdAt": 1791355193144,
       "image": "media/wmuxqmp88ft0v.jpg"
@@ -245,6 +248,7 @@
       "sentenceFr": "As-tu soif ?",
       "wordEn": "thirsty",
       "sentenceEn": "Are you thirsty?",
+      "group": "Hoe voel je je?",
       "id": "wmuxr0y7m58tg",
       "createdAt": 1791355857970,
       "image": "media/wmuxr0y7m58tg.jpg"
@@ -258,6 +262,7 @@
       "sentenceFr": "Es-tu fatigué ?",
       "wordEn": "tired",
       "sentenceEn": "Are you tired?",
+      "group": "Hoe voel je je?",
       "id": "wmuxr4dp8pzor",
       "createdAt": 1791356018012,
       "image": "media/wmuxr4dp8pzor.jpg"
@@ -271,6 +276,7 @@
       "sentenceFr": "As-tu trop chaud ?",
       "wordEn": "warm",
       "sentenceEn": "Are you too warm?",
+      "group": "Hoe voel je je?",
       "id": "wmuxr91foe64x",
       "createdAt": 1791356235396,
       "image": "media/wmuxr91foe64x.jpg"
@@ -284,6 +290,7 @@
       "sentenceFr": "As-tu froid ?",
       "wordEn": "cold",
       "sentenceEn": "Are you cold?",
+      "group": "Hoe voel je je?",
       "id": "wmuxret9nwm9r",
       "createdAt": 1791356504747,
       "image": "media/wmuxret9nwm9r.jpg"
@@ -349,6 +356,7 @@
       "sentenceFr": "Veux-tu faire une pause ensemble ?",
       "wordEn": "taking a break",
       "sentenceEn": "Shall we take a break together?",
+      "group": "Dagelijkse zorg",
       "id": "wmuxt2b0zx819",
       "createdAt": 1791359280467,
       "image": "media/wmuxt2b0zx819.jpg"
@@ -414,6 +422,7 @@
       "sentenceFr": "Maintenant, on va se brosser les dents.",
       "wordEn": "brushing teeth",
       "sentenceEn": "Now we are going to brush our teeth.",
+      "group": "Dagelijkse zorg",
       "id": "wmuy2qk5wg8ep",
       "createdAt": 1791375528596,
       "image": "media/wmuy2qk5wg8ep.jpg"
@@ -427,6 +436,7 @@
       "sentenceFr": "As-tu mal ?",
       "wordEn": "pain",
       "sentenceEn": "Are you in pain?",
+      "group": "Pijn",
       "id": "wmww7k8cltoqn",
       "createdAt": 1795616263749,
       "image": "media/wmww7k8cltoqn.jpg"
@@ -440,6 +450,7 @@
       "sentenceFr": "As-tu mal à la tête ?",
       "wordEn": "headache",
       "sentenceEn": "Do you have a headache?",
+      "group": "Pijn",
       "id": "wmww7k94dzmuk",
       "createdAt": 1795616264749,
       "image": "media/wmww7k94dzmuk.jpg"
@@ -453,6 +464,7 @@
       "sentenceFr": "As-tu mal au ventre ?",
       "wordEn": "stomach ache",
       "sentenceEn": "Do you have a stomach ache?",
+      "group": "Pijn",
       "id": "wmww7k9w51h9a",
       "createdAt": 1795616265749,
       "image": "media/wmww7k9w51h9a.jpg"
@@ -466,6 +478,7 @@
       "sentenceFr": "As-tu mal au dos ?",
       "wordEn": "back pain",
       "sentenceEn": "Do you have back pain?",
+      "group": "Pijn",
       "id": "wmww7kanxdepa",
       "createdAt": 1795616266749,
       "image": "media/wmww7kanxdepa.jpg"
@@ -479,6 +492,7 @@
       "sentenceFr": "As-tu mal aux dents ?",
       "wordEn": "toothache",
       "sentenceEn": "Do you have a toothache?",
+      "group": "Pijn",
       "id": "wmww7kbfp5qj6",
       "createdAt": 1795616267749,
       "image": "media/wmww7kbfp5qj6.jpg"
@@ -492,6 +506,7 @@
       "sentenceFr": "As-tu mal à la gorge ?",
       "wordEn": "sore throat",
       "sentenceEn": "Do you have a sore throat?",
+      "group": "Pijn",
       "id": "wmww7kc7hzfnu",
       "createdAt": 1795616268749,
       "image": "media/wmww7kc7hzfnu.jpg"
@@ -505,6 +520,7 @@
       "sentenceFr": "As-tu la nausée ?",
       "wordEn": "nauseous",
       "sentenceEn": "Do you feel nauseous?",
+      "group": "Ziek zijn",
       "id": "wmww7murfqefo",
       "createdAt": 1795616386107,
       "image": "media/wmww7murfqefo.jpg"
@@ -518,6 +534,7 @@
       "sentenceFr": "As-tu envie de vomir ?",
       "wordEn": "vomiting",
       "sentenceEn": "Do you need to throw up?",
+      "group": "Ziek zijn",
       "id": "wmww7mvj7yg58",
       "createdAt": 1795616387107,
       "image": "media/wmww7mvj7yg58.jpg"
@@ -531,6 +548,7 @@
       "sentenceFr": "Ça te démange ?",
       "wordEn": "itch",
       "sentenceEn": "Are you itchy?",
+      "group": "Ziek zijn",
       "id": "wmww7mwazxxtm",
       "createdAt": 1795616388107,
       "image": "media/wmww7mwazxxtm.jpg"
@@ -544,6 +562,7 @@
       "sentenceFr": "As-tu de la fièvre ?",
       "wordEn": "fever",
       "sentenceEn": "Do you have a fever?",
+      "group": "Ziek zijn",
       "id": "wmww7mx2ra4x3",
       "createdAt": 1795616389107,
       "image": "media/wmww7mx2ra4x3.jpg"
@@ -557,6 +576,7 @@
       "sentenceFr": "Es-tu malade ?",
       "wordEn": "sick",
       "sentenceEn": "Are you sick?",
+      "group": "Ziek zijn",
       "id": "wmww7mxujk6o6",
       "createdAt": 1795616390107,
       "image": "media/wmww7mxujk6o6.jpg"
@@ -570,6 +590,7 @@
       "sentenceFr": "As-tu besoin de tousser ?",
       "wordEn": "coughing",
       "sentenceEn": "Do you need to cough?",
+      "group": "Ziek zijn",
       "id": "wmww7satkx8ng",
       "createdAt": 1795616640200,
       "image": "media/wmww7satkx8ng.jpg"
@@ -583,6 +604,7 @@
       "sentenceFr": "As-tu besoin d'éternuer ?",
       "wordEn": "sneezing",
       "sentenceEn": "Do you need to sneeze?",
+      "group": "Ziek zijn",
       "id": "wmww7sblc1ufn",
       "createdAt": 1795616641200,
       "image": "media/wmww7sblc1ufn.jpg"
@@ -596,6 +618,7 @@
       "sentenceFr": "As-tu des palpitations ?",
       "wordEn": "palpitations",
       "sentenceEn": "Do you have palpitations?",
+      "group": "Ziek zijn",
       "id": "wmww7scd4zz06",
       "createdAt": 1795616642200,
       "image": "media/wmww7scd4zz06.jpg"
@@ -2047,6 +2070,26 @@
       "nl": "Zakken",
       "fr": "Sacs",
       "en": "Bags"
+    },
+    {
+      "nl": "Hoe voel je je?",
+      "fr": "Comment te sens-tu ?",
+      "en": "How do you feel?"
+    },
+    {
+      "nl": "Pijn",
+      "fr": "Douleur",
+      "en": "Pain"
+    },
+    {
+      "nl": "Ziek zijn",
+      "fr": "Être malade",
+      "en": "Being ill"
+    },
+    {
+      "nl": "Dagelijkse zorg",
+      "fr": "Soins quotidiens",
+      "en": "Daily care"
     }
   ],
   "contacts": [
