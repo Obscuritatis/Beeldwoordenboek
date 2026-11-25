@@ -562,6 +562,45 @@
       "image": "media/wmww7mxujk6o6.jpg"
     },
     {
+      "word": "hoesten",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Moet je hoesten?",
+      "wordFr": "tousser",
+      "sentenceFr": "As-tu besoin de tousser ?",
+      "wordEn": "coughing",
+      "sentenceEn": "Do you need to cough?",
+      "id": "wmww7satkx8ng",
+      "createdAt": 1795616640200,
+      "image": "media/wmww7satkx8ng.jpg"
+    },
+    {
+      "word": "niezen",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Moet je niezen?",
+      "wordFr": "éternuer",
+      "sentenceFr": "As-tu besoin d'éternuer ?",
+      "wordEn": "sneezing",
+      "sentenceEn": "Do you need to sneeze?",
+      "id": "wmww7sblc1ufn",
+      "createdAt": 1795616641200,
+      "image": "media/wmww7sblc1ufn.jpg"
+    },
+    {
+      "word": "hartkloppingen",
+      "article": "de",
+      "theme": "praktisch",
+      "sentence": "Heb je hartkloppingen?",
+      "wordFr": "les palpitations",
+      "sentenceFr": "As-tu des palpitations ?",
+      "wordEn": "palpitations",
+      "sentenceEn": "Do you have palpitations?",
+      "id": "wmww7scd4zz06",
+      "createdAt": 1795616642200,
+      "image": "media/wmww7scd4zz06.jpg"
+    },
+    {
       "word": "Reocis",
       "article": "",
       "theme": "onderhoud",
