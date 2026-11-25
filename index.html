@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jthTp6VikOfiv3Q6MgMREHH6AnR3l3AQTcdRV0s3EKI=' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ooNTGJRZIo4yp1s4n5o6J9wMQjptC8Qh4e1VsHY0yUY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -328,6 +328,7 @@ html body .vt-out{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(
 html body .vt-out p{margin:0;font-size:1.2rem;line-height:1.45;white-space:pre-wrap}
 html body .vt-out .btn{justify-self:start}
 html body .vt-out .btn svg{width:18px;height:18px}
+html body .vt-via{margin:-6px 0 10px;color:var(--muted);font-size:.78rem}
 html body .vt-note{margin:4px 0 0;color:var(--muted);font-size:.82rem;line-height:1.45}
 html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
@@ -519,8 +520,8 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
     <textarea id="vt-in" rows="4" maxlength="1000" placeholder="Typ hier een zin" aria-label="Tekst om te vertalen"></textarea>
     <button type="button" class="btn primary" id="vt-go">Vertaal</button>
     <p class="vt-status" id="vt-status" aria-live="polite"></p>
-    <div class="vt-out" id="vt-outbox" hidden><p id="vt-out"></p><button type="button" class="btn" id="vt-say"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Luister</button></div>
-    <p class="vt-note">De vertaling gebeurt op je eigen toestel. Er gaat geen tekst naar het internet. De eerste keer download je wel een taalpakket van deze website. Een automatische vertaling kan fouten bevatten: controleer belangrijke of medische informatie altijd.</p>
+    <div class="vt-out" id="vt-outbox" hidden><p id="vt-out"></p><p class="vt-via" id="vt-via"></p><button type="button" class="btn" id="vt-say"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Luister</button></div>
+    <p class="vt-note" id="vt-note">Je tekst gaat via internet naar DeepL (of Microsoft als reserve) om te vertalen. Typ dus geen namen of medische gegevens van bewoners of patiënten. Een automatische vertaling kan fouten bevatten: controleer belangrijke of medische informatie altijd.</p>
   </div>
 </section>
 <section lang="nl" class="overlay" id="about" hidden aria-modal="true" role="dialog" aria-labelledby="ab-title">
@@ -1192,29 +1193,36 @@ $("ab-edit-btn").addEventListener("click", openContactEdit);
 $("about-link").addEventListener("click", () => { contactsEditing = false; renderContacts(); });
 $("ab-close").addEventListener("click", () => closeOverlay("about"));
 /* ---------- vertalen (proef, alleen op de website): op het toestel zelf, zonder tekst naar het internet ---------- */
-const VT_MB = { nlen: 37, ennl: 37, enfr: 37, fren: 37 };
-const vtPacks = new Set(prefs.get("vtPacks2", []));
-let vtMod = null, vtBusy = false, vtLang = "fr";
-const vtNeed = (f, to) => (f === to ? [] : f === "en" || to === "en" ? [f + to] : [f + "en", "en" + to]);
-if (document.documentElement.dataset.site === "1" && "Worker" in window && typeof WebAssembly === "object") $("tab-vt").hidden = false;
+let vtBusy = false, vtLang = "fr";
+// Online vertaaldienst (DeepL, met Microsoft als reserve). Leeg = vertaaltab verborgen.
+const VT_API = "";
+if (document.documentElement.dataset.site === "1" && VT_API) $("tab-vt").hidden = false;
 function openVertaal() { $("vt").hidden = false; document.body.style.overflow = "hidden"; $("vt").scrollTop = 0; }
+async function vtOnline(f, to, text) {
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 15000);
+  try {
+    const r = await fetch(VT_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: f, to, text }), signal: ctl.signal });
+    if (!r.ok) throw new Error("dienst " + r.status);
+    const d = await r.json();
+    if (!d.text) throw new Error("leeg");
+    return d;
+  } finally { clearTimeout(t); }
+}
+const VT_VIA = { deepl: "Vertaald door DeepL", microsoft: "Vertaald door Microsoft" };
 async function doVertaal() {
   const f = $("vt-from").value, to = $("vt-to").value, text = $("vt-in").value.trim();
   if (!text || vtBusy) return;
-  const show = (out) => { $("vt-out").textContent = out; $("vt-out").lang = to; vtLang = to; $("vt-outbox").hidden = false; };
+  const show = (out, via) => { $("vt-out").textContent = out; $("vt-out").lang = to; vtLang = to; $("vt-via").textContent = via ? VT_VIA[via] || "" : ""; $("vt-outbox").hidden = false; };
   if (f === to) { show(text); return; }
-  const need = vtNeed(f, to), fresh = need.filter((p) => !vtPacks.has(p));
-  const mb = fresh.reduce((a, p) => a + VT_MB[p], 0);
-  vtBusy = true; $("vt-go").disabled = true;
-  $("vt-status").textContent = fresh.length ? `Eerste keer: taalpakket downloaden (ongeveer ${mb} MB). Dit kan even duren, laat dit scherm open.` : "Bezig met vertalen…";
+  if (text.length > 1000) { $("vt-status").textContent = "Deze tekst is te lang. Vertaal maximaal 1000 tekens tegelijk."; return; }
+  if (navigator.onLine === false) { $("vt-status").textContent = "Vertalen werkt alleen met internet."; return; }
+  vtBusy = true; $("vt-go").disabled = true; $("vt-status").textContent = "Bezig met vertalen…";
   try {
-    vtMod = vtMod || (await import("./vertaal/vertaal.js?m=2"));
-    const out = await vtMod.translate(f, to, text.charAt(0).toUpperCase() + text.slice(1));
-    need.forEach((p) => vtPacks.add(p)); prefs.set("vtPacks2", [...vtPacks]);
-    show(out); $("vt-status").textContent = "";
+    const d = await vtOnline(f, to, text.charAt(0).toUpperCase() + text.slice(1));
+    show(d.text, d.via); $("vt-status").textContent = "";
   } catch (err) {
     console.error(err);
-    $("vt-status").textContent = "Vertalen lukte niet. Controleer je internetverbinding (nodig voor de eerste download) en probeer opnieuw.";
+    $("vt-outbox").hidden = true; $("vt-status").textContent = "Vertalen lukte niet. Controleer je internetverbinding en probeer opnieuw.";
   } finally { vtBusy = false; $("vt-go").disabled = false; }
 }
 $("vt-go").addEventListener("click", doVertaal);

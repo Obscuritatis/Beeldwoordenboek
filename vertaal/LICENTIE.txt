@@ -1,2 +1,0 @@
-De vertaalmotor (lib/) is bergamot-translator 0.4.9 (https://github.com/browsermt/bergamot-translator), licentie MPL-2.0.
-De taalmodellen (models2/) zijn de Firefox Translations-modellen van Mozilla (versie 2025, architectuur base-memory), licentie MPL-2.0.
