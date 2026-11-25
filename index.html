@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lj4SUMXe7xlO9kcWag5AKcbgeXwxo+lydISvDOgPiVM='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-PudStgVK9PiaS0GHM6uC5yn5rpUsrQkU5JptkAUi8IQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -300,6 +300,17 @@ html body .ab-card h3{font:800 1rem var(--font-display);color:var(--rood);margin
 html body .ab-card p{margin:0 0 8px;line-height:1.5;font-size:.95rem}
 html body .ab-card p:last-child{margin-bottom:0}
 html body .ab-foot{text-align:center;color:var(--muted);font-size:.8rem;margin:18px 0 0}
+html body .ab-people{list-style:none;margin:6px 0 4px;padding:0;display:grid;gap:8px}
+html body .ab-people li{display:grid;gap:1px;font-size:.95rem}
+html body .ab-people a{color:var(--rood);overflow-wrap:anywhere}
+html body .ab-empty{color:var(--muted);font-size:.9rem}
+html body #ab-edit-btn{margin-top:8px}
+html body .ab-row{display:grid;grid-template-columns:1fr 1.3fr auto;gap:6px;margin:0 0 8px}
+html body .ab-row input{min-width:0;font:inherit;font-size:.92rem;padding:9px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+html body .ab-del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem;padding:0 6px}
+html body #ab-edit .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+html body #ab-edit .notice{margin:8px 0 0;font-size:.8rem}
+@media (max-width:420px){html body .ab-row{grid-template-columns:1fr auto}html body .ab-row input[type=email]{grid-column:1}html body .ab-row .ab-del{grid-row:1/3;grid-column:2}}
 </style>
 
 <div class="hero"><div class="in">
@@ -486,6 +497,7 @@ html body .ab-foot{text-align:center;color:var(--muted);font-size:.8rem;margin:1
     <div class="bar"><button class="btn" id="ab-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button></div>
     <h2 id="ab-title">Over deze app</h2>
     <p class="ab-lead">Het Beeldwoordenboek helpt collega's die Nederlands leren. Je ziet een foto, leest het woord en hoort hoe je het uitspreekt.</p>
+    <div class="ab-card" id="ab-contact" hidden><h3>Contact</h3><p>Zie je een fout of mis je een woord? Neem contact op met:</p><ul class="ab-people" id="ab-people"></ul><p class="ab-empty" id="ab-empty" hidden>Nog geen contactpersonen. Voeg ze hieronder toe.</p><div id="ab-edit" hidden></div><button type="button" class="btn" id="ab-edit-btn" hidden>Contactpersonen aanpassen</button></div>
     <div class="ab-card"><h3>Privacy</h3><p>De app vraagt geen naam, e-mailadres of andere gegevens. Er zijn geen cookies, geen reclame en niemand volgt wat je doet.</p><p>Je favorieten en instellingen (taal, stem, snelheid) worden alleen op je eigen gsm bewaard. Wis je de gegevens van je browser, dan zijn ze weg.</p><p>De app staat op GitHub Pages. Zoals elke website verwerkt die technische gegevens, zoals je IP-adres, om de pagina te kunnen tonen.</p></div>
     <div class="ab-card"><h3>Uitspraak</h3><p>De stem komt van je eigen gsm of computer. Op sommige toestellen is dat een online stem van bijvoorbeeld Google, Apple of Microsoft. Dan gaat het woord naar die dienst om het uit te spreken.</p></div>
     <div class="ab-card"><h3>Let op</h3><p>Deze app is een leerhulp. Voor brandveiligheid, zorg en het gebruik van producten volg je altijd de officiële procedures, opleidingen en de instructies van je leidinggevende.</p></div>
@@ -699,8 +711,9 @@ const localStore = (() => {
       await tx("readwrite", (s) => s.put(out)); await emit();
     },
     async remove(rec) { await tx("readwrite", (s) => s.delete(rec.id)); await emit(); },
-    subscribeHidden(cb) { setGroups(prefs.get("groups", [])); cb(prefs.get("hiddenStarters", [])); },
+    subscribeHidden(cb) { setGroups(prefs.get("groups", [])); setContacts(prefs.get("contacts", [])); cb(prefs.get("hiddenStarters", [])); },
     async saveHidden(ids) { prefs.set("hiddenStarters", ids); },
+    async saveContacts(c) { prefs.set("contacts", c); setContacts(c); },
     async saveGroups(g) { prefs.set("groups", g); setGroups(g); },
     imageUrl: (rec) => rec.imageData || "",
     audioUrl: async (rec) => rec.audioData || "",
@@ -743,9 +756,10 @@ function cloudStore(db, assets, canWrite) {
       if (rec.imageId && assets) await assets.delete(rec.imageId).catch(() => {});
       if (rec.videoId && assets) await assets.delete(rec.videoId).catch(() => {});
     },
-    subscribeHidden(cb) { db.doc("settings/app").onSnapshot((s) => { const d = s.exists ? s.data() : {}; setGroups(d.groups); cb(d.hiddenStarters); }, () => {}); },
-    async saveHidden(ids) { await db.doc("settings/app").set({ hiddenStarters: ids, groups }); },
-    async saveGroups(g) { await db.doc("settings/app").set({ hiddenStarters: [...hiddenStarters], groups: g }); },
+    subscribeHidden(cb) { db.doc("settings/app").onSnapshot((s) => { const d = s.exists ? s.data() : {}; setGroups(d.groups); setContacts(d.contacts); cb(d.hiddenStarters); }, () => {}); },
+    async saveHidden(ids) { await db.doc("settings/app").set({ hiddenStarters: ids, groups, contacts }); },
+    async saveGroups(g) { await db.doc("settings/app").set({ hiddenStarters: [...hiddenStarters], groups: g, contacts }); },
+    async saveContacts(c) { await db.doc("settings/app").set({ hiddenStarters: [...hiddenStarters], groups, contacts: c }); setContacts(c); },
     imageUrl: (rec) => (rec.imageId ? "/_blob/" + rec.imageId : ""),
     videoUrl: (rec) => (rec.videoId ? "/_blob/" + rec.videoId : ""),
     async audioUrl(rec) {
@@ -761,7 +775,7 @@ function cloudStore(db, assets, canWrite) {
 const siteStore = {
   mode: "site", canWrite: false,
   subscribe(cb) {
-    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => { setGroups(d.groups); setHidden(d.hiddenStarters); cb(Array.isArray(d.words) ? d.words : []); }).catch(() => cb([]));
+    fetch("woorden.json", { cache: "no-cache" }).then((r) => r.json()).then((d) => { setGroups(d.groups); setContacts(d.contacts); setHidden(d.hiddenStarters); cb(Array.isArray(d.words) ? d.words : []); }).catch(() => cb([]));
   },
   imageUrl: (rec) => rec.image || "",
   videoUrl: (rec) => rec.video || "",
@@ -802,6 +816,31 @@ function setHidden(ids) { hiddenStarters = new Set(ids || []); renderGrid(); if 
 /* ---------- groepen binnen een thema (bv. Onderhoud: Doeken, Sponzen) ---------- */
 let groups = []; // [{ nl, fr, en }] in vaste volgorde
 let sub = ""; // gekozen groep binnen het thema, "" = alle
+let contacts = [], contactsEditing = false;
+const cleanContacts = (c) => (Array.isArray(c) ? c : []).map((x) => ({ name: String((x && x.name) || "").trim().slice(0, 80), email: String((x && x.email) || "").trim().slice(0, 120) })).filter((x) => x.name || x.email);
+function setContacts(c) { contacts = cleanContacts(c); renderContacts(); }
+function renderContacts() {
+  const can = !!(store && store.canWrite);
+  $("ab-contact").hidden = !contacts.length && !can;
+  $("ab-people").innerHTML = contacts.map((x) => `<li>${x.name ? `<b>${esc(x.name)}</b>` : ""}${/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x.email) ? `<a href="mailto:${esc(x.email)}">${esc(x.email)}</a>` : x.email ? `<span>${esc(x.email)}</span>` : ""}</li>`).join("");
+  $("ab-people").hidden = contactsEditing || !contacts.length;
+  $("ab-empty").hidden = contactsEditing || !!contacts.length;
+  $("ab-edit-btn").hidden = !can || contactsEditing;
+  $("ab-edit").hidden = !contactsEditing;
+}
+function contactRow(x) { return `<div class="ab-row"><input type="text" placeholder="Naam" aria-label="Naam" value="${esc(x.name || "")}"><input type="email" placeholder="E-mailadres" aria-label="E-mailadres" value="${esc(x.email || "")}"><button type="button" class="ab-del" aria-label="Verwijder">&times;</button></div>`; }
+function openContactEdit() {
+  contactsEditing = true;
+  $("ab-edit").innerHTML = `<div id="ab-rows">${(contacts.length ? contacts : [{}]).map(contactRow).join("")}</div><button type="button" class="btn" id="ab-add">+ Persoon toevoegen</button><div class="row2"><button type="button" class="btn" id="ab-cancel">Annuleren</button><button type="button" class="btn primary" id="ab-save">Opslaan</button></div><p class="notice">Na het opslaan komen de contactpersonen bij de volgende update ook op de website.</p>`;
+  renderContacts();
+  $("ab-add").onclick = () => { $("ab-rows").insertAdjacentHTML("beforeend", contactRow({})); $("ab-rows").lastElementChild.querySelector("input").focus(); };
+  $("ab-rows").onclick = (e) => { const d = e.target.closest(".ab-del"); if (d) d.parentElement.remove(); };
+  $("ab-cancel").onclick = () => { contactsEditing = false; renderContacts(); };
+  $("ab-save").onclick = async () => {
+    const c = cleanContacts([...$("ab-rows").querySelectorAll(".ab-row")].map((r) => { const i = r.querySelectorAll("input"); return { name: i[0].value, email: i[1].value }; }));
+    try { await store.saveContacts(c); contactsEditing = false; setContacts(c); toast("Contactpersonen opgeslagen"); } catch (_) { toast("Opslaan lukte niet"); }
+  };
+}
 function setGroups(g) { groups = Array.isArray(g) ? g.filter((x) => x && x.nl) : []; renderChips(); renderGrid(); }
 const groupIdx = (n) => { const i = groups.findIndex((g) => g.nl === n); return i < 0 ? groups.length : i; };
 const OTHER = { nl: "Algemeen", fr: "Général", en: "General" };
@@ -1112,6 +1151,8 @@ document.querySelector(".mini").addEventListener("click", goHome);
 $("inst-link").addEventListener("click", doInstall);
 $("about-link").addEventListener("click", () => { $("about").hidden = false; document.body.style.overflow = "hidden"; $("about").scrollTop = 0; });
 $("s-about").addEventListener("click", () => { closeOverlay("settings"); $("about-link").click(); });
+$("ab-edit-btn").addEventListener("click", openContactEdit);
+$("about-link").addEventListener("click", () => { contactsEditing = false; renderContacts(); });
 $("ab-close").addEventListener("click", () => closeOverlay("about"));
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
   stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help", "about"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });

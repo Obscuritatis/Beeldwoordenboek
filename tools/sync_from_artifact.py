@@ -57,10 +57,11 @@ for f in sorted((exp / "words").glob("*.json")):
 for f in media.iterdir():
     if f.name not in keep:
         f.unlink()
-hidden, groups = [], []
+hidden, groups, contacts = [], [], []
 s = exp / "settings" / "app.json"
 if s.exists():
     hidden = body(s).get("hiddenStarters", []) or []
+    contacts = [{"name": str(c.get("name") or "")[:80], "email": str(c.get("email") or "")[:120]} for c in (body(s).get("contacts") or []) if isinstance(c, dict) and (c.get("name") or c.get("email"))]
     groups = [{k: g[k] for k in ("nl", "fr", "en") if g.get(k)} for g in (body(s).get("groups") or []) if isinstance(g, dict) and g.get("nl")]
-(site / "woorden.json").write_text(json.dumps({"words": words, "hiddenStarters": hidden, "groups": groups}, indent=2, ensure_ascii=False), encoding="utf-8")
+(site / "woorden.json").write_text(json.dumps({"words": words, "hiddenStarters": hidden, "groups": groups, "contacts": contacts}, indent=2, ensure_ascii=False), encoding="utf-8")
 print(len(words), "woorden,", len(keep), "mediabestanden")
