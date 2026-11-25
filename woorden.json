@@ -129,7 +129,7 @@
       "sentenceFr": "Mets des gants pour les soins d'un résident ou d'un patient.",
       "wordEn": "gloves",
       "sentenceEn": "Put on gloves to care for a resident or patient.",
-      "group": "Medische hulpmiddelen",
+      "group": "Medicatie en wondverzorging",
       "id": "wmuwv3a0vh3yz",
       "createdAt": 1791302218879,
       "image": "media/wmuwv3a0vh3yz.jpg"
@@ -157,7 +157,7 @@
       "sentenceFr": "Mets un masque buccal quand tu es malade.",
       "wordEn": "face mask",
       "sentenceEn": "Wear a face mask when you are ill.",
-      "group": "Medische hulpmiddelen",
+      "group": "Medicatie en wondverzorging",
       "id": "wmuxov6gj6l9y",
       "createdAt": 1791352229491,
       "image": "media/wmuxov6gj6l9y.jpg"
@@ -185,7 +185,7 @@
       "sentenceFr": "Mets un pansement sur la plaie.",
       "wordEn": "plaster",
       "sentenceEn": "Put a plaster on the wound.",
-      "group": "Medische hulpmiddelen",
+      "group": "Medicatie en wondverzorging",
       "id": "wmuxppfm5ysm4",
       "createdAt": 1791353641037,
       "image": "media/wmuxppfm5ysm4.jpg"
@@ -199,7 +199,7 @@
       "sentenceFr": "Rapporte toujours les médicaments trouvés au poste infirmier.",
       "wordEn": "medication",
       "sentenceEn": "Always take any medication you find back to the nurses' station.",
-      "group": "Medische hulpmiddelen",
+      "group": "Medicatie en wondverzorging",
       "id": "wmuxpxsvf9347",
       "createdAt": 1791354031467,
       "image": "media/wmuxpxsvf9347.jpg"
@@ -2431,6 +2431,11 @@
       "nl": "Medische hulpmiddelen",
       "fr": "Aides médicales",
       "en": "Medical aids"
+    },
+    {
+      "nl": "Medicatie en wondverzorging",
+      "fr": "Médicaments et soins des plaies",
+      "en": "Medication and wound care"
     },
     {
       "nl": "Medische en verpleegkundige handelingen",
