@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-PudStgVK9PiaS0GHM6uC5yn5rpUsrQkU5JptkAUi8IQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-1x7pAZNVKDvAFviY7cUUQywlRR3A7c/kX9mA13Fk4V8='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -311,6 +311,8 @@ html body .ab-del{border:0;background:transparent;color:var(--muted);cursor:poin
 html body #ab-edit .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 html body #ab-edit .notice{margin:8px 0 0;font-size:.8rem}
 @media (max-width:420px){html body .ab-row{grid-template-columns:1fr auto}html body .ab-row input[type=email]{grid-column:1}html body .ab-row .ab-del{grid-row:1/3;grid-column:2}}
+html body .card .pic{container-type:inline-size}
+html body .card .pic img{max-height:calc(100cqw - 10px)}
 </style>
 
 <div class="hero"><div class="in">
@@ -803,8 +805,13 @@ const HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 let favs = new Set(prefs.get("favs", []));
 const isFav = (r) => favs.has(r.id);
 function toggleFav(r) { favs.has(r.id) ? favs.delete(r.id) : favs.add(r.id); prefs.set("favs", [...favs]); return favs.has(r.id); }
-let filter = prefs.get("filter", "all");
+/* pagina onthouden in het adres (#thema/groep), zodat vernieuwen op dezelfde pagina blijft */
+const hashState = (() => { try { const [f, g] = decodeURIComponent(location.hash.slice(1)).split("/"); return { f: f || "", g: g || "" }; } catch (_) { return { f: "", g: "" }; } })();
+let filter = hashState.f || "all";
 if (filter === "overig") filter = "all";
+let pendingSub = hashState.g;
+["click", "change"].forEach((t) => document.addEventListener(t, () => { pendingSub = ""; }, true));
+function saveHash() { try { const g = sub || pendingSub; const h = filter === "all" ? "" : "#" + encodeURIComponent(filter) + (g ? "/" + encodeURIComponent(g) : ""); if (location.hash !== h) history.replaceState(null, "", h || location.pathname + location.search); } catch (_) {} }
 let helpLang = prefs.get("help", "nl");
 let viewLang = "nl";
 let query = "";
@@ -876,6 +883,7 @@ function renderChips() {
 }
 function renderSub() {
   const gs = filter === "all" || filter === "fav" ? [] : themeGroups(filter);
+  if (pendingSub && gs.includes(pendingSub === "~" ? "" : pendingSub)) { sub = pendingSub; pendingSub = ""; }
   if (sub && !gs.includes(sub === "~" ? "" : sub)) sub = "";
   $("subchips").hidden = !gs.length;
   $("f-group").innerHTML = gs.length ? [`<option value="">${esc(flat(t("all")))}</option>`].concat(gs.map((g) => `<option value="${esc(g || "~")}"${sub === (g || "~") ? " selected" : ""}>${esc(flat(groupName(g)))}</option>`)).join("") : "";
@@ -916,7 +924,7 @@ async function doInstall() {
 addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); instPrompt = e; renderInstall(); });
 addEventListener("appinstalled", () => { instPrompt = null; prefs.set("instHide", true); renderInstall(); });
 function renderGrid() {
-  syncTabs(); renderInstall();
+  syncTabs(); renderInstall(); saveHash();
   if (filter === "all" && !query.trim()) { renderSub(); renderTiles(); return; }
   const q = query.trim().toLowerCase();
   const gs = renderSub();
