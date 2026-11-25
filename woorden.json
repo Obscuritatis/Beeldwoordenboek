@@ -624,6 +624,90 @@
       "image": "media/wmww7scd4zz06.jpg"
     },
     {
+      "word": "lezen",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Wil je een boek lezen?",
+      "wordFr": "lire",
+      "sentenceFr": "Veux-tu lire un livre ?",
+      "wordEn": "reading",
+      "sentenceEn": "Would you like to read a book?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7x9ph73c9",
+      "createdAt": 1795616872037,
+      "image": "media/wmww7x9ph73c9.jpg"
+    },
+    {
+      "word": "schrijven",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Wil je iets schrijven?",
+      "wordFr": "écrire",
+      "sentenceFr": "Veux-tu écrire quelque chose ?",
+      "wordEn": "writing",
+      "sentenceEn": "Would you like to write something?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7xah9gjkm",
+      "createdAt": 1795616873037,
+      "image": "media/wmww7xah9gjkm.jpg"
+    },
+    {
+      "word": "tekenen",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Wil je een tekening maken?",
+      "wordFr": "dessiner",
+      "sentenceFr": "Veux-tu faire un dessin ?",
+      "wordEn": "drawing",
+      "sentenceEn": "Would you like to make a drawing?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7xb91eq7s",
+      "createdAt": 1795616874037,
+      "image": "media/wmww7xb91eq7s.jpg"
+    },
+    {
+      "word": "schilderen",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Wil je schilderen?",
+      "wordFr": "peindre",
+      "sentenceFr": "Veux-tu peindre ?",
+      "wordEn": "painting",
+      "sentenceEn": "Would you like to paint?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7xc0tx9fy",
+      "createdAt": 1795616875037,
+      "image": "media/wmww7xc0tx9fy.jpg"
+    },
+    {
+      "word": "muziek luisteren",
+      "article": "",
+      "theme": "praktisch",
+      "sentence": "Wil je naar muziek luisteren?",
+      "wordFr": "écouter de la musique",
+      "sentenceFr": "Veux-tu écouter de la musique ?",
+      "wordEn": "listening to music",
+      "sentenceEn": "Would you like to listen to music?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7xcsli0xf",
+      "createdAt": 1795616876037,
+      "image": "media/wmww7xcsli0xf.jpg"
+    },
+    {
+      "word": "zingen",
+      "article": "het",
+      "theme": "praktisch",
+      "sentence": "Zullen we samen zingen?",
+      "wordFr": "chanter",
+      "sentenceFr": "On chante ensemble ?",
+      "wordEn": "singing",
+      "sentenceEn": "Shall we sing together?",
+      "group": "Activiteiten en ontspanning",
+      "id": "wmww7xdkdot5p",
+      "createdAt": 1795616877037,
+      "image": "media/wmww7xdkdot5p.jpg"
+    },
+    {
       "word": "Reocis",
       "article": "",
       "theme": "onderhoud",
@@ -2090,6 +2174,11 @@
       "nl": "Dagelijkse zorg",
       "fr": "Soins quotidiens",
       "en": "Daily care"
+    },
+    {
+      "nl": "Activiteiten en ontspanning",
+      "fr": "Activités et détente",
+      "en": "Activities and relaxation"
     }
   ],
   "contacts": [
