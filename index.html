@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-QvA81e/o6Tw7jIpJbS2NZNWh3mvE10SuQuMxBgc0Yos='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lj4SUMXe7xlO9kcWag5AKcbgeXwxo+lydISvDOgPiVM='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -293,6 +293,13 @@ html body .hero h1,html body .mini{cursor:pointer}
 .inst-x{border:0;background:transparent;color:var(--muted);font-size:1rem;cursor:pointer;padding:2px 6px}
 .inst-link{border:0;background:transparent;color:var(--rood);font:700 .8rem var(--font-body);text-decoration:underline;cursor:pointer;margin-top:6px}
 @media (max-width:420px){.inst{flex-wrap:wrap}.inst-b{grid-auto-flow:column;align-items:center;width:100%;justify-content:space-between}.inst-ico{display:none}}
+html body .about h2{font:800 1.6rem var(--font-display);margin:14px 0 6px}
+html body .about .ab-lead{font-size:1.02rem;line-height:1.5;margin:0 0 14px}
+html body .ab-card{background:#fff;border-radius:16px;box-shadow:0 1px 6px rgba(42,29,31,.07);padding:14px 16px;margin:0 0 12px}
+html body .ab-card h3{font:800 1rem var(--font-display);color:var(--rood);margin:0 0 6px}
+html body .ab-card p{margin:0 0 8px;line-height:1.5;font-size:.95rem}
+html body .ab-card p:last-child{margin-bottom:0}
+html body .ab-foot{text-align:center;color:var(--muted);font-size:.8rem;margin:18px 0 0}
 </style>
 
 <div class="hero"><div class="in">
@@ -322,7 +329,7 @@ html body .hero h1,html body .mini{cursor:pointer}
   <p class="notice" id="notice"></p>
   <div class="inst" id="inst" hidden></div>
   <div class="grid" id="grid" aria-live="polite"></div>
-  <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek<br><button class="inst-link" id="inst-link" hidden>Installeer als app</button></p>
+  <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek<br><button class="inst-link" id="about-link">Over deze app</button> <button class="inst-link" id="inst-link" hidden>Installeer als app</button></p>
 </div>
 <nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Quiz</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
 <button class="fab" id="btn-add" hidden>
@@ -470,9 +477,22 @@ html body .hero h1,html body .mini{cursor:pointer}
       <button type="button" class="btn" id="s-restore">Zet alle voorbeelden terug</button>
     </div>
     <p class="notice" style="margin:0" id="s-storage"></p>
+    <button type="button" class="btn" id="s-about">Over deze app</button>
   </div>
 </section>
 
+<section lang="nl" class="overlay" id="about" hidden aria-modal="true" role="dialog" aria-labelledby="ab-title">
+  <div class="inner about">
+    <div class="bar"><button class="btn" id="ab-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button></div>
+    <h2 id="ab-title">Over deze app</h2>
+    <p class="ab-lead">Het Beeldwoordenboek helpt collega's die Nederlands leren. Je ziet een foto, leest het woord en hoort hoe je het uitspreekt.</p>
+    <div class="ab-card"><h3>Privacy</h3><p>De app vraagt geen naam, e-mailadres of andere gegevens. Er zijn geen cookies, geen reclame en niemand volgt wat je doet.</p><p>Je favorieten en instellingen (taal, stem, snelheid) worden alleen op je eigen gsm bewaard. Wis je de gegevens van je browser, dan zijn ze weg.</p><p>De app staat op GitHub Pages. Zoals elke website verwerkt die technische gegevens, zoals je IP-adres, om de pagina te kunnen tonen.</p></div>
+    <div class="ab-card"><h3>Uitspraak</h3><p>De stem komt van je eigen gsm of computer. Op sommige toestellen is dat een online stem van bijvoorbeeld Google, Apple of Microsoft. Dan gaat het woord naar die dienst om het uit te spreken.</p></div>
+    <div class="ab-card"><h3>Let op</h3><p>Deze app is een leerhulp. Voor brandveiligheid, zorg en het gebruik van producten volg je altijd de officiële procedures, opleidingen en de instructies van je leidinggevende.</p></div>
+    <div class="ab-card"><h3>Foto's en teksten</h3><p>De foto's en teksten zijn gemaakt door of voor Alexianen Zorggroep Tienen. Je mag ze niet zonder toestemming gebruiken buiten deze app.</p></div>
+    <p class="ab-foot">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek</p>
+  </div>
+</section>
 <section lang="nl" class="overlay" id="quiz" hidden aria-modal="true" role="dialog" aria-labelledby="q-title">
   <div class="inner">
     <div class="bar">
@@ -921,7 +941,7 @@ function renderViewLang() {
   $("v-slow").classList.toggle("wide", !sent);
   $("v-src").textContent = t(l === "fr" ? "srcFr" : l === "en" ? "srcEn" : r.hasAudio ? "srcOwn" : "srcNl");
 }
-function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden) document.body.style.overflow = ""; }
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden && $("about").hidden) document.body.style.overflow = ""; }
 
 /* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
 const UI = {
@@ -1090,8 +1110,11 @@ function goHome() { $("q").value = ""; query = ""; $("tabbar").querySelector('[d
 document.querySelector(".hero h1").addEventListener("click", goHome);
 document.querySelector(".mini").addEventListener("click", goHome);
 $("inst-link").addEventListener("click", doInstall);
+$("about-link").addEventListener("click", () => { $("about").hidden = false; document.body.style.overflow = "hidden"; $("about").scrollTop = 0; });
+$("s-about").addEventListener("click", () => { closeOverlay("settings"); $("about-link").click(); });
+$("ab-close").addEventListener("click", () => closeOverlay("about"));
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
-  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
+  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help", "about"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
   if (k === "quiz") { openQuiz(); return; } if (k === "set") { $("btn-settings").click(); return; }
   filter = k === "fav" ? "fav" : "all"; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); });
 $("grid").addEventListener("click", (e) => { const tl = e.target.closest("[data-tile]"); if (!tl) return; filter = tl.dataset.tile; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: Math.max(0, document.querySelector(".hero").offsetHeight - 10), behavior: "smooth" }); });
