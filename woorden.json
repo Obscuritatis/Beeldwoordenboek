@@ -115,6 +115,7 @@
       "sentenceFr": "Le résident est dans un fauteuil roulant.",
       "wordEn": "wheelchair",
       "sentenceEn": "The resident is in a wheelchair.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuwuymerdk9o",
       "createdAt": 1791302001651,
       "image": "media/wmuwuymerdk9o.jpg"
@@ -128,6 +129,7 @@
       "sentenceFr": "Mets des gants pour les soins d'un résident ou d'un patient.",
       "wordEn": "gloves",
       "sentenceEn": "Put on gloves to care for a resident or patient.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuwv3a0vh3yz",
       "createdAt": 1791302218879,
       "image": "media/wmuwv3a0vh3yz.jpg"
@@ -141,6 +143,7 @@
       "sentenceFr": "Avec le thermomètre, on mesure la température de quelqu'un.",
       "wordEn": "thermometer",
       "sentenceEn": "You measure someone's temperature with the thermometer.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuxosyj9h33i",
       "createdAt": 1791352125909,
       "image": "media/wmuxosyj9h33i.jpg"
@@ -154,6 +157,7 @@
       "sentenceFr": "Mets un masque buccal quand tu es malade.",
       "wordEn": "face mask",
       "sentenceEn": "Wear a face mask when you are ill.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuxov6gj6l9y",
       "createdAt": 1791352229491,
       "image": "media/wmuxov6gj6l9y.jpg"
@@ -167,6 +171,7 @@
       "sentenceFr": "Le lit médicalisé est utilisé pour les résidents d'une maison de repos et de soins.",
       "wordEn": "care bed",
       "sentenceEn": "The care bed is used for residents in a care home.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuxoz2b0a7kt",
       "createdAt": 1791352410732,
       "image": "media/wmuxoz2b0a7kt.jpg"
@@ -180,6 +185,7 @@
       "sentenceFr": "Mets un pansement sur la plaie.",
       "wordEn": "plaster",
       "sentenceEn": "Put a plaster on the wound.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuxppfm5ysm4",
       "createdAt": 1791353641037,
       "image": "media/wmuxppfm5ysm4.jpg"
@@ -193,6 +199,7 @@
       "sentenceFr": "Rapporte toujours les médicaments trouvés au poste infirmier.",
       "wordEn": "medication",
       "sentenceEn": "Always take any medication you find back to the nurses' station.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuxpxsvf9347",
       "createdAt": 1791354031467,
       "image": "media/wmuxpxsvf9347.jpg"
@@ -396,6 +403,7 @@
       "sentenceFr": "Avec le déambulateur, le résident marche plus facilement.",
       "wordEn": "walker",
       "sentenceEn": "With the walker, the resident can walk more easily.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuy2gbr55mn7",
       "createdAt": 1791375051138,
       "image": "media/wmuy2gbr55mn7.jpg"
@@ -409,6 +417,7 @@
       "sentenceFr": "Avec le tensiomètre, je mesure facilement la tension d'un résident.",
       "wordEn": "blood pressure monitor",
       "sentenceEn": "I can easily measure a resident's blood pressure with the blood pressure monitor.",
+      "group": "Medische hulpmiddelen",
       "id": "wmuy2i8y2a3dv",
       "createdAt": 1791375140810,
       "image": "media/wmuy2i8y2a3dv.jpg"
@@ -2347,6 +2356,11 @@
       "nl": "Activiteiten en ontspanning",
       "fr": "Activités et détente",
       "en": "Activities and relaxation"
+    },
+    {
+      "nl": "Medische hulpmiddelen",
+      "fr": "Aides médicales",
+      "en": "Medical aids"
     },
     {
       "nl": "Medische en verpleegkundige handelingen",
