@@ -792,6 +792,90 @@
       "image": "media/wmww821upa57k.jpg"
     },
     {
+      "word": "medicatie innemen",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "Het is tijd om je medicatie in te nemen.",
+      "wordFr": "prendre ses médicaments",
+      "sentenceFr": "Il est temps de prendre tes médicaments.",
+      "wordEn": "taking medication",
+      "sentenceEn": "It is time to take your medication.",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8ahnlno37",
+      "createdAt": 1795617488865,
+      "image": "media/wmww8ahnlno37.jpg"
+    },
+    {
+      "word": "een injectie krijgen",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "Je krijgt een injectie in je arm.",
+      "wordFr": "recevoir une injection",
+      "sentenceFr": "Tu reçois une injection dans le bras.",
+      "wordEn": "getting an injection",
+      "sentenceEn": "You are getting an injection in your arm.",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8aifddd0l",
+      "createdAt": 1795617489865,
+      "image": "media/wmww8aifddd0l.jpg"
+    },
+    {
+      "word": "bloed laten afnemen",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "We gaan wat bloed afnemen.",
+      "wordFr": "faire une prise de sang",
+      "sentenceFr": "Nous allons faire une prise de sang.",
+      "wordEn": "having blood taken",
+      "sentenceEn": "We are going to take some blood.",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8aj751834",
+      "createdAt": 1795617490865,
+      "image": "media/wmww8aj751834.jpg"
+    },
+    {
+      "word": "bloeddruk meten",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "Mag ik je bloeddruk meten?",
+      "wordFr": "mesurer la tension",
+      "sentenceFr": "Je peux mesurer ta tension ?",
+      "wordEn": "measuring blood pressure",
+      "sentenceEn": "May I measure your blood pressure?",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8ajyxugf9",
+      "createdAt": 1795617491865,
+      "image": "media/wmww8ajyxugf9.jpg"
+    },
+    {
+      "word": "temperatuur meten",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "Ik ga je temperatuur meten.",
+      "wordFr": "prendre la température",
+      "sentenceFr": "Je vais prendre ta température.",
+      "wordEn": "taking the temperature",
+      "sentenceEn": "I am going to take your temperature.",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8akqpm3tm",
+      "createdAt": 1795617492865,
+      "image": "media/wmww8akqpm3tm.jpg"
+    },
+    {
+      "word": "gewogen worden",
+      "article": "",
+      "theme": "zorg",
+      "sentence": "Wil je even op de weegschaal gaan staan?",
+      "wordFr": "se faire peser",
+      "sentenceFr": "Tu veux bien monter sur la balance ?",
+      "wordEn": "being weighed",
+      "sentenceEn": "Could you step on the scales?",
+      "group": "Medische en verpleegkundige handelingen",
+      "id": "wmww8alihadw6",
+      "createdAt": 1795617493865,
+      "image": "media/wmww8alihadw6.jpg"
+    },
+    {
       "word": "Reocis",
       "article": "",
       "theme": "onderhoud",
@@ -2263,6 +2347,11 @@
       "nl": "Activiteiten en ontspanning",
       "fr": "Activités et détente",
       "en": "Activities and relaxation"
+    },
+    {
+      "nl": "Medische en verpleegkundige handelingen",
+      "fr": "Actes médicaux et infirmiers",
+      "en": "Medical and nursing procedures"
     }
   ],
   "contacts": [
