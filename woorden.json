@@ -9,6 +9,7 @@
       "sentenceFr": "En cas d'arrêt cardiaque, tu utilises le défibrillateur.",
       "wordEn": "AED (defibrillator)",
       "sentenceEn": "In case of cardiac arrest, you use the AED.",
+      "group": "Eerste hulp",
       "id": "wbrandaed",
       "createdAt": 1795683616957,
       "image": "media/wbrandaed.jpg"
@@ -165,6 +166,7 @@
       "sentenceFr": "Avec l'extincteur à mousse, on éteint les petits incendies.",
       "wordEn": "foam fire extinguisher",
       "sentenceEn": "You put out small fires with the foam fire extinguisher.",
+      "group": "Blusmiddelen",
       "id": "wmuwpwg7g5gk1",
       "createdAt": 1791293502221,
       "image": "media/wmuwpwg7g5gk1.jpg",
@@ -180,6 +182,7 @@
       "sentenceFr": "Avec le déclencheur manuel, on fait sonner l'alarme incendie.",
       "wordEn": "manual call point",
       "sentenceEn": "You set off the fire alarm with the manual call point.",
+      "group": "Alarm en evacuatie",
       "id": "wmuwtzo6fje0l",
       "createdAt": 1791300370983,
       "image": "media/wmuwtzo6fje0l.jpg"
@@ -193,6 +196,7 @@
       "sentenceFr": "Avec l'extincteur CO2, on éteint les petits appareils électriques.",
       "wordEn": "CO2 fire extinguisher",
       "sentenceEn": "You use the CO2 fire extinguisher on small electrical devices.",
+      "group": "Blusmiddelen",
       "id": "wmuwu2whzyxte",
       "createdAt": 1791300521735,
       "image": "media/wmuwu2whzyxte.jpg"
@@ -206,6 +210,7 @@
       "sentenceFr": "Avec le dévidoir incendie, les pompiers peuvent éteindre de petits incendies.",
       "wordEn": "fire hose reel",
       "sentenceEn": "With the fire hose reel, firefighters can put out small fires.",
+      "group": "Blusmiddelen",
       "id": "wmuwu5vm9qdcf",
       "createdAt": 1791300660561,
       "image": "media/wmuwu5vm9qdcf.jpg"
@@ -219,6 +224,7 @@
       "sentenceFr": "Le détecteur de fumée détecte la fumée et déclenche l'alarme.",
       "wordEn": "smoke detector",
       "sentenceEn": "The smoke detector senses smoke and sets off the alarm.",
+      "group": "Alarm en evacuatie",
       "id": "wmuwu9pg54qgq",
       "createdAt": 1791300839189,
       "image": "media/wmuwu9pg54qgq.jpg"
@@ -232,6 +238,7 @@
       "sentenceFr": "Avec la couverture anti-feu, on peut éteindre une personne qui a pris feu.",
       "wordEn": "fire blanket",
       "sentenceEn": "You can use the fire blanket to put out a person whose clothes are on fire.",
+      "group": "Blusmiddelen",
       "id": "wmuwudzd86eny",
       "createdAt": 1791301038668,
       "image": "media/wmuwudzd86eny.jpg"
@@ -245,6 +252,7 @@
       "sentenceFr": "Ce panneau indique la sortie de secours en cas d'évacuation.",
       "wordEn": "emergency exit",
       "sentenceEn": "This sign shows the emergency exit during an evacuation.",
+      "group": "Alarm en evacuatie",
       "id": "wmuwun68iiw5q",
       "createdAt": 1791301467474,
       "image": "media/wmuwun68iiw5q.jpg"
@@ -258,6 +266,7 @@
       "sentenceFr": "En cas d'incendie, va au point de rassemblement indiqué par ce panneau.",
       "wordEn": "assembly point",
       "sentenceEn": "In case of fire, go to the assembly point shown by this sign.",
+      "group": "Alarm en evacuatie",
       "id": "wmuwupnjqmjrv",
       "createdAt": 1791301583223,
       "image": "media/wmuwupnjqmjrv.jpg"
@@ -2639,6 +2648,21 @@
       "nl": "Medische en verpleegkundige handelingen",
       "fr": "Actes médicaux et infirmiers",
       "en": "Medical and nursing procedures"
+    },
+    {
+      "nl": "Blusmiddelen",
+      "fr": "Moyens d'extinction",
+      "en": "Fire extinguishing equipment"
+    },
+    {
+      "nl": "Alarm en evacuatie",
+      "fr": "Alarme et évacuation",
+      "en": "Alarm and evacuation"
+    },
+    {
+      "nl": "Eerste hulp",
+      "fr": "Premiers secours",
+      "en": "First aid"
     }
   ],
   "contacts": [
