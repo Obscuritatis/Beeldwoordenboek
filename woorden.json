@@ -40,6 +40,19 @@
       "image": "media/wallegdouchegel.jpg"
     },
     {
+      "word": "gezelschapsspel",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "In de namiddag spelen de bewoners een gezelschapsspel.",
+      "wordFr": "le jeu de société",
+      "sentenceFr": "L'après-midi, les résidents jouent à un jeu de société.",
+      "wordEn": "board game",
+      "sentenceEn": "In the afternoon, the residents play a board game.",
+      "id": "wallegezelschapsspel",
+      "createdAt": 1795688253197,
+      "image": "media/wallegezelschapsspel.jpg"
+    },
+    {
       "word": "handdoek",
       "article": "de",
       "theme": "alledaags",
@@ -118,6 +131,19 @@
       "image": "media/wallegnagelknipper.jpg"
     },
     {
+      "word": "puzzel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik maak samen met de bewoner een puzzel.",
+      "wordFr": "le puzzle",
+      "sentenceFr": "Je fais un puzzle avec le résident.",
+      "wordEn": "jigsaw puzzle",
+      "sentenceEn": "I do a jigsaw puzzle together with the resident.",
+      "id": "wallegpuzzel",
+      "createdAt": 1795688253196,
+      "image": "media/wallegpuzzel.jpg"
+    },
+    {
       "word": "scheerapparaat",
       "article": "het",
       "theme": "alledaags",
@@ -155,6 +181,19 @@
       "id": "wallegshampoo",
       "createdAt": 1795687020541,
       "image": "media/wallegshampoo.jpg"
+    },
+    {
+      "word": "speelkaarten",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Zullen we een spelletje spelen met de speelkaarten?",
+      "wordFr": "les cartes à jouer",
+      "sentenceFr": "On fait une partie avec les cartes à jouer ?",
+      "wordEn": "playing cards",
+      "sentenceEn": "Shall we play a game with the playing cards?",
+      "id": "wallegspeelkaarten",
+      "createdAt": 1795688253198,
+      "image": "media/wallegspeelkaarten.jpg"
     },
     {
       "word": "tandenborstel",
