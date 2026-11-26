@@ -29,6 +29,20 @@
       "image": "media/wbrandbel112.jpg"
     },
     {
+      "word": "een branddeur niet blokkeren",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Gebruik geen deurstopper om de branddeur te blokkeren.",
+      "wordFr": "ne pas bloquer une porte coupe-feu",
+      "sentenceFr": "N'utilise pas de cale-porte pour bloquer la porte coupe-feu.",
+      "wordEn": "not blocking a fire door",
+      "sentenceEn": "Don't use a doorstop to block the fire door.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandbranddeur",
+      "createdAt": 1795686013816,
+      "image": "media/wbrandbranddeur.jpg"
+    },
+    {
       "word": "evacueren",
       "article": "het",
       "theme": "brand",
@@ -55,6 +69,20 @@
       "id": "wbrandgeenlift",
       "createdAt": 1795684835983,
       "image": "media/wbrandgeenlift.jpg"
+    },
+    {
+      "word": "de vluchtweg vrijhouden",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Zet geen stoelen of karren in de gang: hou de vluchtweg vrij.",
+      "wordFr": "garder la voie d'évacuation libre",
+      "sentenceFr": "Ne mets pas de chaises ni de chariots dans le couloir : garde la voie d'évacuation libre.",
+      "wordEn": "keeping the escape route clear",
+      "sentenceEn": "Don't put chairs or trolleys in the corridor: keep the escape route clear.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandvluchtweg",
+      "createdAt": 1795686013815,
+      "image": "media/wbrandvluchtweg.jpg"
     },
     {
       "word": "koken",
