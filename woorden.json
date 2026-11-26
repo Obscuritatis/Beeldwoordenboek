@@ -1,6 +1,19 @@
 {
   "words": [
     {
+      "word": "boek",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "Ik lees de bewoner een stukje voor uit het boek.",
+      "wordFr": "le livre",
+      "sentenceFr": "Je lis au résident un passage du livre.",
+      "wordEn": "book",
+      "sentenceEn": "I read the resident a passage from the book.",
+      "id": "wallegboek",
+      "createdAt": 1795688090684,
+      "image": "media/wallegboek.jpg"
+    },
+    {
       "word": "deodorant",
       "article": "de",
       "theme": "alledaags",
@@ -79,6 +92,19 @@
       "image": "media/wallegkam.jpg"
     },
     {
+      "word": "krant",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Wilt u de krant lezen, meneer?",
+      "wordFr": "le journal",
+      "sentenceFr": "Voulez-vous lire le journal, monsieur ?",
+      "wordEn": "newspaper",
+      "sentenceEn": "Would you like to read the newspaper, sir?",
+      "id": "wallegkrant",
+      "createdAt": 1795688090685,
+      "image": "media/wallegkrant.jpg"
+    },
+    {
       "word": "nagelknipper",
       "article": "de",
       "theme": "alledaags",
@@ -155,6 +181,19 @@
       "id": "wallegtandpasta",
       "createdAt": 1795686985504,
       "image": "media/wallegtandpasta.jpg"
+    },
+    {
+      "word": "tijdschrift",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "Mevrouw bladert graag in het tijdschrift.",
+      "wordFr": "le magazine",
+      "sentenceFr": "Madame aime feuilleter le magazine.",
+      "wordEn": "magazine",
+      "sentenceEn": "The lady likes to leaf through the magazine.",
+      "id": "wallegtijdschrift",
+      "createdAt": 1795688090686,
+      "image": "media/wallegtijdschrift.jpg"
     },
     {
       "word": "washandje",
