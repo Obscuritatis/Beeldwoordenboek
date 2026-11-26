@@ -40,6 +40,45 @@
       "image": "media/wkeuken03braden.jpg"
     },
     {
+      "word": "frituren",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik frituur de frietjes in de friteuse.",
+      "wordFr": "frire",
+      "sentenceFr": "Je fais frire les frites dans la friteuse.",
+      "wordEn": "deep-frying",
+      "sentenceEn": "I'm deep-frying the chips in the fryer.",
+      "id": "wkeuken04frituren",
+      "createdAt": 1795680915240,
+      "image": "media/wkeuken04frituren.jpg"
+    },
+    {
+      "word": "stomen",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik stoom de groenten in de steamer.",
+      "wordFr": "cuire à la vapeur",
+      "sentenceFr": "Je cuis les légumes à la vapeur.",
+      "wordEn": "steaming",
+      "sentenceEn": "I'm steaming the vegetables in the steamer.",
+      "id": "wkeuken05stomen",
+      "createdAt": 1795680915241,
+      "image": "media/wkeuken05stomen.jpg"
+    },
+    {
+      "word": "grillen",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik gril de kip op de grill.",
+      "wordFr": "griller",
+      "sentenceFr": "Je grille le poulet sur le gril.",
+      "wordEn": "grilling",
+      "sentenceEn": "I'm grilling the chicken on the grill.",
+      "id": "wkeuken06grillen",
+      "createdAt": 1795680915242,
+      "image": "media/wkeuken06grillen.jpg"
+    },
+    {
       "word": "schuimbrandblusser",
       "article": "de",
       "theme": "brand",
