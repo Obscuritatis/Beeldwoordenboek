@@ -79,6 +79,45 @@
       "image": "media/wkeuken06grillen.jpg"
     },
     {
+      "word": "snijden",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik snijd de paprika in blokjes.",
+      "wordFr": "couper",
+      "sentenceFr": "Je coupe le poivron en dés.",
+      "wordEn": "cutting",
+      "sentenceEn": "I'm cutting the pepper into cubes.",
+      "id": "wkeuken07snijden",
+      "createdAt": 1795681410686,
+      "image": "media/wkeuken07snijden.jpg"
+    },
+    {
+      "word": "schillen",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik schil de aardappelen.",
+      "wordFr": "éplucher",
+      "sentenceFr": "J'épluche les pommes de terre.",
+      "wordEn": "peeling",
+      "sentenceEn": "I'm peeling the potatoes.",
+      "id": "wkeuken08schillen",
+      "createdAt": 1795681410687,
+      "image": "media/wkeuken08schillen.jpg"
+    },
+    {
+      "word": "raspen",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik rasp de wortels.",
+      "wordFr": "râper",
+      "sentenceFr": "Je râpe les carottes.",
+      "wordEn": "grating",
+      "sentenceEn": "I'm grating the carrots.",
+      "id": "wkeuken09raspen",
+      "createdAt": 1795681410688,
+      "image": "media/wkeuken09raspen.jpg"
+    },
+    {
       "word": "schuimbrandblusser",
       "article": "de",
       "theme": "brand",
