@@ -2478,6 +2478,20 @@
       "image": "media/wonderh92.jpg"
     },
     {
+      "word": "naaldcontainer",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Gooi gebruikte naalden altijd in de naaldcontainer.",
+      "wordFr": "le conteneur à aiguilles",
+      "sentenceFr": "Jette toujours les aiguilles usagées dans le conteneur à aiguilles.",
+      "wordEn": "sharps container",
+      "sentenceEn": "Always throw used needles in the sharps container.",
+      "group": "Medicatie en wondverzorging",
+      "id": "wzorgnaaldcontainer",
+      "createdAt": 1795682673151,
+      "image": "media/wzorgnaaldcontainer.jpg"
+    },
+    {
       "word": "actieve tillift",
       "article": "de",
       "theme": "zorg",
