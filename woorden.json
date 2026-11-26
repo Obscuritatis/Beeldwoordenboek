@@ -53,6 +53,19 @@
       "image": "media/wallegharborstel.jpg"
     },
     {
+      "word": "haardroger",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik droog mijn haar met de haardroger.",
+      "wordFr": "le sèche-cheveux",
+      "sentenceFr": "Je me sèche les cheveux avec le sèche-cheveux.",
+      "wordEn": "hair dryer",
+      "sentenceEn": "I dry my hair with the hair dryer.",
+      "id": "wallegharoger",
+      "createdAt": 1795687519423,
+      "image": "media/wallegharoger.jpg"
+    },
+    {
       "word": "kam",
       "article": "de",
       "theme": "alledaags",
@@ -64,6 +77,19 @@
       "id": "wallegkam",
       "createdAt": 1795686985505,
       "image": "media/wallegkam.jpg"
+    },
+    {
+      "word": "nagelknipper",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik knip mijn nagels met de nagelknipper.",
+      "wordFr": "le coupe-ongles",
+      "sentenceFr": "Je me coupe les ongles avec le coupe-ongles.",
+      "wordEn": "nail clipper",
+      "sentenceEn": "I cut my nails with the nail clipper.",
+      "id": "wallegnagelknipper",
+      "createdAt": 1795687519422,
+      "image": "media/wallegnagelknipper.jpg"
     },
     {
       "word": "scheerapparaat",
@@ -142,6 +168,19 @@
       "id": "wallegwashandje",
       "createdAt": 1795687297323,
       "image": "media/wallegwashandje.jpg"
+    },
+    {
+      "word": "zakdoek",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik snuit mijn neus in een zakdoek.",
+      "wordFr": "le mouchoir",
+      "sentenceFr": "Je me mouche dans un mouchoir.",
+      "wordEn": "handkerchief",
+      "sentenceEn": "I blow my nose in a handkerchief.",
+      "id": "wallegzakdoek",
+      "createdAt": 1795687519424,
+      "image": "media/wallegzakdoek.jpg"
     },
     {
       "word": "zeep",
