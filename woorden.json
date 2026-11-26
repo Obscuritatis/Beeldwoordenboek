@@ -15,6 +15,20 @@
       "image": "media/wbrandaed.jpg"
     },
     {
+      "word": "bel 112 bij brand",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Zie je brand? Bel meteen 112.",
+      "wordFr": "appelle le 112 en cas d'incendie",
+      "sentenceFr": "Tu vois un incendie ? Appelle tout de suite le 112.",
+      "wordEn": "call 112 in case of fire",
+      "sentenceEn": "Do you see a fire? Call 112 right away.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandbel112",
+      "createdAt": 1795685149666,
+      "image": "media/wbrandbel112.jpg"
+    },
+    {
       "word": "evacueren",
       "article": "het",
       "theme": "brand",
