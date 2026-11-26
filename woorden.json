@@ -1,6 +1,45 @@
 {
   "words": [
     {
+      "word": "kam",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik kam mijn haar met de kam.",
+      "wordFr": "le peigne",
+      "sentenceFr": "Je me coiffe avec le peigne.",
+      "wordEn": "comb",
+      "sentenceEn": "I comb my hair with the comb.",
+      "id": "wallegkam",
+      "createdAt": 1795686985505,
+      "image": "media/wallegkam.jpg"
+    },
+    {
+      "word": "tandenborstel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik poets mijn tanden met de tandenborstel.",
+      "wordFr": "la brosse à dents",
+      "sentenceFr": "Je me brosse les dents avec la brosse à dents.",
+      "wordEn": "toothbrush",
+      "sentenceEn": "I brush my teeth with the toothbrush.",
+      "id": "wallegtandenborstel",
+      "createdAt": 1795686985503,
+      "image": "media/wallegtandenborstel.jpg"
+    },
+    {
+      "word": "tandpasta",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Doe een beetje tandpasta op de tandenborstel.",
+      "wordFr": "le dentifrice",
+      "sentenceFr": "Mets un peu de dentifrice sur la brosse à dents.",
+      "wordEn": "toothpaste",
+      "sentenceEn": "Put a little toothpaste on the toothbrush.",
+      "id": "wallegtandpasta",
+      "createdAt": 1795686985504,
+      "image": "media/wallegtandpasta.jpg"
+    },
+    {
       "word": "AED-toestel",
       "article": "het",
       "theme": "brand",
