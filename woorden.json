@@ -1,6 +1,19 @@
 {
   "words": [
     {
+      "word": "haarborstel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik borstel mijn haar met de haarborstel.",
+      "wordFr": "la brosse à cheveux",
+      "sentenceFr": "Je me brosse les cheveux avec la brosse à cheveux.",
+      "wordEn": "hairbrush",
+      "sentenceEn": "I brush my hair with the hairbrush.",
+      "id": "wallegharborstel",
+      "createdAt": 1795687020540,
+      "image": "media/wallegharborstel.jpg"
+    },
+    {
       "word": "kam",
       "article": "de",
       "theme": "alledaags",
@@ -12,6 +25,19 @@
       "id": "wallegkam",
       "createdAt": 1795686985505,
       "image": "media/wallegkam.jpg"
+    },
+    {
+      "word": "shampoo",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik was mijn haar met shampoo.",
+      "wordFr": "le shampooing",
+      "sentenceFr": "Je me lave les cheveux avec du shampooing.",
+      "wordEn": "shampoo",
+      "sentenceEn": "I wash my hair with shampoo.",
+      "id": "wallegshampoo",
+      "createdAt": 1795687020541,
+      "image": "media/wallegshampoo.jpg"
     },
     {
       "word": "tandenborstel",
@@ -38,6 +64,19 @@
       "id": "wallegtandpasta",
       "createdAt": 1795686985504,
       "image": "media/wallegtandpasta.jpg"
+    },
+    {
+      "word": "zeep",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Was je handen met water en zeep.",
+      "wordFr": "le savon",
+      "sentenceFr": "Lave-toi les mains avec de l'eau et du savon.",
+      "wordEn": "soap",
+      "sentenceEn": "Wash your hands with soap and water.",
+      "id": "wallegzeep",
+      "createdAt": 1795687020542,
+      "image": "media/wallegzeep.jpg"
     },
     {
       "word": "AED-toestel",
