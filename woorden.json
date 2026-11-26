@@ -29,6 +29,20 @@
       "image": "media/wbrandevacueren.jpg"
     },
     {
+      "word": "de lift niet gebruiken bij brand",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Bij brand neem je de trap, niet de lift.",
+      "wordFr": "ne pas utiliser l'ascenseur en cas d'incendie",
+      "sentenceFr": "En cas d'incendie, prends l'escalier, pas l'ascenseur.",
+      "wordEn": "do not use the lift in case of fire",
+      "sentenceEn": "In case of fire, take the stairs, not the lift.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandgeenlift",
+      "createdAt": 1795684835983,
+      "image": "media/wbrandgeenlift.jpg"
+    },
+    {
       "word": "koken",
       "article": "het",
       "theme": "keuken",
