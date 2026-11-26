@@ -316,6 +316,77 @@ html body .vt-out .btn svg{width:18px;height:18px}
 html body .vt-via{margin:-6px 0 10px;color:var(--muted);font-size:.78rem}
 html body .vt-note{margin:4px 0 0;color:var(--muted);font-size:.82rem;line-height:1.45}
 html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* oefenen */
+.oe-title{flex:1;margin:0;font:800 1.2rem var(--font-display);text-align:center}
+.oe-title .oe-tr{font-size:.75rem}
+.oe-body{display:flex;flex-direction:column;gap:14px}
+.oe-nl{display:block}
+.oe-tr{display:block;color:var(--muted);font-style:italic;font-weight:400;font-size:.88em;margin-top:3px}
+.oe-th span .oe-tr{display:inline;margin-left:6px}.oe-th span .oe-nl{display:inline}
+.oe-h{margin:6px 0 0;font:700 1.15rem var(--font-display)}
+.oe-muted{margin:0;color:var(--muted);font-size:.9rem}
+.oe-quiz{border:0;border-radius:var(--card-r,14px);background:var(--rood);color:#fff;text-align:left;padding:16px;cursor:pointer;display:grid;gap:4px;font:inherit}
+.oe-quiz b{font:800 1.2rem var(--font-display)}.oe-quiz .oe-tr,.oe-quiz small{color:#fbe3e7}
+.oe-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.oe-tile{border:1px solid var(--line);background:var(--surface);border-radius:var(--card-r,14px);padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;color:var(--ink);font:inherit}
+.oe-tile b{font:700 1rem var(--font-display)}.oe-tile small{color:var(--muted);font-size:.85rem}
+.oe-tile.oe-mix{grid-column:1/-1;background:var(--rood-zacht);border-color:color-mix(in srgb,var(--rood) 30%,#fff)}
+.oe-tile:disabled{opacity:.5;cursor:default}
+.oe-lessons{display:flex;flex-direction:column;gap:10px}
+.oe-lesson{display:flex;gap:14px;align-items:flex-start;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--card-r,14px);padding:14px 16px;font:inherit;color:var(--ink);cursor:pointer}
+.oe-lesson b{display:block;font:700 1rem var(--font-display)}.oe-lesson small{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
+.oe-num{flex:none;width:32px;height:32px;border-radius:99px;background:var(--rood);color:#fff;display:grid;place-items:center;font:800 1rem var(--font-display)}
+.oe-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.88rem}
+.oe-meta .oe-tr{display:none}
+.oe-bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}.oe-bar i{display:block;height:100%;background:var(--rood);transition:width .3s}
+.oe-card{background:var(--surface);border-radius:var(--card-r,16px);padding:18px;display:flex;flex-direction:column;gap:16px}
+.oe-kind{margin:0;font:700 .75rem var(--font-display);letter-spacing:.08em;text-transform:uppercase;color:var(--rood)}
+.oe-kind .oe-tr{text-transform:none;letter-spacing:0}
+.oe-q{margin:0;font:700 1.2rem var(--font-display);text-wrap:balance}
+.oe-pic{width:100%;max-width:220px;aspect-ratio:1;margin:0 auto;border-radius:12px;overflow:hidden;background:#fff}
+.oe-pic img{width:100%;height:100%;object-fit:contain;display:block}
+.oe-gap{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--rood);text-align:center;color:var(--rood)}
+.oe-rule{background:var(--surface-2);border-radius:12px;padding:10px 14px}
+.oe-rule summary{cursor:pointer;font-weight:700;color:var(--rood)}.oe-rule summary .oe-nl,.oe-rule summary .oe-tr{display:inline}.oe-rule summary .oe-tr{margin-left:6px}
+.oe-rule p{margin:8px 0 0}
+.oe-link{background:none;border:0;padding:8px 0 0;color:var(--rood);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;text-align:left}
+.oe-line{min-height:58px;border:2px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.oe-line:empty::before{content:attr(data-hint);white-space:pre-line;color:var(--muted);font-size:.9rem;padding-left:4px}
+.oe-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.oe-w{background:var(--rood-zacht);color:var(--ink);border:0;border-radius:10px;padding:10px 14px;font:700 1.05rem var(--font-body);cursor:pointer}
+.oe-line .oe-w{background:var(--rood);color:#fff}
+.oe-line .oe-w.ok{background:var(--exit,#2f7d4f)}
+.oe-opts{display:grid;gap:10px}.oe-opts.two{grid-template-columns:1fr 1fr}.oe-opts.pics{grid-template-columns:repeat(3,minmax(0,1fr))}
+.oe-opt{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:14px;font:700 1.1rem var(--font-display);cursor:pointer;color:var(--ink);min-height:54px}
+.oe-opts.pics .oe-opt{padding:8px;font-size:.9rem;overflow-wrap:anywhere}
+.oe-opt img{width:100%;aspect-ratio:1;object-fit:contain;display:block;margin-bottom:6px}
+.oe-opt.ok{border-color:var(--exit,#2f7d4f);background:color-mix(in srgb,var(--exit,#2f7d4f) 14%,var(--surface))}
+.oe-opt.bad{border-color:var(--fire,#b3261e);background:color-mix(in srgb,var(--fire,#b3261e) 12%,var(--surface))}
+.oe-fb{border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.oe-fb.ok{background:color-mix(in srgb,var(--exit,#2f7d4f) 14%,var(--surface));color:color-mix(in srgb,var(--exit,#2f7d4f) 80%,#000)}
+.oe-fb.bad{background:color-mix(in srgb,var(--fire,#b3261e) 12%,var(--surface));color:color-mix(in srgb,var(--fire,#b3261e) 85%,#000)}
+.oe-fb p{margin:0;flex:1}.oe-say{display:block;color:var(--ink);font-weight:700;margin-top:4px}
+.oe-listen{background:var(--surface);color:var(--rood);border:1.5px solid var(--line);border-radius:99px;width:44px;height:44px;cursor:pointer;flex:none;display:grid;place-items:center}
+.oe-listen svg{width:20px;height:20px}
+.oe-why{background:var(--surface-2);border-left:4px solid var(--rood);border-radius:4px 12px 12px 4px;padding:10px 14px}
+.oe-why p{margin:6px 0 0}.oe-why .oe-lbl{margin:0;font:700 .75rem var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.oe-why .oe-lbl .oe-nl,.oe-why .oe-lbl .oe-tr{display:inline}.oe-why .oe-lbl .oe-tr{margin-left:6px;text-transform:none;letter-spacing:0}
+.oe-end{text-align:center;align-items:center}.oe-end .btn{width:100%}
+.oe-score{margin:0;font:800 3rem var(--font-display);color:var(--rood);font-variant-numeric:tabular-nums}
+.oe-blk{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.oe-blk h4{margin:0;font:700 1rem var(--font-display);color:var(--rood)}.oe-blk p{margin:0}
+.oe-exs{display:flex;flex-direction:column;gap:8px}
+.oe-exr{display:flex;gap:12px;align-items:center;background:var(--surface-2);border-radius:12px;padding:8px 10px}
+.oe-exr img{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:8px;flex:none}
+.oe-exr p{flex:1;min-width:0;margin:0}.oe-exr b{display:block}
+.oe-tw{overflow-x:auto}
+.oe-tw table{border-collapse:collapse;width:100%;font-size:.95rem}
+.oe-tw th{text-align:left;font:700 .8rem var(--font-display);color:var(--muted);padding:6px 8px;border-bottom:2px solid var(--line);vertical-align:bottom}
+.oe-tw td{padding:8px;border-bottom:1px solid var(--line)}.oe-tw td.hi{color:var(--rood);font-weight:700}
+.oe-tip{margin:0;background:var(--rood-zacht);border-radius:10px;padding:10px 14px;font-size:.95rem}
+.oe-tip::before{content:"Tip";display:block;font:700 .75rem var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:var(--rood);margin-bottom:2px}
+@media (prefers-reduced-motion:reduce){.oe-bar i{transition:none}}
+
 </style>
 
 <div class="hero"><div class="in">
@@ -347,7 +418,7 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
   <div class="grid" id="grid" aria-live="polite"></div>
   <p class="copy">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek<br><button class="inst-link" id="about-link">Over deze app</button> <button class="inst-link" id="inst-link" hidden>Installeer als app</button></p>
 </div>
-<nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Quiz</span></button><button data-tab="vt" id="tab-vt" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h9M7.5 3v2M5 5c.5 3 2.5 5.5 5.5 7M10 5c-.7 3.5-3 6-6 7.5"/><path d="M12.5 21l4-10 4 10M14 17.5h5"/></svg><span>Vertaal</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
+<nav class="tabbar" id="tabbar"><button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Thema's</span></button><button data-tab="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Favorieten</span></button><button data-tab="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h0"/></svg><span>Oefenen</span></button><button data-tab="vt" id="tab-vt" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h9M7.5 3v2M5 5c.5 3 2.5 5.5 5.5 7M10 5c-.7 3.5-3 6-6 7.5"/><path d="M12.5 21l4-10 4 10M14 17.5h5"/></svg><span>Vertaal</span></button><button data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span>Instellingen</span></button></nav>
 <button class="fab" id="btn-add" hidden>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Woord toevoegen
 </button>
@@ -376,6 +447,8 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
       <div class="video-box"><video id="v-video" controls playsinline preload="metadata"></video></div>
     </div>
     <p class="src" id="v-src"></p>
+    <p class="oe-tip" id="v-tip" hidden></p>
+    <button class="btn" id="v-oef" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2.5zM8 7h6M8 11h4"/></svg>Oefen dit woord</button>
     <div class="confirm" id="v-hide-confirm" hidden>
       <p>Dit voorbeeld verdwijnt voor iedereen die de app gebruikt.</p>
       <div class="row2"><button type="button" class="btn" id="v-hide-no">Niet verwijderen</button><button type="button" class="btn danger" id="v-hide-yes">Ja, verwijderen</button></div>
@@ -520,6 +593,16 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
     <div class="ab-card"><h3>Let op</h3><p>Deze app is een leerhulp. Voor brandveiligheid, zorg en het gebruik van producten volg je altijd de officiële procedures, opleidingen en de instructies van je leidinggevende.</p></div>
     <div class="ab-card"><h3>Foto's en teksten</h3><p>De foto's en teksten zijn gemaakt door of voor Alexianen Zorggroep Tienen. Je mag ze niet zonder toestemming gebruiken buiten deze app.</p></div>
     <p class="ab-foot">© 2026 Alexianen Zorggroep Tienen · Beeldwoordenboek</p>
+  </div>
+</section>
+<section lang="nl" class="overlay" id="oefen" hidden aria-modal="true" role="dialog" aria-labelledby="oe-title">
+  <div class="inner">
+    <div class="bar">
+      <button class="btn" id="oe-back" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>Terug</button>
+      <h2 class="oe-title" id="oe-title">Oefenen</h2>
+      <button class="btn" id="oe-close">Sluiten</button>
+    </div>
+    <div class="oe-body" id="oe-body"></div>
   </div>
 </section>
 <section lang="nl" class="overlay" id="quiz" hidden aria-modal="true" role="dialog" aria-labelledby="q-title">
@@ -987,6 +1070,8 @@ function openView(i) {
   $("v-edit").hidden = !store.canWrite;
   $("v-edit").textContent = r.starter ? "Verwijderen" : "Bewerken";
   $("v-hide-confirm").hidden = true;
+  { const tip = oeWordTip(r); $("v-tip").innerHTML = tip ? bi(tip) : ""; $("v-tip").hidden = !tip;
+    $("v-oef").hidden = !(oeHasPic(r) && oeItems([r]).length); }
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
   $("view").hidden = false; document.body.style.overflow = "hidden";
 }
@@ -1004,7 +1089,7 @@ function renderViewLang() {
   $("v-slow").classList.toggle("wide", !sent);
   $("v-src").textContent = t(l === "fr" ? "srcFr" : l === "en" ? "srcEn" : r.hasAudio ? "srcOwn" : "srcNl");
 }
-function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden && $("about").hidden && $("vt").hidden) document.body.style.overflow = ""; }
+function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz").hidden && $("oefen").hidden && $("editor").hidden && $("settings").hidden && $("speech-help").hidden && $("about").hidden && $("vt").hidden) document.body.style.overflow = ""; }
 
 /* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
 const UI = {
@@ -1105,6 +1190,231 @@ $("q-opts").addEventListener("click", (e) => {
 $("q-next").onclick = () => nextQuestion();
 $("q-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("quiz"); };
 
+/* ---------- oefenen: oefeningen en grammaticales ---------- */
+// Oefeningen worden gemaakt uit de woorden zelf (lidwoord, voorbeeldzin). Extra oefeningen met uitleg staan per woord in het veld "oef".
+const L3 = (nl, fr, en) => ({ nl, fr, en });
+const bi = (o) => (o ? `<span class="oe-nl">${esc(o.nl)}</span>` + (helpLang !== "nl" && o[helpLang] ? `<span class="oe-tr" lang="${helpLang}">${esc(o[helpLang])}</span>` : "") : "");
+const OE_SPK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+const OE_T = {
+  zin: { name: L3("Zin bouwen", "Construire une phrase", "Build a sentence"), d: L3("Zet de woorden in de juiste volgorde.", "Mets les mots dans le bon ordre.", "Put the words in the right order.") },
+  lw: { name: L3("De of het?", "De ou het ?", "De or het?"), d: L3("Kies het juiste lidwoord.", "Choisis le bon article.", "Choose the right article.") },
+  vul: { name: L3("Vul het woord in", "Complète avec le mot", "Fill in the word"), d: L3("Welk woord past in de zin?", "Quel mot va dans la phrase ?", "Which word fits in the sentence?") },
+  ww: { name: L3("Werkwoorden", "Les verbes", "Verbs"), d: L3("Kies de juiste vorm van het werkwoord.", "Choisis la bonne forme du verbe.", "Choose the right form of the verb.") },
+};
+const OE_G = {
+  zin: L3("In een gewone zin staat het werkwoord altijd op de tweede plaats. Meestal begin je met het onderwerp (wie doet het?), dan komt het werkwoord en dan de rest.", "Dans une phrase simple, le verbe est toujours en deuxième position. On commence souvent par le sujet (qui fait l'action ?), puis le verbe, puis le reste.", "In a simple sentence, the verb always comes second. You usually start with the subject (who does it?), then the verb, then the rest."),
+  lw: L3("Er zijn twee lidwoorden: de en het. De meeste woorden krijgen de. Verkleinwoorden (op -je) krijgen altijd het. Meervoud krijgt altijd de. Bij een samengesteld woord telt het laatste deel.", "Il y a deux articles : de et het. La plupart des mots prennent de. Les diminutifs (en -je) prennent toujours het. Le pluriel prend toujours de. Pour un mot composé, c'est la dernière partie qui compte.", "There are two articles: de and het. Most words take de. Diminutives (ending in -je) always take het. Plurals always take de. In a compound word, the last part decides."),
+  vul: L3("Lees eerst de hele zin. De andere woorden helpen je: wat doe je ermee, en past het lidwoord (de of het)?", "Lis d'abord toute la phrase. Les autres mots t'aident : que fait-on avec l'objet, et l'article (de ou het) correspond-il ?", "Read the whole sentence first. The other words help you: what do you do with it, and does the article (de or het) fit?"),
+  ww: L3("Het werkwoord verandert met de persoon. ik: alleen de stam (lezen → ik lees). jij, u, hij, zij: stam + t (jij leest). wij, jullie, zij (meervoud): het hele werkwoord (wij lezen).", "Le verbe change selon la personne. ik (je) : seulement le radical (lezen → ik lees). jij, u, hij, zij (tu, vous, il, elle) : radical + t (jij leest). wij, jullie, zij (nous, vous, ils) : le verbe entier (wij lezen).", "The verb changes with the person. ik (I): only the stem (lezen → ik lees). jij, u, hij, zij (you, he, she): stem + t (jij leest). wij, jullie, zij (we, you all, they): the full verb (wij lezen)."),
+};
+const OE_UI = {
+  title: L3("Oefenen", "S'exercer", "Practice"), close: L3("Sluiten", "Fermer", "Close"), back: L3("Terug", "Retour", "Back"),
+  theme: L3("Thema", "Thème", "Theme"), allTh: L3("Alle thema's", "Tous les thèmes", "All themes"),
+  quiz: L3("Quiz", "Quiz", "Quiz"), quizD: L3("Welk woord hoort bij de foto?", "Quel mot correspond à la photo ?", "Which word goes with the photo?"),
+  ex: L3("Oefeningen", "Exercices", "Exercises"), mix: L3("Alles door elkaar", "Tout mélangé", "All mixed"), mixD: L3("10 vragen", "10 questions", "10 questions"),
+  gram: L3("Grammatica", "Grammaire", "Grammar"), gramD: L3("Korte lessen over het maken van zinnen.", "Courtes leçons pour faire des phrases.", "Short lessons on making sentences."),
+  none: L3("Nog geen oefeningen in dit thema.", "Pas encore d'exercices dans ce thème.", "No exercises in this theme yet."),
+  q: (a, b) => L3(`Vraag ${a} van ${b}`, `Question ${a} sur ${b}`, `Question ${a} of ${b}`),
+  right: (a) => L3(`${a} juist`, `${a} correct${a > 1 ? "s" : ""}`, `${a} correct`),
+  rule: L3("Uitleg: de regel", "Explication : la règle", "Explanation: the rule"), readLes: L3("Lees de les", "Lire la leçon", "Read the lesson"),
+  make: L3("Maak de zin.", "Fais la phrase.", "Make the sentence."), tapHint: L3("Tik de woorden in de juiste volgorde.", "Touche les mots dans le bon ordre.", "Tap the words in the right order."),
+  check: L3("Controleer", "Vérifier", "Check"), good: L3("Juist!", "Correct !", "Correct!"), almost: L3("Bijna. Zo is het juist:", "Presque. Voici la bonne réponse :", "Almost. This is correct:"),
+  why: L3("Waarom?", "Pourquoi ?", "Why?"), next: L3("Volgende", "Suivant", "Next"), score: L3("Bekijk je score", "Voir ton score", "See your score"),
+  done: L3("Klaar", "Terminé", "Done"), again: L3("Opnieuw", "Recommencer", "Again"), other: L3("Andere oefening", "Autre exercice", "Other exercise"),
+  allOk: L3("Alles juist, knap gedaan!", "Tout est correct, bravo !", "All correct, well done!"), okish: L3("Goed bezig!", "Bon travail !", "Good job!"), keep: L3("Blijf oefenen, het lukt!", "Continue, tu vas y arriver !", "Keep practising, you can do it!"),
+  word: L3("Oefen dit woord", "Exercer ce mot", "Practise this word"), les: (i, n) => L3(`Les ${i} van ${n}`, `Leçon ${i} sur ${n}`, `Lesson ${i} of ${n}`),
+  practise: L3("Oefen dit", "Exercer", "Practise this"), nextLes: L3("Volgende les", "Leçon suivante", "Next lesson"), allLes: L3("Alle lessen", "Toutes les leçons", "All lessons"),
+};
+const OE_LES = [
+  { oef: "zin", title: L3("Zo maak je een zin", "Comment faire une phrase", "How to make a sentence"), sum: L3("De volgorde van de woorden", "L'ordre des mots", "The word order"), blocks: [
+    { p: L3("Een Nederlandse zin heeft een vaste volgorde. Het werkwoord staat altijd op de tweede plaats.", "Une phrase néerlandaise a un ordre fixe. Le verbe est toujours en deuxième position.", "A Dutch sentence has a fixed order. The verb is always in second place.") },
+    { table: { head: [L3("1. Wie?", "1. Qui ?", "1. Who?"), L3("2. Werkwoord", "2. Verbe", "2. Verb"), L3("3. De rest", "3. Le reste", "3. The rest")], rows: [["Ik", "poets", "de tanden."], ["Meneer", "leest", "de krant."], ["Mevrouw", "breit", "een sjaal."], ["We", "spelen", "een spel."]], hi: [1] } },
+    { h: L3("Begin je met iets anders?", "Tu commences par autre chose ?", "Starting with something else?"), p: L3("Dan blijft het werkwoord op plaats 2. Het onderwerp komt erna.", "Le verbe reste en position 2. Le sujet vient après.", "The verb stays in place 2. The subject comes after it."),
+      ex: [{ nl: "Elke ochtend scheer ik meneer.", fr: "Chaque matin, je rase monsieur.", en: "Every morning I shave the gentleman.", img: "wallegscheerapparaat" }, { nl: "In de namiddag spelen de bewoners een spel.", fr: "L'après-midi, les résidents jouent à un jeu.", en: "In the afternoon the residents play a game.", img: "wallegezelschapsspel" }] },
+    { h: L3("Werkwoorden in twee delen", "Les verbes en deux parties", "Verbs in two parts"), p: L3("Sommige werkwoorden bestaan uit twee delen, zoals afdrogen en voorlezen. Het eerste deel gaat naar het einde van de zin.", "Certains verbes ont deux parties, comme afdrogen (essuyer) et voorlezen (lire à voix haute). La première partie va à la fin de la phrase.", "Some verbs have two parts, like afdrogen (to dry off) and voorlezen (to read aloud). The first part moves to the end of the sentence."),
+      ex: [{ nl: "Ik droog de bewoner af.", fr: "Je sèche le résident. (afdrogen)", en: "I dry the resident off. (afdrogen)", img: "walleghanddoek" }, { nl: "Ik lees de bewoner een boek voor.", fr: "Je lis un livre au résident. (voorlezen)", en: "I read the resident a book. (voorlezen)", img: "wallegboek" }] },
+    { h: L3("Een vraag stellen", "Poser une question", "Asking a question"), p: L3("In een vraag zonder vraagwoord staat het werkwoord vooraan.", "Dans une question sans mot interrogatif, le verbe vient en premier.", "In a question without a question word, the verb comes first."),
+      ex: [{ nl: "Wilt u de krant lezen?", fr: "Voulez-vous lire le journal ?", en: "Would you like to read the newspaper?", img: "wallegkrant" }, { nl: "Mag ik uw haar kammen?", fr: "Est-ce que je peux vous coiffer ?", en: "May I comb your hair?", img: "wallegkam" }] },
+  ] },
+  { oef: "ww", title: L3("Het werkwoord", "Le verbe", "The verb"), sum: L3("ik lees, jij leest, wij lezen", "ik lees, jij leest, wij lezen", "ik lees, jij leest, wij lezen"), blocks: [
+    { p: L3("Het werkwoord verandert met de persoon. Neem het hele werkwoord (lezen) en haal -en weg. Dan heb je de stam (lees).", "Le verbe change selon la personne. Prends le verbe entier (lezen) et enlève -en. Tu obtiens le radical (lees).", "The verb changes with the person. Take the full verb (lezen) and remove -en. That gives you the stem (lees).") },
+    { table: { head: [L3("Wie?", "Qui ?", "Who?"), L3("Regel", "Règle", "Rule"), L3("helpen", "helpen (aider)", "helpen (to help)"), L3("lezen", "lezen (lire)", "lezen (to read)")], rows: [["ik", "stam", "help", "lees"], ["jij, u", "stam + t", "helpt", "leest"], ["hij, zij", "stam + t", "helpt", "leest"], ["wij, jullie, zij", "hele werkwoord", "helpen", "lezen"]], hi: [2, 3] },
+      small: L3("", "ik = je · jij, u = tu, vous · hij, zij = il, elle · wij, jullie, zij = nous, vous, ils · stam = radical · hele werkwoord = verbe entier", "ik = I · jij, u = you · hij, zij = he, she · wij, jullie, zij = we, you, they · stam = stem · hele werkwoord = full verb") },
+    { h: L3("Let op de spelling", "Attention à l'orthographe", "Watch the spelling"), p: L3("De klank blijft hetzelfde. Daarom verandert de spelling soms: lezen → lees, spelen → speel, wassen → was.", "Le son reste le même. C'est pourquoi l'orthographe change parfois : lezen → lees, spelen → speel, wassen → was.", "The sound stays the same. That is why the spelling sometimes changes: lezen → lees, spelen → speel, wassen → was."),
+      ex: [{ nl: "Mevrouw breit een sjaal.", fr: "Madame tricote une écharpe. (breien → brei + t)", en: "The lady knits a scarf. (breien → brei + t)", img: "wallegbreinaalden" }, { nl: "Jij wast het haar van meneer.", fr: "Tu laves les cheveux de monsieur. (wassen → was + t)", en: "You wash the gentleman's hair. (wassen → was + t)", img: "wallegshampoo" }] },
+    { h: L3("Jij na het werkwoord", "Jij après le verbe", "Jij after the verb"), p: L3("Staat jij na het werkwoord, zoals in een vraag? Dan valt de t weg.", "Quand jij (tu) vient après le verbe, comme dans une question, le t disparaît.", "When jij (you) comes after the verb, as in a question, the t drops."),
+      ex: [{ nl: "Jij helpt de bewoner. Help jij de bewoner?", fr: "Tu aides le résident. Est-ce que tu aides le résident ?", en: "You help the resident. Do you help the resident?" }] },
+    { h: L3("Twee werkwoorden zijn anders", "Deux verbes sont différents", "Two verbs are different"), p: L3("zijn: ik ben, jij bent, hij is, wij zijn. hebben: ik heb, jij hebt, hij heeft, wij hebben.", "zijn (être) : ik ben, jij bent, hij is, wij zijn. hebben (avoir) : ik heb, jij hebt, hij heeft, wij hebben.", "zijn (to be): ik ben, jij bent, hij is, wij zijn. hebben (to have): ik heb, jij hebt, hij heeft, wij hebben."),
+      ex: [{ nl: "Meneer is moe. Hij heeft dorst.", fr: "Monsieur est fatigué. Il a soif.", en: "The gentleman is tired. He is thirsty." }] },
+  ] },
+  { oef: "lw", title: L3("De of het?", "De ou het ?", "De or het?"), sum: L3("Het lidwoord kiezen", "Choisir l'article", "Choosing the article"), blocks: [
+    { p: L3("Elk zelfstandig naamwoord heeft een lidwoord: de of het. Leer een woord altijd samen met het lidwoord. In de app staat het lidwoord altijd bij het woord.", "Chaque nom a un article : de ou het. Apprends toujours le mot avec son article. Dans l'app, l'article est toujours affiché avec le mot.", "Every noun has an article: de or het. Always learn a word together with its article. In the app, the article is always shown with the word.") },
+    { h: L3("1. De meeste woorden krijgen de", "1. La plupart des mots prennent de", "1. Most words take de"), ex: [{ nl: "de krant, de kam, de zeep", fr: "le journal, le peigne, le savon", en: "the newspaper, the comb, the soap", img: "wallegzeep" }] },
+    { h: L3("2. Woorden op -je krijgen altijd het", "2. Les mots en -je prennent toujours het", "2. Words ending in -je always take het"), p: L3("Dat zijn verkleinwoorden.", "Ce sont des diminutifs.", "These are diminutives."), ex: [{ nl: "het washandje, het scheermesje", fr: "le gant de toilette, le rasoir", en: "the washcloth, the razor", img: "wallegwashandje" }] },
+    { h: L3("3. Meervoud krijgt altijd de", "3. Le pluriel prend toujours de", "3. Plurals always take de"), ex: [{ nl: "het boek → de boeken", fr: "le livre → les livres", en: "the book → the books", img: "wallegboek" }] },
+    { h: L3("4. Twee woorden samen: het laatste woord telt", "4. Deux mots ensemble : le dernier mot compte", "4. Two words together: the last word decides"), ex: [{ nl: "het apparaat → het scheerapparaat", fr: "l'appareil → le rasoir électrique", en: "the device → the electric shaver", img: "wallegscheerapparaat" }, { nl: "de borstel → de tandenborstel", fr: "la brosse → la brosse à dents", en: "the brush → the toothbrush", img: "wallegtandenborstel" }] },
+    { h: L3("Een is altijd een", "Een est toujours een", "Een is always een"), p: L3("Het woord een is voor de- en het-woorden hetzelfde.", "Le mot een (un, une) est le même pour les mots en de et en het.", "The word een (a, an) is the same for de-words and het-words."), ex: [{ nl: "een krant, een boek", fr: "un journal, un livre", en: "a newspaper, a book" }] },
+  ] },
+  { oef: null, title: L3("Beleefd praten met een bewoner", "Parler poliment à un résident", "Speaking politely to a resident"), sum: L3("u, uw, mag ik, wilt u", "u, uw, mag ik, wilt u", "u, uw, mag ik, wilt u"), blocks: [
+    { p: L3("Tegen een bewoner zeg je u, niet jij. U is beleefd. Tegen collega's mag je jij zeggen.", "À un résident, on dit u (vous), pas jij (tu). U est poli. Avec les collègues, tu peux dire jij.", "To a resident you say u (polite you), not jij. U is polite. With colleagues you may say jij.") },
+    { h: L3("Bij u hoort uw", "Uw va avec u", "Uw goes with u"), p: L3("Uw betekent: van u.", "Uw signifie : votre.", "Uw means: your (polite)."), ex: [{ nl: "Zal ik uw haar kammen?", fr: "Voulez-vous que je vous coiffe ?", en: "Shall I comb your hair?", img: "wallegharborstel" }] },
+    { h: L3("Een beleefde vraag", "Une question polie", "A polite question"), p: L3("Begin met Mag ik…, Wilt u… of Zal ik…", "Commence par Mag ik… (Puis-je…), Wilt u… (Voulez-vous…) ou Zal ik… (Est-ce que je…)", "Start with Mag ik… (May I…), Wilt u… (Would you like…) or Zal ik… (Shall I…)"),
+      ex: [{ nl: "Mag ik u helpen?", fr: "Puis-je vous aider ?", en: "May I help you?" }, { nl: "Wilt u een tas koffie?", fr: "Voulez-vous une tasse de café ?", en: "Would you like a cup of coffee?" }, { nl: "Zal ik de deur dichtdoen?", fr: "Est-ce que je ferme la porte ?", en: "Shall I close the door?", img: "wmuxt7bzruml7" }] },
+    { h: L3("Altijd goed", "Toujours bien", "Always good"), ex: [{ nl: "Dank u wel.", fr: "Merci beaucoup.", en: "Thank you very much." }, { nl: "Alstublieft.", fr: "Voici. / S'il vous plaît.", en: "Here you are. / Please." }] },
+  ] },
+];
+
+// Woorden met een foto, in het gekozen thema.
+let oeTheme = prefs.get("oeTheme", "all"), oeRun = null, oeBack = null;
+const oeHasPic = (r) => !r.starter && !!store.imageUrl(r);
+const oeById = (id) => userWords.find((r) => r.id === id);
+const oePool = () => userWords.filter((r) => oeHasPic(r) && (oeTheme === "all" || r.theme === oeTheme));
+const reEsc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function oeLwX(r) {
+  const w = r.word, W = w.charAt(0).toUpperCase() + w.slice(1);
+  if (r.article === "het" && /je$/.test(w)) return L3(`${W} eindigt op -je. Verkleinwoorden krijgen altijd het.`, `${W} se termine par -je. Les diminutifs prennent toujours het.`, `${W} ends in -je. Diminutives always take het.`);
+  if (r.article === "de") return L3(`${W} is een de-woord, zoals de meeste woorden.`, `${W} est un mot en de, comme la plupart des mots.`, `${W} is a de-word, like most words.`);
+  return L3(`${W} is een het-woord. Leer het lidwoord samen met het woord.`, `${W} est un mot en het. Apprends l'article avec le mot.`, `${W} is a het-word. Learn the article together with the word.`);
+}
+function oeGap(r) {
+  const s = r.sentence || ""; if (!s || !r.word) return "";
+  const re = new RegExp(`(^|[^\\p{L}])(${reEsc(r.word)})(?=[^\\p{L}]|$)`, "iu");
+  return re.test(s) ? s.replace(re, "$1___") : "";
+}
+const oeZinOk = (s) => { if (!s || /[,;:"“”()]/.test(s) || !/[.?!]$/.test(s)) return false; const n = s.split(" ").length; return n >= 3 && n <= 8; };
+function oeItems(words) {
+  const out = [];
+  for (const r of words) {
+    const hand = Array.isArray(r.oef) ? r.oef : [];
+    if (r.article === "de" || r.article === "het") { const h = hand.find((o) => o.t === "lw"); out.push({ t: "lw", r, x: h && h.x ? h.x : oeLwX(r) }); }
+    const hv = hand.filter((o) => o.t === "vul"); if (hv.length) hv.forEach((o) => out.push({ t: "vul", r, s: o.s, x: o.x })); else { const g = oeGap(r); if (g) out.push({ t: "vul", r, s: g }); }
+    const hz = hand.filter((o) => o.t === "zin"); if (hz.length) hz.forEach((o) => out.push({ t: "zin", r, s: o.s, x: o.x })); else if (oeZinOk(r.sentence)) out.push({ t: "zin", r, s: r.sentence });
+    hand.filter((o) => o.t === "ww" && o.s && o.ans).forEach((o) => out.push({ t: "ww", r, s: o.s, ans: o.ans, opts: o.opts || [o.ans], x: o.x }));
+  }
+  return out;
+}
+function openOefen() { $("oefen").hidden = false; document.body.style.overflow = "hidden"; oeHub(); syncTabs(); }
+function oeSet(html, back) { oeBack = back || null; $("oe-back").hidden = !back; $("oe-body").innerHTML = html; $("oefen").scrollTop = 0; }
+function oeHub() {
+  oeRun = null;
+  const themes = THEMES.filter((x) => !x.hidden && userWords.some((r) => r.theme === x.id && oeHasPic(r)));
+  if (oeTheme !== "all" && !themes.some((x) => x.id === oeTheme)) oeTheme = "all";
+  const items = oeItems(oePool()), n = (t) => items.filter((i) => i.t === t).length;
+  $("oe-title").innerHTML = bi(OE_UI.title);
+  oeSet(`<label class="f oe-th"><span>${bi(OE_UI.theme)}</span><select id="oe-th"><option value="all">${esc(flat(both(OE_UI.allTh.nl, OE_UI.allTh[helpLang])))}</option>${themes.map((x) => `<option value="${x.id}"${x.id === oeTheme ? " selected" : ""}>${esc(flat(themeName(x.id)))}</option>`).join("")}</select></label>
+    <button class="oe-quiz" id="oe-quiz"><b>${bi(OE_UI.quiz)}</b><small>${bi(OE_UI.quizD)}</small></button>
+    <h3 class="oe-h">${bi(OE_UI.ex)}</h3>
+    <div class="oe-tiles">
+      <button class="oe-tile oe-mix" data-t="mix"${items.length ? "" : " disabled"}><b>${bi(OE_UI.mix)}</b><small>${bi(OE_UI.mixD)}</small></button>
+      ${Object.keys(OE_T).map((k) => `<button class="oe-tile" data-t="${k}"${n(k) ? "" : " disabled"}><b>${bi(OE_T[k].name)}</b><small>${n(k) ? bi(OE_T[k].d) : bi(OE_UI.none)}</small></button>`).join("")}
+    </div>
+    <h3 class="oe-h">${bi(OE_UI.gram)}</h3><p class="oe-muted">${bi(OE_UI.gramD)}</p>
+    <div class="oe-lessons">${OE_LES.map((l, i) => `<button class="oe-lesson" data-l="${i}"><span class="oe-num">${i + 1}</span><span><b>${bi(l.title)}</b><small>${esc(l.sum.nl)}</small></span></button>`).join("")}</div>`);
+  $("oe-th").onchange = (e) => { oeTheme = e.target.value; prefs.set("oeTheme", oeTheme); oeHub(); };
+  $("oe-quiz").onclick = () => openQuiz();
+  $("oe-body").querySelectorAll(".oe-tile").forEach((b) => (b.onclick = () => oeStart(b.dataset.t)));
+  $("oe-body").querySelectorAll(".oe-lesson").forEach((b) => (b.onclick = () => oeLesson(+b.dataset.l)));
+}
+function oeStart(type, words, back) {
+  let items = oeItems(words || oePool());
+  if (type !== "mix") items = items.filter((i) => i.t === type);
+  items = shuffle(items).slice(0, 10);
+  if (!items.length) { toast(flat(both(OE_UI.none.nl, OE_UI.none[helpLang]))); return; }
+  oeRun = { items, i: 0, score: 0, type, words, back: back || oeHub };
+  oeShow();
+}
+function oeShow() {
+  const run = oeRun, it = run.items[run.i], n = run.items.length, r = it.r;
+  const img = (x) => `<img src="${esc(store.imageUrl(x))}" alt="">`;
+  const gap = (s) => esc(s).replace("___", '<span class="oe-gap">…</span>');
+  let h = `<div class="oe-meta"><span>${bi(OE_UI.q(run.i + 1, n))}</span><span>${esc(OE_UI.right(run.score).nl)}</span></div><div class="oe-bar"><i style="width:${(run.i / n) * 100}%"></i></div>
+    <section class="oe-card" id="oe-card"><p class="oe-kind">${esc(OE_T[it.t].name.nl)}</p>
+    <details class="oe-rule"><summary>${bi(OE_UI.rule)}</summary><p>${bi(OE_G[it.t])}</p>${OE_LES.some((l) => l.oef === it.t) ? `<button class="oe-link" id="oe-toles">${bi(OE_UI.readLes)}</button>` : ""}</details>`;
+  if (it.t === "zin") {
+    const words = it.s.replace(/[.?!]$/, "").split(" "); let sh = words.slice(), k = 0;
+    do { shuffle(sh); } while (sh.join(" ") === words.join(" ") && ++k < 20);
+    h += `<div class="oe-pic">${img(r)}</div><p class="oe-q">${bi(OE_UI.make)}</p><div class="oe-line" id="oe-line" data-hint="${esc(flat(both(OE_UI.tapHint.nl, OE_UI.tapHint[helpLang])))}"></div>
+      <div class="oe-pool" id="oe-pool">${sh.map((w) => `<button class="oe-w">${esc(w)}</button>`).join("")}</div><button class="btn primary huge" id="oe-check" disabled>${esc(OE_UI.check.nl)}</button>`;
+  } else if (it.t === "lw") {
+    h += `<div class="oe-pic">${img(r)}</div><p class="oe-q"><span class="oe-gap">…</span> ${esc(r.word)}</p><div class="oe-opts two">${["de", "het"].map((o) => `<button class="oe-opt" data-v="${o}">${o}</button>`).join("")}</div>`;
+  } else if (it.t === "vul") {
+    const pool = userWords.filter((x) => oeHasPic(x) && x.id !== r.id && x.word !== r.word && x.imageId !== r.imageId);
+    const same = shuffle(pool.filter((x) => x.theme === r.theme)), rest = shuffle(pool.filter((x) => x.theme !== r.theme));
+    const opts = shuffle([r, ...same.concat(rest).slice(0, 2)]);
+    h += `<p class="oe-q">${gap(it.s)}</p><div class="oe-opts pics">${opts.map((x) => `<button class="oe-opt" data-v="${esc(x.id)}">${img(x)}<span>${esc(x.word)}</span></button>`).join("")}</div>`;
+  } else {
+    h += `<div class="oe-pic">${img(r)}</div><p class="oe-q">${gap(it.s)}</p><div class="oe-opts">${shuffle(it.opts.slice()).map((o) => `<button class="oe-opt" data-v="${esc(o)}">${esc(o)}</button>`).join("")}</div>`;
+  }
+  oeSet(h + `</section>`, () => run.back());
+  run.done = false;
+  const tl = $("oe-toles"); if (tl) tl.onclick = () => oeLesson(OE_LES.findIndex((l) => l.oef === it.t), () => oeShow());
+  if (it.t === "zin") {
+    const line = $("oe-line"), pool = $("oe-pool"), chk = $("oe-check");
+    const move = (e) => { const b = e.target.closest(".oe-w"); if (!b || run.done) return; (b.parentNode === pool ? line : pool).appendChild(b); chk.disabled = pool.children.length > 0; };
+    line.onclick = move; pool.onclick = move;
+    chk.onclick = () => { const end = (it.s.match(/[.?!]$/) || ["."])[0]; const got = [...line.children].map((b) => b.textContent).join(" ") + end; const ok = got === it.s; line.querySelectorAll(".oe-w").forEach((b) => b.classList.add(ok ? "ok" : "bad")); chk.remove(); oeAnswer(ok, it.s); };
+  } else {
+    $("oe-card").querySelectorAll(".oe-opt").forEach((b) => (b.onclick = () => {
+      if (run.done) return;
+      const right = it.t === "lw" ? r.article : it.t === "vul" ? r.id : it.ans;
+      const full = it.t === "lw" ? `${r.article} ${r.word}` : it.t === "vul" ? it.s.replace("___", r.word) : it.s.replace("___", it.ans);
+      $("oe-card").querySelectorAll(".oe-opt").forEach((o) => { o.disabled = true; if (o.dataset.v === right) o.classList.add("ok"); else if (o === b) o.classList.add("bad"); });
+      oeAnswer(b.dataset.v === right, full);
+    }));
+  }
+}
+function oeAnswer(ok, full) {
+  const run = oeRun, it = run.items[run.i]; run.done = true; if (ok) run.score++;
+  const last = run.i === run.items.length - 1;
+  const fb = document.createElement("div"); fb.className = "oe-fb " + (ok ? "ok" : "bad");
+  fb.innerHTML = `<p>${bi(ok ? OE_UI.good : OE_UI.almost)}<span class="oe-say">${esc(full)}</span></p><button class="oe-listen" aria-label="${esc(t("listen"))}">${OE_SPK}</button>`;
+  fb.querySelector(".oe-listen").onclick = () => speak(full, false, "nl");
+  const why = document.createElement("div"); why.className = "oe-why";
+  why.innerHTML = `<p class="oe-lbl">${bi(it.x ? OE_UI.why : OE_UI.rule)}</p><p>${bi(it.x || OE_G[it.t])}</p>`;
+  const nx = document.createElement("button"); nx.className = "btn primary huge"; nx.textContent = (last ? OE_UI.score : OE_UI.next).nl;
+  nx.onclick = () => { if (last) oeEnd(); else { run.i++; oeShow(); } };
+  $("oe-card").append(fb, why, nx); speak(full, false, "nl"); nx.focus({ preventScroll: true });
+}
+function oeEnd() {
+  const run = oeRun, n = run.items.length, k = run.score;
+  oeSet(`<div class="oe-bar"><i style="width:100%"></i></div><section class="oe-card oe-end"><p class="oe-kind">${esc(OE_UI.done.nl)}</p><p class="oe-score">${k} / ${n}</p>
+    <p class="oe-q">${bi(k === n ? OE_UI.allOk : k >= n / 2 ? OE_UI.okish : OE_UI.keep)}</p>
+    <button class="btn primary huge" id="oe-again">${esc(OE_UI.again.nl)}</button><button class="btn" id="oe-other">${esc(OE_UI.other.nl)}</button></section>`, () => run.back());
+  $("oe-again").onclick = () => oeStart(run.type, run.words, run.back);
+  $("oe-other").onclick = () => run.back();
+}
+function oeLesson(i, back) {
+  const l = OE_LES[i]; if (!l) return;
+  const ex = (e) => { const w = e.img && oeById(e.img); return `<div class="oe-exr">${w && oeHasPic(w) ? `<img src="${esc(store.imageUrl(w))}" alt="">` : ""}<p><b>${esc(e.nl)}</b>${helpLang !== "nl" ? `<span class="oe-tr" lang="${helpLang}">${esc(e[helpLang])}</span>` : ""}</p><button class="oe-listen" data-say="${esc(e.nl)}" aria-label="${esc(t("listen"))}">${OE_SPK}</button></div>`; };
+  let h = `<article class="oe-card oe-les"><p class="oe-kind">${bi(OE_UI.les(i + 1, OE_LES.length))}</p><h3 class="oe-q">${bi(l.title)}</h3>`;
+  for (const b of l.blocks) {
+    h += `<section class="oe-blk">`;
+    if (b.h) h += `<h4>${bi(b.h)}</h4>`;
+    if (b.table) h += `<div class="oe-tw"><table><thead><tr>${b.table.head.map((c) => `<th>${bi(c)}</th>`).join("")}</tr></thead><tbody>${b.table.rows.map((row) => `<tr>${row.map((c, j) => `<td${b.table.hi.includes(j) ? ' class="hi"' : ""}>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    if (b.small && helpLang !== "nl") h += `<p class="oe-muted">${esc(b.small[helpLang])}</p>`;
+    if (b.p) h += `<p>${bi(b.p)}</p>`;
+    if (b.ex) h += `<div class="oe-exs">${b.ex.map(ex).join("")}</div>`;
+    h += `</section>`;
+  }
+  h += `</article>`;
+  if (l.oef) h += `<button class="btn primary huge" id="oe-do">${esc(OE_UI.practise.nl)}: ${esc(OE_T[l.oef].name.nl)}</button>`;
+  h += `<button class="btn" id="oe-nextles">${i < OE_LES.length - 1 ? `${esc(OE_UI.nextLes.nl)}: ${esc(OE_LES[i + 1].title.nl)}` : esc(OE_UI.allLes.nl)}</button>`;
+  oeSet(h, back || oeHub);
+  $("oe-body").querySelectorAll("[data-say]").forEach((b) => (b.onclick = () => speak(b.dataset.say, false, "nl")));
+  if (l.oef) $("oe-do").onclick = () => oeStart(l.oef, null, () => oeLesson(i));
+  $("oe-nextles").onclick = () => (i < OE_LES.length - 1 ? oeLesson(i + 1) : oeHub());
+}
+$("oe-back").onclick = () => { synth && synth.cancel(); oeBack && oeBack(); };
+$("oe-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("oefen"); syncTabs(); };
+// Bij een woord: een tip over het lidwoord en een knop om dat woord te oefenen.
+function oeWordTip(r) {
+  if (!r || r.starter) return null;
+  const h = Array.isArray(r.oef) && r.oef.find((o) => o.t === "lw" && o.x);
+  if (h) return h.x;
+  if (r.article === "het" && /je$/.test(r.word)) return oeLwX(r);
+  return null;
+}
+
 /* ---------- editor ---------- */
 let editRec = null, newImg = null, newAudio = null, audioRemoved = false, newVideo = null, videoRemoved = false;
 function openEditor(rec) {
@@ -1168,7 +1478,7 @@ function toast(m) { const t = $("toast"); t.textContent = m; t.hidden = false; c
 
 /* ---------- events ---------- */
 $("btn-quiz").addEventListener("click", openQuiz);
-function syncTabs() { document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.tab === "fav" ? filter === "fav" : b.dataset.tab === "home" && filter !== "fav"))); }
+function syncTabs() { const oe = !$("oefen").hidden; document.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.tab === "quiz" ? oe : !oe && (b.dataset.tab === "fav" ? filter === "fav" : b.dataset.tab === "home" && filter !== "fav")))); }
 function goHome() { $("q").value = ""; query = ""; $("tabbar").querySelector('[data-tab="home"]').click(); }
 document.querySelector(".hero h1").addEventListener("click", goHome);
 document.querySelector(".mini").addEventListener("click", goHome);
@@ -1217,8 +1527,8 @@ $("vt-swap").addEventListener("click", () => { const a = $("vt-from").value; $("
 $("vt-say").addEventListener("click", () => speak($("vt-out").textContent, false, vtLang));
 $("vt-close").addEventListener("click", () => closeOverlay("vt"));
 $("tabbar").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (!b) return; const k = b.dataset.tab;
-  stopAudio(); synth && synth.cancel(); ["view", "quiz", "settings", "speech-help", "about", "vt"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
-  if (k === "quiz") { openQuiz(); return; } if (k === "vt") { openVertaal(); return; } if (k === "set") { $("btn-settings").click(); return; }
+  stopAudio(); synth && synth.cancel(); ["view", "quiz", "oefen", "settings", "speech-help", "about", "vt"].forEach((id) => { if (!$(id).hidden) closeOverlay(id); });
+  if (k === "quiz") { openOefen(); return; } if (k === "vt") { openVertaal(); return; } if (k === "set") { $("btn-settings").click(); return; }
   filter = k === "fav" ? "fav" : "all"; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: 0, behavior: "smooth" }); });
 $("grid").addEventListener("click", (e) => { const tl = e.target.closest("[data-tile]"); if (!tl) return; filter = tl.dataset.tile; sub = ""; renderChips(); renderGrid(); window.scrollTo({ top: Math.max(0, document.querySelector(".hero").offsetHeight - 10), behavior: "smooth" }); });
 addEventListener("scroll", () => document.body.classList.toggle("scrolled", scrollY > document.querySelector(".hero").offsetHeight - 20), { passive: true });
@@ -1231,6 +1541,7 @@ $("grid").addEventListener("click", (e) => {
   const c = e.target.closest(".card"); if (c) openView(+c.dataset.i);
 });
 $("grid").addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("card")) { e.preventDefault(); openView(+e.target.dataset.i); } });
+$("v-oef").onclick = () => { const r = list[current]; $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); $("oefen").hidden = false; document.body.style.overflow = "hidden"; $("oe-title").innerHTML = bi(OE_UI.title); oeStart("mix", [r], () => closeOverlay("oefen")); };
 $("v-close").onclick = () => { $("v-video").pause(); stopAudio(); synth && synth.cancel(); closeOverlay("view"); renderGrid(); };
 // Het raster pas na sluiten bijwerken, anders verschuift de lijst onder het open woord.
 $("v-fav").onclick = () => { toast(t(toggleFav(list[current]) ? "favAdded" : "favRemoved")); syncViewFav(); };
@@ -1332,7 +1643,7 @@ $("s-voices").addEventListener("change", (e) => { const v = voices[+e.target.val
 $("s-rate").addEventListener("input", (e) => { prefs.set("rate", Number(e.target.value)); rateLabel(); });
 $("s-test").onclick = () => speak("Welkom. Dit is de nooduitgang.");
 $("s-starter").onchange = (e) => { prefs.set("starter", e.target.checked); renderGrid(); };
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "quiz", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["settings", "editor", "quiz", "oefen", "view"].some((id) => !$(id).hidden && (closeOverlay(id), true)); });
 
 /* ---------- boot ---------- */
 $("v-fav").innerHTML = HEART;

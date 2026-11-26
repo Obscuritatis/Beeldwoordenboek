@@ -9,6 +9,31 @@
       "sentenceFr": "Je lis au résident un passage du livre.",
       "wordEn": "book",
       "sentenceEn": "I read the resident a passage from the book.",
+      "oef": [
+        {
+          "t": "lw",
+          "x": {
+            "nl": "Boek is een het-woord. Daar is geen regel voor: leer het lidwoord samen met het woord.",
+            "fr": "Boek est un mot en het. Il n'y a pas de règle : apprends l'article avec le mot.",
+            "en": "Boek is a het-word. There is no rule for it: learn the article together with the word."
+          }
+        },
+        {
+          "t": "ww",
+          "x": {
+            "nl": "Ik → alleen de stam. Lezen → lees: je schrijft ee, zodat de klank lang blijft. Voorlezen is scheidbaar: 'voor' gaat naar het einde.",
+            "fr": "Ik (je) → seulement le radical. Lezen → lees : on écrit ee pour garder le son long. Voorlezen (lire à voix haute) est séparable : « voor » va à la fin.",
+            "en": "Ik (I) → only the stem. Lezen → lees: you write ee to keep the long sound. Voorlezen (to read aloud) is separable: 'voor' moves to the end."
+          },
+          "s": "Ik ___ de bewoner een boek voor.",
+          "ans": "lees",
+          "opts": [
+            "lees",
+            "leest",
+            "lezen"
+          ]
+        }
+      ],
       "id": "wallegboek",
       "createdAt": 1795688090684,
       "image": "media/wallegboek.jpg"
@@ -22,6 +47,32 @@
       "sentenceFr": "Madame tricote une écharpe avec les aiguilles à tricoter.",
       "wordEn": "knitting needles",
       "sentenceEn": "The lady knits a scarf with the knitting needles.",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "Onderwerp: Mevrouw. Werkwoord op plaats 2: breit. Daarna wat ze breit: een sjaal.",
+            "fr": "Sujet : Mevrouw (madame). Verbe en 2e position : breit (tricote). Puis ce qu'elle tricote : een sjaal (une écharpe).",
+            "en": "Subject: Mevrouw (the lady). Verb in 2nd place: breit (knits). Then what she knits: een sjaal (a scarf)."
+          },
+          "s": "Mevrouw breit een sjaal."
+        },
+        {
+          "t": "ww",
+          "x": {
+            "nl": "Mevrouw = zij (één persoon). Stam + t: brei + t = breit.",
+            "fr": "Mevrouw (madame) = zij (elle, une personne). Radical + t : brei + t = breit.",
+            "en": "Mevrouw (the lady) = zij (she, one person). Stem + t: brei + t = breit."
+          },
+          "s": "Mevrouw ___ een sjaal.",
+          "ans": "breit",
+          "opts": [
+            "brei",
+            "breit",
+            "breien"
+          ]
+        }
+      ],
       "id": "wallegbreinaalden",
       "createdAt": 1795688530588,
       "image": "media/wallegbreinaalden.jpg"
@@ -61,6 +112,17 @@
       "sentenceFr": "L'après-midi, les résidents jouent à un jeu de société.",
       "wordEn": "board game",
       "sentenceEn": "In the afternoon, the residents play a board game.",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "We (= wij) is meervoud. Daarom gebruik je het hele werkwoord: spelen.",
+            "fr": "We (= wij, nous) est au pluriel. On utilise donc le verbe entier : spelen.",
+            "en": "We (= wij) is plural. So you use the full verb: spelen."
+          },
+          "s": "We spelen een spel."
+        }
+      ],
       "id": "wallegezelschapsspel",
       "createdAt": 1795688253197,
       "image": "media/wallegezelschapsspel.jpg"
@@ -74,6 +136,25 @@
       "sentenceFr": "Je sèche bien le résident avec la serviette.",
       "wordEn": "towel",
       "sentenceEn": "I dry the resident well with the towel.",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "Afdrogen is een scheidbaar werkwoord. In de zin gaat 'af' naar het einde: ik droog … af.",
+            "fr": "Afdrogen (essuyer) est un verbe séparable. Dans la phrase, « af » va à la fin : ik droog … af.",
+            "en": "Afdrogen (to dry off) is a separable verb. In the sentence, 'af' moves to the end: ik droog … af."
+          },
+          "s": "Ik droog de bewoner af."
+        },
+        {
+          "t": "lw",
+          "x": {
+            "nl": "Handdoek is samengesteld: hand + doek. Het laatste deel telt: de doek → de handdoek.",
+            "fr": "Handdoek est un mot composé : hand + doek. La dernière partie compte : de doek → de handdoek.",
+            "en": "Handdoek is a compound: hand + doek. The last part decides: de doek → de handdoek."
+          }
+        }
+      ],
       "id": "walleghanddoek",
       "createdAt": 1795687297322,
       "image": "media/walleghanddoek.jpg"
@@ -100,6 +181,17 @@
       "sentenceFr": "Je sèche les cheveux du résident avec le sèche-cheveux.",
       "wordEn": "hair dryer",
       "sentenceEn": "I dry the resident's hair with the hair dryer.",
+      "oef": [
+        {
+          "t": "vul",
+          "x": {
+            "nl": "Haar drogen doe je met de haardroger: haar + drogen.",
+            "fr": "On sèche les cheveux avec le sèche-cheveux (haardroger = haar + drogen).",
+            "en": "You dry hair with the hair dryer (haardroger = haar + drogen)."
+          },
+          "s": "Na het wassen droog ik het haar met de ___."
+        }
+      ],
       "id": "wallegharoger",
       "createdAt": 1795687519423,
       "image": "media/wallegharoger.jpg"
@@ -113,6 +205,17 @@
       "sentenceFr": "Est-ce que je peux vous coiffer avec le peigne ?",
       "wordEn": "comb",
       "sentenceEn": "May I comb your hair with the comb?",
+      "oef": [
+        {
+          "t": "vul",
+          "x": {
+            "nl": "Haar kammen doe je met de kam. Kammen en kam horen bij elkaar.",
+            "fr": "On coiffe les cheveux avec le peigne (de kam). Kammen (coiffer) et kam (peigne) vont ensemble.",
+            "en": "You comb hair with the comb (de kam). Kammen (to comb) and kam (comb) belong together."
+          },
+          "s": "Ik kam het haar van mevrouw met de ___."
+        }
+      ],
       "id": "wallegkam",
       "createdAt": 1795686985505,
       "image": "media/wallegkam.jpg"
@@ -126,6 +229,17 @@
       "sentenceFr": "Voulez-vous lire le journal, monsieur ?",
       "wordEn": "newspaper",
       "sentenceEn": "Would you like to read the newspaper, sir?",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "Onderwerp: Meneer. Werkwoord op plaats 2: leest (hij → stam + t).",
+            "fr": "Sujet : Meneer (monsieur). Verbe en 2e position : leest (hij → radical + t).",
+            "en": "Subject: Meneer (the gentleman). Verb in 2nd place: leest (he → stem + t)."
+          },
+          "s": "Meneer leest de krant."
+        }
+      ],
       "id": "wallegkrant",
       "createdAt": 1795688090685,
       "image": "media/wallegkrant.jpg"
@@ -165,6 +279,23 @@
       "sentenceFr": "Je fais un puzzle avec le résident.",
       "wordEn": "jigsaw puzzle",
       "sentenceEn": "I do a jigsaw puzzle together with the resident.",
+      "oef": [
+        {
+          "t": "ww",
+          "x": {
+            "nl": "De bewoners = zij (meervoud). Dan gebruik je het hele werkwoord: maken.",
+            "fr": "De bewoners (les résidents) = zij (ils, pluriel). On utilise alors le verbe entier : maken.",
+            "en": "De bewoners (the residents) = zij (they, plural). Then you use the full verb: maken."
+          },
+          "s": "De bewoners ___ samen een puzzel.",
+          "ans": "maken",
+          "opts": [
+            "maakt",
+            "maak",
+            "maken"
+          ]
+        }
+      ],
       "id": "wallegpuzzel",
       "createdAt": 1795688253196,
       "image": "media/wallegpuzzel.jpg"
@@ -178,6 +309,16 @@
       "sentenceFr": "Je rase monsieur chaque matin avec le rasoir électrique.",
       "wordEn": "electric shaver",
       "sentenceEn": "I shave the gentleman every morning with the electric shaver.",
+      "oef": [
+        {
+          "t": "lw",
+          "x": {
+            "nl": "Scheerapparaat is samengesteld: scheer + apparaat. Het laatste deel telt: het apparaat → het scheerapparaat.",
+            "fr": "Scheerapparaat est un mot composé : scheer + apparaat. La dernière partie compte : het apparaat → het scheerapparaat.",
+            "en": "Scheerapparaat is a compound: scheer + apparaat. The last part decides: het apparaat → het scheerapparaat."
+          }
+        }
+      ],
       "id": "wallegscheerapparaat",
       "createdAt": 1795687297321,
       "image": "media/wallegscheerapparaat.jpg"
@@ -204,6 +345,23 @@
       "sentenceFr": "Je lave les cheveux du résident avec du shampooing.",
       "wordEn": "shampoo",
       "sentenceEn": "I wash the resident's hair with shampoo.",
+      "oef": [
+        {
+          "t": "ww",
+          "x": {
+            "nl": "Jij → stam + t: was + t = wast. Let op: in een vraag met jij na het werkwoord valt de t weg: Was jij het haar?",
+            "fr": "Jij (tu) → radical + t : was + t = wast. Attention : dans une question avec jij après le verbe, le t disparaît : Was jij het haar ?",
+            "en": "Jij (you) → stem + t: was + t = wast. Note: in a question with jij after the verb, the t drops: Was jij het haar?"
+          },
+          "s": "Jij ___ het haar van meneer.",
+          "ans": "wast",
+          "opts": [
+            "was",
+            "wast",
+            "wassen"
+          ]
+        }
+      ],
       "id": "wallegshampoo",
       "createdAt": 1795687020541,
       "image": "media/wallegshampoo.jpg"
@@ -230,6 +388,25 @@
       "sentenceFr": "Je brosse les dents du résident avec la brosse à dents.",
       "wordEn": "toothbrush",
       "sentenceEn": "I brush the resident's teeth with the toothbrush.",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "Onderwerp: Ik. Werkwoord op plaats 2: poets. Daarna de rest: de tanden van de bewoner.",
+            "fr": "Sujet : Ik. Verbe en 2e position : poets. Puis le reste : de tanden van de bewoner (les dents du résident).",
+            "en": "Subject: Ik. Verb in 2nd place: poets. Then the rest: de tanden van de bewoner (the resident's teeth)."
+          },
+          "s": "Ik poets de tanden van de bewoner."
+        },
+        {
+          "t": "lw",
+          "x": {
+            "nl": "Tandenborstel is samengesteld: tanden + borstel. Het laatste deel telt: de borstel → de tandenborstel.",
+            "fr": "Tandenborstel est un mot composé : tanden + borstel. La dernière partie compte : de borstel → de tandenborstel.",
+            "en": "Tandenborstel is a compound: tanden + borstel. The last part decides: de borstel → de tandenborstel."
+          }
+        }
+      ],
       "id": "wallegtandenborstel",
       "createdAt": 1795686985503,
       "image": "media/wallegtandenborstel.jpg"
@@ -243,6 +420,17 @@
       "sentenceFr": "Je mets un peu de dentifrice sur la brosse à dents du résident.",
       "wordEn": "toothpaste",
       "sentenceEn": "I put a little toothpaste on the resident's toothbrush.",
+      "oef": [
+        {
+          "t": "vul",
+          "x": {
+            "nl": "Op de tandenborstel doe je tandpasta, geen shampoo.",
+            "fr": "Sur la brosse à dents, on met du dentifrice (tandpasta), pas du shampooing.",
+            "en": "On the toothbrush you put toothpaste (tandpasta), not shampoo."
+          },
+          "s": "Doe een beetje ___ op de tandenborstel."
+        }
+      ],
       "id": "wallegtandpasta",
       "createdAt": 1795686985504,
       "image": "media/wallegtandpasta.jpg"
@@ -256,6 +444,16 @@
       "sentenceFr": "Madame aime feuilleter le magazine.",
       "wordEn": "magazine",
       "sentenceEn": "The lady likes to leaf through the magazine.",
+      "oef": [
+        {
+          "t": "lw",
+          "x": {
+            "nl": "Tijdschrift is samengesteld: tijd + schrift. Het laatste deel telt: het schrift → het tijdschrift.",
+            "fr": "Tijdschrift est un mot composé : tijd + schrift. La dernière partie compte : het schrift → het tijdschrift.",
+            "en": "Tijdschrift is a compound: tijd + schrift. The last part decides: het schrift → het tijdschrift."
+          }
+        }
+      ],
       "id": "wallegtijdschrift",
       "createdAt": 1795688090686,
       "image": "media/wallegtijdschrift.jpg"
@@ -308,6 +506,17 @@
       "sentenceFr": "Lave-toi les mains avec de l'eau et du savon avant d'aider le résident.",
       "wordEn": "soap",
       "sentenceEn": "Wash your hands with soap and water before you help the resident.",
+      "oef": [
+        {
+          "t": "vul",
+          "x": {
+            "nl": "Je wast je handen met water en zeep. Een kam of een boek past hier niet.",
+            "fr": "On se lave les mains avec de l'eau et du savon (zeep). Un peigne ou un livre ne convient pas ici.",
+            "en": "You wash your hands with soap and water (zeep). A comb or a book does not fit here."
+          },
+          "s": "Ik was mijn handen met water en ___."
+        }
+      ],
       "id": "wallegzeep",
       "createdAt": 1795687020542,
       "image": "media/wallegzeep.jpg"
@@ -886,6 +1095,23 @@
       "sentenceFr": "J'aide le résident à s'asseoir sur la chaise.",
       "wordEn": "chair",
       "sentenceEn": "I help the resident sit down on the chair.",
+      "oef": [
+        {
+          "t": "ww",
+          "x": {
+            "nl": "Ik → alleen de stam: helpen → help.",
+            "fr": "Ik (je) → seulement le radical : helpen → help.",
+            "en": "Ik (I) → only the stem: helpen → help."
+          },
+          "s": "Ik ___ de bewoner op de stoel.",
+          "ans": "help",
+          "opts": [
+            "help",
+            "helpt",
+            "helpen"
+          ]
+        }
+      ],
       "id": "wmuxsqb811lkn",
       "createdAt": 1791358720849,
       "image": "media/wmuxsqb811lkn.jpg"
@@ -965,6 +1191,17 @@
       "sentenceFr": "Je frappe à la porte avant d'entrer dans la chambre du résident.",
       "wordEn": "door",
       "sentenceEn": "I knock on the door before I enter the resident's room.",
+      "oef": [
+        {
+          "t": "zin",
+          "x": {
+            "nl": "Kloppen gaat samen met 'op': je klopt op de deur.",
+            "fr": "Kloppen (frapper) va avec « op » : frapper à la porte = op de deur kloppen.",
+            "en": "Kloppen (to knock) goes with 'op': to knock on the door = op de deur kloppen."
+          },
+          "s": "Ik klop op de deur."
+        }
+      ],
       "id": "wmuxt7bzruml7",
       "createdAt": 1791359514999,
       "image": "media/wmuxt7bzruml7.jpg"
