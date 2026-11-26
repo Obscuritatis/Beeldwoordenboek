@@ -1,6 +1,45 @@
 {
   "words": [
     {
+      "word": "koken",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik ga de soep koken.",
+      "wordFr": "cuisiner",
+      "sentenceFr": "Je vais cuisiner la soupe.",
+      "wordEn": "cooking",
+      "sentenceEn": "I'm going to cook the soup.",
+      "id": "wkeuken01koken",
+      "createdAt": 1795680775999,
+      "image": "media/wkeuken01koken.jpg"
+    },
+    {
+      "word": "bakken",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik bak broodjes in de oven.",
+      "wordFr": "cuire au four",
+      "sentenceFr": "Je cuis des petits pains au four.",
+      "wordEn": "baking",
+      "sentenceEn": "I'm baking rolls in the oven.",
+      "id": "wkeuken02bakken",
+      "createdAt": 1795680776000,
+      "image": "media/wkeuken02bakken.jpg"
+    },
+    {
+      "word": "braden",
+      "article": "het",
+      "theme": "keuken",
+      "sentence": "Ik braad het vlees in de pan.",
+      "wordFr": "cuire à la poêle",
+      "sentenceFr": "Je cuis la viande à la poêle.",
+      "wordEn": "frying",
+      "sentenceEn": "I'm frying the meat in the pan.",
+      "id": "wkeuken03braden",
+      "createdAt": 1795680776001,
+      "image": "media/wkeuken03braden.jpg"
+    },
+    {
       "word": "schuimbrandblusser",
       "article": "de",
       "theme": "brand",
