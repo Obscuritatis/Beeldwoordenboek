@@ -545,6 +545,7 @@
       "wordEn": "call 112 in case of fire",
       "sentenceEn": "Do you see a fire? Call 112 right away.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandbel112",
       "createdAt": 1795685149666,
       "image": "media/wbrandbel112.jpg"
@@ -559,6 +560,7 @@
       "wordEn": "not blocking a fire door",
       "sentenceEn": "Don't use a doorstop to block the fire door.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandbranddeur",
       "createdAt": 1795686013816,
       "image": "media/wbrandbranddeur.jpg"
@@ -573,6 +575,7 @@
       "wordEn": "evacuating",
       "sentenceEn": "In case of fire, we evacuate calmly through the emergency exit.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandevacueren",
       "createdAt": 1795684774398,
       "image": "media/wbrandevacueren.jpg"
@@ -587,6 +590,7 @@
       "wordEn": "do not use the lift in case of fire",
       "sentenceEn": "In case of fire, take the stairs, not the lift.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandgeenlift",
       "createdAt": 1795684835983,
       "image": "media/wbrandgeenlift.jpg"
@@ -601,6 +605,7 @@
       "wordEn": "pressing the manual call point",
       "sentenceEn": "Do you see a fire? Press the manual call point to raise the alarm.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandhbmindrukken",
       "createdAt": 1795686490105,
       "image": "media/wbrandhbmindrukken.jpg"
@@ -615,6 +620,7 @@
       "wordEn": "hearing the siren",
       "sentenceEn": "Do you hear the siren? Stay calm and follow the instructions.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandsirene",
       "createdAt": 1795686421317,
       "image": "media/wbrandsirene.jpg"
@@ -629,6 +635,7 @@
       "wordEn": "keeping the escape route clear",
       "sentenceEn": "Don't put chairs or trolleys in the corridor: keep the escape route clear.",
       "group": "Alarm en evacuatie",
+      "soort": "handeling",
       "id": "wbrandvluchtweg",
       "createdAt": 1795686013815,
       "image": "media/wbrandvluchtweg.jpg"
@@ -642,6 +649,7 @@
       "sentenceFr": "Je vais cuisiner la soupe.",
       "wordEn": "cooking",
       "sentenceEn": "I'm going to cook the soup.",
+      "soort": "handeling",
       "id": "wkeuken01koken",
       "createdAt": 1795680775999,
       "image": "media/wkeuken01koken.jpg"
@@ -655,6 +663,7 @@
       "sentenceFr": "Je cuis des petits pains au four.",
       "wordEn": "baking",
       "sentenceEn": "I'm baking rolls in the oven.",
+      "soort": "handeling",
       "id": "wkeuken02bakken",
       "createdAt": 1795680776000,
       "image": "media/wkeuken02bakken.jpg"
@@ -668,6 +677,7 @@
       "sentenceFr": "Je cuis la viande à la poêle.",
       "wordEn": "frying",
       "sentenceEn": "I'm frying the meat in the pan.",
+      "soort": "handeling",
       "id": "wkeuken03braden",
       "createdAt": 1795680776001,
       "image": "media/wkeuken03braden.jpg"
@@ -681,6 +691,7 @@
       "sentenceFr": "Je fais frire les frites dans la friteuse.",
       "wordEn": "deep-frying",
       "sentenceEn": "I'm deep-frying the chips in the fryer.",
+      "soort": "handeling",
       "id": "wkeuken04frituren",
       "createdAt": 1795680915240,
       "image": "media/wkeuken04frituren.jpg"
@@ -694,6 +705,7 @@
       "sentenceFr": "Je cuis les légumes à la vapeur.",
       "wordEn": "steaming",
       "sentenceEn": "I'm steaming the vegetables in the steamer.",
+      "soort": "handeling",
       "id": "wkeuken05stomen",
       "createdAt": 1795680915241,
       "image": "media/wkeuken05stomen.jpg"
@@ -707,6 +719,7 @@
       "sentenceFr": "Je grille le poulet sur le gril.",
       "wordEn": "grilling",
       "sentenceEn": "I'm grilling the chicken on the grill.",
+      "soort": "handeling",
       "id": "wkeuken06grillen",
       "createdAt": 1795680915242,
       "image": "media/wkeuken06grillen.jpg"
@@ -720,6 +733,7 @@
       "sentenceFr": "Je coupe le poivron en dés.",
       "wordEn": "cutting",
       "sentenceEn": "I'm cutting the pepper into cubes.",
+      "soort": "handeling",
       "id": "wkeuken07snijden",
       "createdAt": 1795681410686,
       "image": "media/wkeuken07snijden.jpg"
@@ -733,6 +747,7 @@
       "sentenceFr": "J'épluche les pommes de terre.",
       "wordEn": "peeling",
       "sentenceEn": "I'm peeling the potatoes.",
+      "soort": "handeling",
       "id": "wkeuken08schillen",
       "createdAt": 1795681410687,
       "image": "media/wkeuken08schillen.jpg"
@@ -746,6 +761,7 @@
       "sentenceFr": "Je râpe les carottes.",
       "wordEn": "grating",
       "sentenceEn": "I'm grating the carrots.",
+      "soort": "handeling",
       "id": "wkeuken09raspen",
       "createdAt": 1795681410688,
       "image": "media/wkeuken09raspen.jpg"
@@ -759,6 +775,7 @@
       "sentenceFr": "Je prépare un sandwich au fromage et au jambon.",
       "wordEn": "making a sandwich",
       "sentenceEn": "I'm making a sandwich with cheese and ham.",
+      "soort": "handeling",
       "id": "wkeuken10broodje",
       "createdAt": 1795681674057,
       "image": "media/wkeuken10broodje.jpg"
@@ -772,6 +789,7 @@
       "sentenceFr": "Je prépare une salade avec des tomates et du concombre.",
       "wordEn": "making a salad",
       "sentenceEn": "I'm making a salad with tomato and cucumber.",
+      "soort": "handeling",
       "id": "wkeuken11slaatje",
       "createdAt": 1795681674058,
       "image": "media/wkeuken11slaatje.jpg"
@@ -1012,6 +1030,7 @@
       "wordEn": "dizzy",
       "sentenceEn": "Are you dizzy?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxqaxvwox1e",
       "createdAt": 1791354644492,
       "image": "media/wmuxqaxvwox1e.jpg"
@@ -1026,6 +1045,7 @@
       "wordEn": "hungry",
       "sentenceEn": "Are you hungry?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxqmp88ft0v",
       "createdAt": 1791355193144,
       "image": "media/wmuxqmp88ft0v.jpg"
@@ -1040,6 +1060,7 @@
       "wordEn": "thirsty",
       "sentenceEn": "Are you thirsty?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxr0y7m58tg",
       "createdAt": 1791355857970,
       "image": "media/wmuxr0y7m58tg.jpg"
@@ -1054,6 +1075,7 @@
       "wordEn": "tired",
       "sentenceEn": "Are you tired?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxr4dp8pzor",
       "createdAt": 1791356018012,
       "image": "media/wmuxr4dp8pzor.jpg"
@@ -1068,6 +1090,7 @@
       "wordEn": "warm",
       "sentenceEn": "Are you too warm?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxr91foe64x",
       "createdAt": 1791356235396,
       "image": "media/wmuxr91foe64x.jpg"
@@ -1082,6 +1105,7 @@
       "wordEn": "cold",
       "sentenceEn": "Are you cold?",
       "group": "Hoe voel je je?",
+      "soort": "gevoel",
       "id": "wmuxret9nwm9r",
       "createdAt": 1791356504747,
       "image": "media/wmuxret9nwm9r.jpg"
@@ -1165,6 +1189,7 @@
       "wordEn": "taking a break",
       "sentenceEn": "Shall we take a break together?",
       "group": "Dagelijkse zorg",
+      "soort": "handeling",
       "id": "wmuxt2b0zx819",
       "createdAt": 1791359280467,
       "image": "media/wmuxt2b0zx819.jpg"
@@ -1244,6 +1269,7 @@
       "wordEn": "brushing teeth",
       "sentenceEn": "Now we are going to brush our teeth.",
       "group": "Dagelijkse zorg",
+      "soort": "handeling",
       "id": "wmuy2qk5wg8ep",
       "createdAt": 1791375528596,
       "image": "media/wmuy2qk5wg8ep.jpg"
@@ -1342,6 +1368,7 @@
       "wordEn": "nauseous",
       "sentenceEn": "Do you feel nauseous?",
       "group": "Ziek zijn",
+      "soort": "gevoel",
       "id": "wmww7murfqefo",
       "createdAt": 1795616386107,
       "image": "media/wmww7murfqefo.jpg"
@@ -1356,6 +1383,7 @@
       "wordEn": "vomiting",
       "sentenceEn": "Do you need to throw up?",
       "group": "Ziek zijn",
+      "soort": "handeling",
       "id": "wmww7mvj7yg58",
       "createdAt": 1795616387107,
       "image": "media/wmww7mvj7yg58.jpg"
@@ -1398,6 +1426,7 @@
       "wordEn": "sick",
       "sentenceEn": "Are you sick?",
       "group": "Ziek zijn",
+      "soort": "gevoel",
       "id": "wmww7mxujk6o6",
       "createdAt": 1795616390107,
       "image": "media/wmww7mxujk6o6.jpg"
@@ -1412,6 +1441,7 @@
       "wordEn": "coughing",
       "sentenceEn": "Do you need to cough?",
       "group": "Ziek zijn",
+      "soort": "handeling",
       "id": "wmww7satkx8ng",
       "createdAt": 1795616640200,
       "image": "media/wmww7satkx8ng.jpg"
@@ -1426,6 +1456,7 @@
       "wordEn": "sneezing",
       "sentenceEn": "Do you need to sneeze?",
       "group": "Ziek zijn",
+      "soort": "handeling",
       "id": "wmww7sblc1ufn",
       "createdAt": 1795616641200,
       "image": "media/wmww7sblc1ufn.jpg"
@@ -1454,6 +1485,7 @@
       "wordEn": "reading",
       "sentenceEn": "Would you like to read a book?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7x9ph73c9",
       "createdAt": 1795616872037,
       "image": "media/wmww7x9ph73c9.jpg"
@@ -1468,6 +1500,7 @@
       "wordEn": "writing",
       "sentenceEn": "Would you like to write something?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7xah9gjkm",
       "createdAt": 1795616873037,
       "image": "media/wmww7xah9gjkm.jpg"
@@ -1482,6 +1515,7 @@
       "wordEn": "drawing",
       "sentenceEn": "Would you like to make a drawing?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7xb91eq7s",
       "createdAt": 1795616874037,
       "image": "media/wmww7xb91eq7s.jpg"
@@ -1496,6 +1530,7 @@
       "wordEn": "painting",
       "sentenceEn": "Would you like to paint?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7xc0tx9fy",
       "createdAt": 1795616875037,
       "image": "media/wmww7xc0tx9fy.jpg"
@@ -1510,6 +1545,7 @@
       "wordEn": "listening to music",
       "sentenceEn": "Would you like to listen to music?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7xcsli0xf",
       "createdAt": 1795616876037,
       "image": "media/wmww7xcsli0xf.jpg"
@@ -1524,6 +1560,7 @@
       "wordEn": "singing",
       "sentenceEn": "Shall we sing together?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww7xdkdot5p",
       "createdAt": 1795616877037,
       "image": "media/wmww7xdkdot5p.jpg"
@@ -1538,6 +1575,7 @@
       "wordEn": "dancing",
       "sentenceEn": "Shall we dance together?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww81xzt8d3n",
       "createdAt": 1795617090137,
       "image": "media/wmww81xzt8d3n.jpg"
@@ -1552,6 +1590,7 @@
       "wordEn": "watching television",
       "sentenceEn": "Would you like to watch television?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww81yrlphjk",
       "createdAt": 1795617091137,
       "image": "media/wmww81yrlphjk.jpg"
@@ -1566,6 +1605,7 @@
       "wordEn": "playing games",
       "sentenceEn": "Shall we play a game?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww81zjd9xbx",
       "createdAt": 1795617092137,
       "image": "media/wmww81zjd9xbx.jpg"
@@ -1580,6 +1620,7 @@
       "wordEn": "gardening",
       "sentenceEn": "Would you like to do some gardening?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww820b5bj8i",
       "createdAt": 1795617093137,
       "image": "media/wmww820b5bj8i.jpg"
@@ -1594,6 +1635,7 @@
       "wordEn": "shopping",
       "sentenceEn": "Shall we go shopping together?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww8212x0uji",
       "createdAt": 1795617094137,
       "image": "media/wmww8212x0uji.jpg"
@@ -1608,6 +1650,7 @@
       "wordEn": "exercising",
       "sentenceEn": "Would you like to exercise?",
       "group": "Activiteiten en ontspanning",
+      "soort": "handeling",
       "id": "wmww821upa57k",
       "createdAt": 1795617095137,
       "image": "media/wmww821upa57k.jpg"
@@ -1622,6 +1665,7 @@
       "wordEn": "taking medication",
       "sentenceEn": "It is time to take your medication.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8ahnlno37",
       "createdAt": 1795617488865,
       "image": "media/wmww8ahnlno37.jpg"
@@ -1636,6 +1680,7 @@
       "wordEn": "getting an injection",
       "sentenceEn": "You are getting an injection in your arm.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8aifddd0l",
       "createdAt": 1795617489865,
       "image": "media/wmww8aifddd0l.jpg"
@@ -1650,6 +1695,7 @@
       "wordEn": "having blood taken",
       "sentenceEn": "We are going to take some blood.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8aj751834",
       "createdAt": 1795617490865,
       "image": "media/wmww8aj751834.jpg"
@@ -1664,6 +1710,7 @@
       "wordEn": "measuring blood pressure",
       "sentenceEn": "May I measure your blood pressure?",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8ajyxugf9",
       "createdAt": 1795617491865,
       "image": "media/wmww8ajyxugf9.jpg"
@@ -1678,6 +1725,7 @@
       "wordEn": "taking the temperature",
       "sentenceEn": "I am going to take your temperature.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8akqpm3tm",
       "createdAt": 1795617492865,
       "image": "media/wmww8akqpm3tm.jpg"
@@ -1692,6 +1740,7 @@
       "wordEn": "being weighed",
       "sentenceEn": "Could you step on the scales?",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8alihadw6",
       "createdAt": 1795617493865,
       "image": "media/wmww8alihadw6.jpg"
@@ -1706,6 +1755,7 @@
       "wordEn": "getting wound care",
       "sentenceEn": "I am going to dress your wound.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8h6in0i38",
       "createdAt": 1795617801023,
       "image": "media/wmww8h6in0i38.jpg"
@@ -1720,6 +1770,7 @@
       "wordEn": "getting an IV drip",
       "sentenceEn": "You are getting an IV drip in your arm.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8h7afxv4w",
       "createdAt": 1795617802023,
       "image": "media/wmww8h7afxv4w.jpg"
@@ -1734,6 +1785,7 @@
       "wordEn": "getting nebuliser therapy",
       "sentenceEn": "Breathe in and out calmly through the mask.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8h827y044",
       "createdAt": 1795617803023,
       "image": "media/wmww8h827y044.jpg"
@@ -1748,6 +1800,7 @@
       "wordEn": "being examined",
       "sentenceEn": "The doctor is going to examine you.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8h8tzdxms",
       "createdAt": 1795617804023,
       "image": "media/wmww8h8tzdxms.jpg"
@@ -1762,6 +1815,7 @@
       "wordEn": "going to the doctor",
       "sentenceEn": "Today we are going to the doctor.",
       "group": "Medische en verpleegkundige handelingen",
+      "soort": "handeling",
       "id": "wmww8h9lr2eb8",
       "createdAt": 1795617805023,
       "image": "media/wmww8h9lr2eb8.jpg"

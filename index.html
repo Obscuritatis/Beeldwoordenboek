@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-hbaRstsQF5LArkD79SHIMu+F4uqlD4aKp7hAVOUjedI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-98F9ME9iRFEPohpI9tVjpD1pfNYAvZouOaUV3YIem3k='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -331,6 +331,10 @@ html body .vt-out .btn svg{width:18px;height:18px}
 html body .vt-via{margin:-6px 0 10px;color:var(--muted);font-size:.78rem}
 html body .vt-note{margin:4px 0 0;color:var(--muted);font-size:.82rem;line-height:1.45}
 html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.badge.soort{background:var(--rood-zacht);color:var(--rood);border-color:transparent;z-index:1}
+.v-tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.soort-tag{display:inline-block;background:var(--rood-zacht);color:var(--rood);font:700 .8rem var(--font-display);padding:4px 10px;border-radius:99px;white-space:pre-line}
+.oe-blk.oe-uitz{border-left:4px solid var(--rood,#A32035);background:var(--rood-zacht,#F7ECEE);border-radius:10px;padding:10px 12px}
 /* oefenen */
 .oe-title{flex:1;margin:0;font:800 1.2rem var(--font-display);text-align:center}
 .oe-title .oe-tr{font-size:.75rem}
@@ -370,6 +374,8 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
 .oe-pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .oe-w{background:var(--rood-zacht);color:var(--ink);border:0;border-radius:10px;padding:10px 14px;font:700 1.05rem var(--font-body);cursor:pointer}
 .oe-line .oe-w{background:var(--rood);color:#fff}
+.oe-w.oe-p{min-width:48px;font-size:1.3rem;padding:6px 14px}
+.oe-pool .oe-w.oe-p{background:var(--surface-2)}
 .oe-line .oe-w.ok{background:var(--exit,#2f7d4f)}
 .oe-opts{display:grid;gap:10px}.oe-opts.two{grid-template-columns:1fr 1fr}.oe-opts.pics{grid-template-columns:repeat(3,minmax(0,1fr))}
 .oe-opt{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:14px;font:700 1.1rem var(--font-display);cursor:pointer;color:var(--ink);min-height:54px}
@@ -449,7 +455,7 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
     <div class="lang-tabs" role="tablist" aria-label="Taal">
       <button role="tab" data-vl="nl" lang="nl">Nederlands</button><button role="tab" data-vl="fr" lang="fr">Français</button><button role="tab" data-vl="en" lang="en">English</button>
     </div>
-    <span class="theme-tag" id="v-theme"></span>
+    <span class="v-tags"><span class="theme-tag" id="v-theme"></span><span class="soort-tag" id="v-soort" hidden></span></span>
     <h2 class="big-word" id="v-word"></h2>
     <p class="helper-tr" id="v-helper" hidden></p>
     <p class="sentence" id="v-sentence"></p>
@@ -493,6 +499,13 @@ html body .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0
           <label><input type="radio" name="art" value="de" checked><span>de</span></label>
           <label><input type="radio" name="art" value="het"><span>het</span></label>
           <label><input type="radio" name="art" value=""><span>geen</span></label>
+        </div>
+      </div>
+      <div class="f"><span style="font-weight:700;font-size:.95rem">Soort <span class="hint">Een woord is een ding (de kam). Een handeling is iets wat je doet (bloeddruk meten). Een gevoel is hoe iemand zich voelt (moe).</span></span>
+        <div class="seg" role="radiogroup" aria-label="Soort">
+          <label><input type="radio" name="soort" value="woord" checked><span>woord</span></label>
+          <label><input type="radio" name="soort" value="handeling"><span>handeling</span></label>
+          <label><input type="radio" name="soort" value="gevoel"><span>gevoel</span></label>
         </div>
       </div>
       <label class="f">Thema
@@ -1050,7 +1063,7 @@ function renderGrid() {
   const head = (r) => { if (!heads || sub) return ""; if (r.starter) { if (last === "\u0000") return ""; last = "\u0000"; return `<h3 class="grp" style="--c:${c}">${esc(both("Voorbeelden", { fr: "Exemples", en: "Examples" }[helpLang]))}</h3>`; } const g = r.group || ""; if (g === last) return ""; last = g; const n = list.filter((x) => !x.starter && (x.group || "") === g).length; return `<h3 class="grp" style="--c:${c}">${esc(groupName(g))} <span class="n">${n}</span></h3>`; };
   $("grid").innerHTML = list.length ? list.map((r, i) => head(r) + `
     <div class="card" role="button" tabindex="0" data-i="${i}" style="--c:${themeOf(r.theme).c}" aria-label="${esc(spoken(r))}">
-      ${r.starter ? `<span class="badge">${t("example")}</span>` : ""}${r.hasVideo ? `<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>${t("video")}</span>` : ""}
+      ${r.starter ? `<span class="badge">${t("example")}</span>` : soortOf(r) !== "woord" ? `<span class="badge soort">${esc(SOORT[soortOf(r)].nl)}</span>` : ""}${r.hasVideo ? `<span class="vid-badge"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M2 1l7 4-7 4z"/></svg>${t("video")}</span>` : ""}
       <button class="fav" data-fav="${i}" aria-pressed="${isFav(r)}" aria-label="${t(isFav(r) ? "favRemove" : "favAdd")}">${HEART}</button>
       <div class="pic">${picHtml(r)}</div>
       <div class="label" style="position:relative"><span class="w${r.word.length > 12 ? " long" : ""}">${wordHtml(r)}</span>${helpLang !== "nl" && trWord(r, helpLang) ? `<span class="tr" lang="${helpLang}">${esc(trWord(r, helpLang))}</span>` : ""}
@@ -1085,6 +1098,7 @@ function openView(i) {
   $("v-edit").hidden = !store.canWrite;
   $("v-edit").textContent = r.starter ? "Verwijderen" : "Bewerken";
   $("v-hide-confirm").hidden = true;
+  { const s = soortOf(r); $("v-soort").hidden = !!r.starter || s === "woord"; $("v-soort").textContent = flat(both(SOORT[s].nl, SOORT[s][helpLang])); }
   { const tip = oeWordTip(r); $("v-tip").innerHTML = tip ? bi(tip) : ""; $("v-tip").hidden = !tip;
     $("v-oef").hidden = !(oeHasPic(r) && oeItems([r]).length); }
   $("v-prev").disabled = i <= 0; $("v-next").disabled = i >= list.length - 1;
@@ -1120,7 +1134,7 @@ const UI = {
     shTitle: "Je hoort de stem niet?", close: "Sluiten", shIntro: "Deze telefoon spreekt het woord niet uit. Meestal ontbreekt een Nederlandse stem. Zo los je het op:", retry: "Probeer opnieuw",
     stepsAndroid: (sam) => [`Zet het volume van je telefoon hoger. De stem gebruikt het mediavolume, niet het belvolume.`, `Open ${sam ? "op een Samsung " : ""}de app <b>Instellingen</b> en zoek op <b>Tekst-naar-spraak</b>${sam ? " (bij Algemeen beheer)" : ""}.`, `Kies bij Voorkeursengine <b>Google Spraakservices</b>.`, `Tik op het tandwiel ernaast, kies <b>Spraakgegevens installeren</b> en installeer <b>Nederlands</b> (België of Nederland).`, `Werkt het nog niet? Open de app dan in <b>Chrome</b>${sam ? " in plaats van Samsung Internet" : ""}.`],
     stepsIos: [`Zet het volume hoger en controleer dat de stille modus uit staat.`, `Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.`],
-    stop: "Stoppen", ask: "Welk woord hoort bij de foto?", good: "Goed zo!", wrong: "Jammer. Het juiste woord is groen.", score: (a, b) => `${a} van ${b} juist`, need3: "Voor de quiz zijn minstens drie woorden nodig." },
+    stop: "Stoppen", ask: "Wat hoort bij de foto?", good: "Goed zo!", wrong: "Jammer. Het juiste woord is groen.", score: (a, b) => `${a} van ${b} juist`, need3: "Voor de quiz zijn minstens drie woorden nodig." },
   fr: { sub: "Regarde, lis et écoute", search: "Cherche un mot", settings: "Réglages de la voix", themes: "Thèmes", all: "Tout",
     th: { praktisch: "Pratique", alledaags: "Quotidien", keuken: "Cuisine", brand: "Incendie et sécurité", onderhoud: "Entretien", zorg: "Soins", overig: "Autre", fav: "Favoris" },
     tapCard: "Touche une carte pour entendre le mot en néerlandais.", noFav: "Pas encore de favoris. Touche le cœur d'un mot pour le garder ici.", notFound: (q) => `Aucun mot trouvé pour « ${q} ».`, emptyTheme: "Pas encore de mots dans ce thème.",
@@ -1133,7 +1147,7 @@ const UI = {
     shTitle: "Tu n'entends pas la voix ?", close: "Fermer", shIntro: "Ce téléphone ne prononce pas le mot. Souvent, il manque une voix néerlandaise. Voici comment faire :", retry: "Réessayer",
     stepsAndroid: (sam) => [`Monte le volume du téléphone. La voix utilise le volume multimédia, pas celui de la sonnerie.`, `Ouvre l'app <b>Paramètres</b>${sam ? " du Samsung" : ""} et cherche <b>Synthèse vocale</b>${sam ? " (dans Gestion globale)" : ""}.`, `Comme moteur préféré, choisis <b>Services vocaux Google</b>.`, `Touche la roue dentée à côté, choisis <b>Installer les données vocales</b> et installe le <b>néerlandais</b> (Belgique ou Pays-Bas).`, `Ça ne marche toujours pas ? Ouvre l'app dans <b>Chrome</b>${sam ? " au lieu de Samsung Internet" : ""}.`],
     stepsIos: [`Monte le volume et vérifie que le mode silencieux est désactivé.`, `Sur iPhone : Réglages, Accessibilité, Contenu énoncé, Voix, puis télécharge une voix néerlandaise.`],
-    stop: "Arrêter", ask: "Quel mot correspond à la photo ?", good: "Bravo !", wrong: "Dommage. Le bon mot est en vert.", score: (a, b) => `${a} sur ${b} correct${a > 1 ? "s" : ""}`, need3: "Il faut au moins trois mots pour le quiz." },
+    stop: "Arrêter", ask: "Qu'est-ce qui correspond à la photo ?", good: "Bravo !", wrong: "Dommage. Le bon mot est en vert.", score: (a, b) => `${a} sur ${b} correct${a > 1 ? "s" : ""}`, need3: "Il faut au moins trois mots pour le quiz." },
   en: { sub: "Look, read and listen", search: "Search for a word", settings: "Voice settings", themes: "Themes", all: "All",
     th: { praktisch: "Practical", alledaags: "Everyday", keuken: "Kitchen", brand: "Fire and safety", onderhoud: "Maintenance", zorg: "Care", overig: "Other", fav: "Favourites" },
     tapCard: "Tap a card to hear the word in Dutch.", noFav: "No favourites yet. Tap the heart on a word to keep it here.", notFound: (q) => `No word found for “${q}”.`, emptyTheme: "No words in this theme yet.",
@@ -1146,7 +1160,7 @@ const UI = {
     shTitle: "Can't hear the voice?", close: "Close", shIntro: "This phone does not say the word. Usually a Dutch voice is missing. Here is how to fix it:", retry: "Try again",
     stepsAndroid: (sam) => [`Turn up your phone's volume. The voice uses the media volume, not the ringer volume.`, `Open the <b>Settings</b> app${sam ? " on your Samsung" : ""} and search for <b>Text-to-speech</b>${sam ? " (under General management)" : ""}.`, `As the preferred engine, choose <b>Speech Services by Google</b>.`, `Tap the gear next to it, choose <b>Install voice data</b> and install <b>Dutch</b> (Belgium or Netherlands).`, `Still not working? Open the app in <b>Chrome</b>${sam ? " instead of Samsung Internet" : ""}.`],
     stepsIos: [`Turn up the volume and check that silent mode is off.`, `On iPhone: Settings, Accessibility, Spoken Content, Voices, and download a Dutch voice.`],
-    stop: "Stop", ask: "Which word goes with the photo?", good: "Well done!", wrong: "Too bad. The right word is green.", score: (a, b) => `${a} of ${b} correct`, need3: "The quiz needs at least three words." },
+    stop: "Stop", ask: "What goes with the photo?", good: "Well done!", wrong: "Too bad. The right word is green.", score: (a, b) => `${a} of ${b} correct`, need3: "The quiz needs at least three words." },
 };
 // De interface blijft Nederlands; bij Frans of Engels staat de vertaling tussen haakjes erachter.
 const tIn = (L, k, ...a) => { const v = UI[L][k] ?? UI.nl[k]; return typeof v === "function" ? v(...a) : v; };
@@ -1205,19 +1219,22 @@ $("q-opts").addEventListener("click", (e) => {
 $("q-next").onclick = () => nextQuestion();
 $("q-close").onclick = () => { stopAudio(); synth && synth.cancel(); closeOverlay("quiz"); };
 
+/* ---------- soort: woord, handeling of gevoel ---------- */
+const SOORT = { woord: { nl: "Woord", fr: "Mot", en: "Word" }, handeling: { nl: "Handeling", fr: "Action", en: "Action" }, gevoel: { nl: "Gevoel", fr: "Ressenti", en: "Feeling" } };
+const soortOf = (r) => (r && SOORT[r.soort] ? r.soort : "woord");
 /* ---------- oefenen: oefeningen en grammaticales ---------- */
 // Oefeningen worden gemaakt uit de woorden zelf (lidwoord, voorbeeldzin). Extra oefeningen met uitleg staan per woord in het veld "oef".
 const L3 = (nl, fr, en) => ({ nl, fr, en });
 const bi = (o) => (o ? `<span class="oe-nl">${esc(o.nl)}</span>` + (helpLang !== "nl" && o[helpLang] ? `<span class="oe-tr" lang="${helpLang}">${esc(o[helpLang])}</span>` : "") : "");
 const OE_SPK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 const OE_T = {
-  zin: { name: L3("Zin bouwen", "Construire une phrase", "Build a sentence"), d: L3("Zet de woorden in de juiste volgorde.", "Mets les mots dans le bon ordre.", "Put the words in the right order.") },
+  zin: { name: L3("Zin bouwen", "Construire une phrase", "Build a sentence"), d: L3("Zet de woorden in de juiste volgorde, met een punt of vraagteken.", "Mets les mots dans le bon ordre, avec un point ou un point d'interrogation.", "Put the words in the right order, with a full stop or question mark.") },
   lw: { name: L3("De of het?", "De ou het ?", "De or het?"), d: L3("Kies het juiste lidwoord.", "Choisis le bon article.", "Choose the right article.") },
   vul: { name: L3("Vul het woord in", "Complète avec le mot", "Fill in the word"), d: L3("Welk woord past in de zin?", "Quel mot va dans la phrase ?", "Which word fits in the sentence?") },
   ww: { name: L3("Werkwoorden", "Les verbes", "Verbs"), d: L3("Kies de juiste vorm van het werkwoord.", "Choisis la bonne forme du verbe.", "Choose the right form of the verb.") },
 };
 const OE_G = {
-  zin: L3("In een gewone zin staat het werkwoord altijd op de tweede plaats. Meestal begin je met het onderwerp (wie doet het?), dan komt het werkwoord en dan de rest.", "Dans une phrase simple, le verbe est toujours en deuxième position. On commence souvent par le sujet (qui fait l'action ?), puis le verbe, puis le reste.", "In a simple sentence, the verb always comes second. You usually start with the subject (who does it?), then the verb, then the rest."),
+  zin: L3("Kijk eerst wat voor zin het is. In een gewone zin staat het werkwoord op de tweede plaats (Ik leg de handdoek klaar.). In een opdracht en in een vraag zonder vraagwoord staat het werkwoord vooraan (Leg de handdoek klaar. Ligt de handdoek klaar?). Een vraag eindigt met een vraagteken (?), anders zet je een punt (.).", "Regarde d'abord quel type de phrase c'est. Dans une phrase normale, le verbe est en deuxième position (Ik leg de handdoek klaar.). Dans un ordre et dans une question sans mot interrogatif, le verbe vient en premier (Leg de handdoek klaar. Ligt de handdoek klaar?). Une question se termine par un point d'interrogation (?), sinon on met un point (.).", "First look at what kind of sentence it is. In a normal sentence the verb is in second place (Ik leg de handdoek klaar.). In an instruction and in a question without a question word the verb comes first (Leg de handdoek klaar. Ligt de handdoek klaar?). A question ends with a question mark (?), otherwise you use a full stop (.)."),
   lw: L3("Er zijn twee lidwoorden: de en het. De meeste woorden krijgen de. Verkleinwoorden (op -je) krijgen altijd het. Meervoud krijgt altijd de. Bij een samengesteld woord telt het laatste deel.", "Il y a deux articles : de et het. La plupart des mots prennent de. Les diminutifs (en -je) prennent toujours het. Le pluriel prend toujours de. Pour un mot composé, c'est la dernière partie qui compte.", "There are two articles: de and het. Most words take de. Diminutives (ending in -je) always take het. Plurals always take de. In a compound word, the last part decides."),
   vul: L3("Lees eerst de hele zin. De andere woorden helpen je: wat doe je ermee, en past het lidwoord (de of het)?", "Lis d'abord toute la phrase. Les autres mots t'aident : que fait-on avec l'objet, et l'article (de ou het) correspond-il ?", "Read the whole sentence first. The other words help you: what do you do with it, and does the article (de or het) fit?"),
   ww: L3("Het werkwoord verandert met de persoon. ik: alleen de stam (lezen → ik lees). jij, u, hij, zij: stam + t (jij leest). wij, jullie, zij (meervoud): het hele werkwoord (wij lezen).", "Le verbe change selon la personne. ik (je) : seulement le radical (lezen → ik lees). jij, u, hij, zij (tu, vous, il, elle) : radical + t (jij leest). wij, jullie, zij (nous, vous, ils) : le verbe entier (wij lezen).", "The verb changes with the person. ik (I): only the stem (lezen → ik lees). jij, u, hij, zij (you, he, she): stem + t (jij leest). wij, jullie, zij (we, you all, they): the full verb (wij lezen)."),
@@ -1225,14 +1242,14 @@ const OE_G = {
 const OE_UI = {
   title: L3("Oefenen", "S'exercer", "Practice"), close: L3("Sluiten", "Fermer", "Close"), back: L3("Terug", "Retour", "Back"),
   theme: L3("Thema", "Thème", "Theme"), allTh: L3("Alle thema's", "Tous les thèmes", "All themes"),
-  quiz: L3("Quiz", "Quiz", "Quiz"), quizD: L3("Welk woord hoort bij de foto?", "Quel mot correspond à la photo ?", "Which word goes with the photo?"),
+  quiz: L3("Quiz", "Quiz", "Quiz"), quizD: L3("Wat hoort bij de foto?", "Qu'est-ce qui correspond à la photo ?", "What goes with the photo?"),
   ex: L3("Oefeningen", "Exercices", "Exercises"), mix: L3("Alles door elkaar", "Tout mélangé", "All mixed"), mixD: L3("10 vragen", "10 questions", "10 questions"),
   gram: L3("Grammatica", "Grammaire", "Grammar"), gramD: L3("Korte lessen over het maken van zinnen.", "Courtes leçons pour faire des phrases.", "Short lessons on making sentences."),
   none: L3("Nog geen oefeningen in dit thema.", "Pas encore d'exercices dans ce thème.", "No exercises in this theme yet."),
   q: (a, b) => L3(`Vraag ${a} van ${b}`, `Question ${a} sur ${b}`, `Question ${a} of ${b}`),
   right: (a) => L3(`${a} juist`, `${a} correct${a > 1 ? "s" : ""}`, `${a} correct`),
   rule: L3("Uitleg: de regel", "Explication : la règle", "Explanation: the rule"), readLes: L3("Lees de les", "Lire la leçon", "Read the lesson"),
-  make: L3("Maak de zin.", "Fais la phrase.", "Make the sentence."), tapHint: L3("Tik de woorden in de juiste volgorde.", "Touche les mots dans le bon ordre.", "Tap the words in the right order."),
+  make: L3("Maak de zin.", "Fais la phrase.", "Make the sentence."), tapHint: L3("Tik de woorden in de juiste volgorde. Kies op het einde een punt of een vraagteken.", "Touche les mots dans le bon ordre. Termine par un point ou un point d'interrogation.", "Tap the words in the right order. End with a full stop or a question mark."),
   check: L3("Controleer", "Vérifier", "Check"), good: L3("Juist!", "Correct !", "Correct!"), almost: L3("Bijna. Zo is het juist:", "Presque. Voici la bonne réponse :", "Almost. This is correct:"),
   why: L3("Waarom?", "Pourquoi ?", "Why?"), next: L3("Volgende", "Suivant", "Next"), score: L3("Bekijk je score", "Voir ton score", "See your score"),
   done: L3("Klaar", "Terminé", "Done"), again: L3("Opnieuw", "Recommencer", "Again"), other: L3("Andere oefening", "Autre exercice", "Other exercise"),
@@ -1240,16 +1257,52 @@ const OE_UI = {
   word: L3("Oefen dit woord", "Exercer ce mot", "Practise this word"), les: (i, n) => L3(`Les ${i} van ${n}`, `Leçon ${i} sur ${n}`, `Lesson ${i} of ${n}`),
   practise: L3("Oefen dit", "Exercer", "Practise this"), nextLes: L3("Volgende les", "Leçon suivante", "Next lesson"), allLes: L3("Alle lessen", "Toutes les leçons", "All lessons"),
 };
+const OE_PUNT = {
+  "?": L3("Dit is een vraag. Daarom eindigt de zin met een vraagteken (?).", "C'est une question. La phrase se termine donc par un point d'interrogation (?).", "This is a question. So the sentence ends with a question mark (?)."),
+  ".": L3("Dit is een gewone zin, geen vraag. Daarom eindigt hij met een punt (.).", "C'est une phrase normale, pas une question. Elle se termine donc par un point (.).", "This is a normal sentence, not a question. So it ends with a full stop (.)."),
+  "!": L3("Dit is een uitroep of een opdracht. Daarom eindigt de zin met een uitroepteken (!).", "C'est une exclamation ou un ordre. La phrase se termine donc par un point d'exclamation (!).", "This is an exclamation or an instruction. So the sentence ends with an exclamation mark (!)."),
+};
+const OE_ZK = {
+  zin: L3("Dit is een gewone zin: je vertelt iets. Het werkwoord staat op de tweede plaats. Op het einde komt een punt (.).", "C'est une phrase normale : on raconte quelque chose. Le verbe est en deuxième position. À la fin, on met un point (.).", "This is a normal sentence: you tell something. The verb is in second place. It ends with a full stop (.)."),
+  opdr: L3("Dit is een opdracht: je zegt wat iemand moet doen. Het werkwoord staat vooraan, er is geen onderwerp. Op het einde komt een punt (.), of een uitroepteken (!) als het dringend is.", "C'est un ordre : on dit à quelqu'un ce qu'il doit faire. Le verbe vient en premier, il n'y a pas de sujet. À la fin, on met un point (.), ou un point d'exclamation (!) si c'est urgent.", "This is an instruction: you say what someone has to do. The verb comes first and there is no subject. It ends with a full stop (.), or an exclamation mark (!) when it is urgent."),
+  jn: L3("Dit is een vraag zonder vraagwoord. Het werkwoord staat vooraan, daarna het onderwerp. Op het einde komt een vraagteken (?).", "C'est une question sans mot interrogatif. Le verbe vient en premier, puis le sujet. À la fin, on met un point d'interrogation (?).", "This is a question without a question word. The verb comes first, then the subject. It ends with a question mark (?)."),
+  wv: L3("Dit is een vraag met een vraagwoord (wie, wat, waar, wanneer, welke, hoe). Eerst het vraagwoord, dan het werkwoord. Op het einde komt een vraagteken (?).", "C'est une question avec un mot interrogatif (wie, wat, waar, wanneer, welke, hoe). D'abord le mot interrogatif, puis le verbe. À la fin, on met un point d'interrogation (?).", "This is a question with a question word (wie, wat, waar, wanneer, welke, hoe). First the question word, then the verb. It ends with a question mark (?)."),
+  uit: L3("Dit is een uitroep. Op het einde komt een uitroepteken (!).", "C'est une exclamation. À la fin, on met un point d'exclamation (!).", "This is an exclamation. It ends with an exclamation mark (!)."),
+};
+/* begin: woorden waarmee een gewone zin (geen opdracht) kan starten */
+const OE_START = new Set("ik je jij u hij zij ze het we wij jullie men iemand niemand iedereen de een dit dat deze die mijn uw zijn haar ons onze hun meneer mevrouw dokter er daar hier nu vandaag morgen gisteren straks elke elk soms altijd vaak zo dan met in op onder bij na voor tijdens naast achter boven door van om rode groene blauwe gele witte grijze oranje kleine grote".split(" "));
+const OE_VW = new Set("wie wat waar wanneer waarom hoe welk welke hoeveel waarmee waarvoor".split(" "));
+function oeZinKind(s, it) {
+  if (it && it.k && OE_ZK[it.k]) return it.k;
+  const w = s.split(" ")[0].replace(/[.?!]$/, ""), lw = w.toLowerCase(), end = (s.match(/[.?!]$/) || ["."])[0];
+  if (end === "?") return OE_VW.has(lw) ? "wv" : "jn";
+  if (OE_START.has(lw) || /^[A-Z]{2,}/.test(w) || userWords.some((r) => !r.article && r.word && r.word.split(" ")[0] === w)) return end === "!" ? "uit" : "zin";
+  return "opdr";
+}
 const OE_LES = [
   { oef: "zin", title: L3("Zo maak je een zin", "Comment faire une phrase", "How to make a sentence"), sum: L3("De volgorde van de woorden", "L'ordre des mots", "The word order"), blocks: [
-    { p: L3("Een Nederlandse zin heeft een vaste volgorde. Het werkwoord staat altijd op de tweede plaats.", "Une phrase néerlandaise a un ordre fixe. Le verbe est toujours en deuxième position.", "A Dutch sentence has a fixed order. The verb is always in second place.") },
+    { p: L3("Een Nederlandse zin heeft een vaste volgorde. In een gewone zin, waarin je iets vertelt, staat het werkwoord op de tweede plaats. In een opdracht en in een vraag staat het werkwoord vooraan; dat zie je verder in deze les.", "Une phrase néerlandaise a un ordre fixe. Dans une phrase normale, où l'on raconte quelque chose, le verbe est en deuxième position. Dans un ordre et dans une question, le verbe vient en premier ; tu le verras plus loin dans cette leçon.", "A Dutch sentence has a fixed order. In a normal sentence, where you tell something, the verb is in second place. In an instruction and in a question the verb comes first; you will see this further on in this lesson.") },
     { table: { head: [L3("1. Wie?", "1. Qui ?", "1. Who?"), L3("2. Werkwoord", "2. Verbe", "2. Verb"), L3("3. De rest", "3. Le reste", "3. The rest")], rows: [["Ik", "poets", "de tanden."], ["Meneer", "leest", "de krant."], ["Mevrouw", "breit", "een sjaal."], ["We", "spelen", "een spel."]], hi: [1] } },
     { h: L3("Begin je met iets anders?", "Tu commences par autre chose ?", "Starting with something else?"), p: L3("Dan blijft het werkwoord op plaats 2. Het onderwerp komt erna.", "Le verbe reste en position 2. Le sujet vient après.", "The verb stays in place 2. The subject comes after it."),
       ex: [{ nl: "Elke ochtend scheer ik meneer.", fr: "Chaque matin, je rase monsieur.", en: "Every morning I shave the gentleman.", img: "wallegscheerapparaat" }, { nl: "In de namiddag spelen de bewoners een spel.", fr: "L'après-midi, les résidents jouent à un jeu.", en: "In the afternoon the residents play a game.", img: "wallegezelschapsspel" }] },
     { h: L3("Werkwoorden in twee delen", "Les verbes en deux parties", "Verbs in two parts"), p: L3("Sommige werkwoorden bestaan uit twee delen, zoals afdrogen en voorlezen. Het eerste deel gaat naar het einde van de zin.", "Certains verbes ont deux parties, comme afdrogen (essuyer) et voorlezen (lire à voix haute). La première partie va à la fin de la phrase.", "Some verbs have two parts, like afdrogen (to dry off) and voorlezen (to read aloud). The first part moves to the end of the sentence."),
       ex: [{ nl: "Ik droog de bewoner af.", fr: "Je sèche le résident. (afdrogen)", en: "I dry the resident off. (afdrogen)", img: "walleghanddoek" }, { nl: "Ik lees de bewoner een boek voor.", fr: "Je lis un livre au résident. (voorlezen)", en: "I read the resident a book. (voorlezen)", img: "wallegboek" }] },
-    { h: L3("Een vraag stellen", "Poser une question", "Asking a question"), p: L3("In een vraag zonder vraagwoord staat het werkwoord vooraan.", "Dans une question sans mot interrogatif, le verbe vient en premier.", "In a question without a question word, the verb comes first."),
+    { h: L3("Een opdracht geven", "Donner un ordre", "Giving an instruction"), p: L3("In een opdracht zeg je wat iemand moet doen. Het werkwoord staat vooraan en er is geen onderwerp. Je gebruikt de stam van het werkwoord: leggen → leg. Op het einde komt een punt.", "Dans un ordre, on dit à quelqu'un ce qu'il doit faire. Le verbe vient en premier et il n'y a pas de sujet. On utilise le radical du verbe : leggen → leg. À la fin, on met un point.", "In an instruction you say what someone has to do. The verb comes first and there is no subject. You use the stem of the verb: leggen → leg. It ends with a full stop."),
+      ex: [{ nl: "Leg een rol wc-papier in de wc.", fr: "Mets un rouleau de papier toilette dans les toilettes.", en: "Put a roll of toilet paper in the toilet.", img: "wonderh26" }, { nl: "Was je handen met handzeep.", fr: "Lave-toi les mains avec du savon.", en: "Wash your hands with hand soap.", img: "wonderh10" }] },
+    { h: L3("Een vraag stellen", "Poser une question", "Asking a question"), p: L3("In een vraag zonder vraagwoord staat het werkwoord vooraan. Begint de vraag met een vraagwoord (wie, wat, waar, wanneer, welke, hoe, waarom)? Dan komt eerst het vraagwoord en daarna het werkwoord, dus op plaats 2: Welke kleur wol wilt u gebruiken?", "Dans une question sans mot interrogatif, le verbe vient en premier. La question commence par un mot interrogatif (wie, wat, waar, wanneer, welke, hoe, waarom) ? Alors le mot interrogatif vient d'abord, puis le verbe, donc en position 2 : Welke kleur wol wilt u gebruiken? (Quelle couleur de laine voulez-vous utiliser ?)", "In a question without a question word, the verb comes first. Does the question start with a question word (wie, wat, waar, wanneer, welke, hoe, waarom)? Then the question word comes first and the verb after it, so in place 2: Welke kleur wol wilt u gebruiken? (Which colour of wool would you like to use?)"),
       ex: [{ nl: "Wilt u de krant lezen?", fr: "Voulez-vous lire le journal ?", en: "Would you like to read the newspaper?", img: "wallegkrant" }, { nl: "Mag ik uw haar kammen?", fr: "Est-ce que je peux vous coiffer ?", en: "May I comb your hair?", img: "wallegkam" }] },
+    { h: L3("Uitzondering: twee werkwoorden in één zin", "Exception : deux verbes dans une phrase", "Exception: two verbs in one sentence"), p: L3("Zijn er twee werkwoorden? Dan staat het eerste werkwoord op zijn gewone plaats en gaat het tweede werkwoord helemaal naar het einde.", "Il y a deux verbes ? Le premier verbe reste à sa place habituelle et le deuxième va tout à la fin.", "Are there two verbs? The first verb stays in its normal place and the second verb goes all the way to the end."),
+      ex: [{ nl: "Ik ga je temperatuur meten.", fr: "Je vais prendre ta température. (ga … meten)", en: "I am going to take your temperature. (ga … meten)", img: "wmww8akqpm3tm" }, { nl: "Mag ik uw haar kammen?", fr: "Puis-je vous coiffer ? (mag … kammen)", en: "May I comb your hair? (mag … kammen)", img: "wallegkam" }] },
+    { h: L3("Uitzondering: na als, wanneer, omdat of dat", "Exception : après als, wanneer, omdat ou dat", "Exception: after als, wanneer, omdat or dat"), p: L3("Begint een stuk van de zin met als, wanneer, omdat, dat of voor (een bijzin)? Dan staat het werkwoord van dat stuk helemaal achteraan.", "Une partie de la phrase commence par als (si, quand), wanneer (quand), omdat (parce que), dat (que) ou voor (avant que) ? Le verbe de cette partie va tout à la fin.", "Does part of the sentence start with als (if, when), wanneer (when), omdat (because), dat (that) or voor (before)? Then the verb of that part goes all the way to the end."),
+      ex: [{ nl: "Sluit de kleine kar als je weggaat.", fr: "Ferme le petit chariot quand tu pars. (als je weggaat)", en: "Close the small trolley when you leave. (als je weggaat)", img: "wonderh61" }, { nl: "Zet een mondmasker op wanneer je ziek bent.", fr: "Mets un masque quand tu es malade. (wanneer je ziek bent)", en: "Put on a face mask when you are ill. (wanneer je ziek bent)", img: "wmuxov6gj6l9y" }] },
+    { h: L3("Uitzondering: een beleefde opdracht met u", "Exception : un ordre poli avec u", "Exception: a polite instruction with u"), p: L3("Een gewone opdracht heeft geen onderwerp. Tegen een bewoner zet je er vaak u achter, om beleefd te zijn. Dan krijgt het werkwoord een t, en vaak komt er maar bij.", "Un ordre normal n'a pas de sujet. Avec un résident, on ajoute souvent u (vous) après le verbe, pour être poli. Le verbe prend alors un t, et on ajoute souvent maar.", "A normal instruction has no subject. With a resident you often add u (polite you) after the verb to be polite. The verb then gets a t, and you often add maar."),
+      ex: [{ nl: "Gaat u maar zitten.", fr: "Asseyez-vous. (ga → gaat u)", en: "Please sit down. (ga → gaat u)" }, { nl: "Neemt u maar een koekje.", fr: "Prenez un biscuit. (neem → neemt u)", en: "Have a biscuit. (neem → neemt u)" }] },
+    { h: L3("Uitzondering: zijn in een opdracht", "Exception : zijn (être) dans un ordre", "Exception: zijn (to be) in an instruction"), p: L3("Het werkwoord zijn heeft in een opdracht een eigen vorm: wees.", "Le verbe zijn (être) a une forme spéciale dans un ordre : wees (sois).", "The verb zijn (to be) has its own form in an instruction: wees (be)."),
+      ex: [{ nl: "Wees voorzichtig met de natte vloer.", fr: "Fais attention au sol mouillé.", en: "Be careful with the wet floor." }] },
+    { h: L3("Uitzondering: niet staat vaak achteraan", "Exception : niet (pas) est souvent à la fin", "Exception: niet (not) often comes last"), p: L3("Niet komt meestal na het ding waarover het gaat, dus vaak op het einde van de zin.", "Niet (ne … pas) vient généralement après la chose dont on parle, donc souvent à la fin de la phrase.", "Niet (not) usually comes after the thing it is about, so often at the end of the sentence."),
+      ex: [{ nl: "Gebruik de lift niet.", fr: "N'utilise pas l'ascenseur.", en: "Do not use the lift.", img: "wbrandgeenlift" }] },
+    { h: L3("Hoofdletter, punt of vraagteken", "Majuscule, point ou point d'interrogation", "Capital letter, full stop or question mark"), p: L3("Een zin begint altijd met een hoofdletter. Een gewone zin eindigt met een punt (.). Een vraag eindigt met een vraagteken (?). Bij een vraag staat het werkwoord vooraan, of de zin begint met een vraagwoord zoals wie, wat, waar of wanneer.", "Une phrase commence toujours par une majuscule. Une phrase normale se termine par un point (.). Une question se termine par un point d'interrogation (?). Dans une question, le verbe vient en premier, ou la phrase commence par un mot interrogatif comme wie (qui), wat (quoi), waar (où) ou wanneer (quand).", "A sentence always starts with a capital letter. A normal sentence ends with a full stop (.). A question ends with a question mark (?). In a question the verb comes first, or the sentence starts with a question word like wie (who), wat (what), waar (where) or wanneer (when)."),
+      ex: [{ nl: "Meneer leest de krant.", fr: "Monsieur lit le journal. (phrase normale : point)", en: "The gentleman reads the newspaper. (normal sentence: full stop)", img: "wallegkrant" }, { nl: "Leest meneer de krant?", fr: "Est-ce que monsieur lit le journal ? (question : point d'interrogation)", en: "Is the gentleman reading the newspaper? (question: question mark)", img: "wallegkrant" }, { nl: "Waar is de kam?", fr: "Où est le peigne ? (mot interrogatif + ?)", en: "Where is the comb? (question word + ?)", img: "wallegkam" }] },
   ] },
   { oef: "ww", title: L3("Het werkwoord", "Le verbe", "The verb"), sum: L3("ik lees, jij leest, wij lezen", "ik lees, jij leest, wij lezen", "ik lees, jij leest, wij lezen"), blocks: [
     { p: L3("Het werkwoord verandert met de persoon. Neem het hele werkwoord (lezen) en haal -en weg. Dan heb je de stam (lees).", "Le verbe change selon la personne. Prends le verbe entier (lezen) et enlève -en. Tu obtiens le radical (lees).", "The verb changes with the person. Take the full verb (lezen) and remove -en. That gives you the stem (lees).") },
@@ -1259,7 +1312,15 @@ const OE_LES = [
       ex: [{ nl: "Mevrouw breit een sjaal.", fr: "Madame tricote une écharpe. (breien → brei + t)", en: "The lady knits a scarf. (breien → brei + t)", img: "wallegbreinaalden" }, { nl: "Jij wast het haar van meneer.", fr: "Tu laves les cheveux de monsieur. (wassen → was + t)", en: "You wash the gentleman's hair. (wassen → was + t)", img: "wallegshampoo" }] },
     { h: L3("Jij na het werkwoord", "Jij après le verbe", "Jij after the verb"), p: L3("Staat jij na het werkwoord, zoals in een vraag? Dan valt de t weg.", "Quand jij (tu) vient après le verbe, comme dans une question, le t disparaît.", "When jij (you) comes after the verb, as in a question, the t drops."),
       ex: [{ nl: "Jij helpt de bewoner. Help jij de bewoner?", fr: "Tu aides le résident. Est-ce que tu aides le résident ?", en: "You help the resident. Do you help the resident?" }] },
-    { h: L3("Twee werkwoorden zijn anders", "Deux verbes sont différents", "Two verbs are different"), p: L3("zijn: ik ben, jij bent, hij is, wij zijn. hebben: ik heb, jij hebt, hij heeft, wij hebben.", "zijn (être) : ik ben, jij bent, hij is, wij zijn. hebben (avoir) : ik heb, jij hebt, hij heeft, wij hebben.", "zijn (to be): ik ben, jij bent, hij is, wij zijn. hebben (to have): ik heb, jij hebt, hij heeft, wij hebben."),
+    { h: L3("Uitzondering: de stam eindigt al op t", "Exception : le radical se termine déjà par t", "Exception: the stem already ends in t"), p: L3("Eindigt de stam op t? Dan zet je er geen tweede t bij.", "Le radical se termine par t ? Alors on n'ajoute pas de deuxième t.", "Does the stem end in t? Then you do not add a second t."),
+      ex: [{ nl: "zetten → ik zet, hij zet. meten → ik meet, zij meet.", fr: "zetten (mettre), meten (mesurer) : pas de t en plus", en: "zetten (to put), meten (to measure): no extra t" }] },
+    { h: L3("Uitzondering: de stam eindigt op d", "Exception : le radical se termine par d", "Exception: the stem ends in d"), p: L3("Eindigt de stam op d? Dan schrijf je toch dt bij hij, zij en jij. Je hoort het niet, maar je schrijft het wel.", "Le radical se termine par d ? On écrit quand même dt avec hij, zij et jij. On ne l'entend pas, mais on l'écrit.", "Does the stem end in d? You still write dt with hij, zij and jij. You cannot hear it, but you write it."),
+      ex: [{ nl: "snijden → ik snijd, hij snijdt.", fr: "snijden (couper) : ik snijd, hij snijdt", en: "snijden (to cut): ik snijd, hij snijdt", img: "wkeuken07snijden" }] },
+    { h: L3("Uitzondering: v wordt f, z wordt s", "Exception : v devient f, z devient s", "Exception: v becomes f, z becomes s"), p: L3("Een Nederlands woord eindigt nooit op v of z. In de stam wordt v een f en z een s.", "Un mot néerlandais ne se termine jamais par v ou z. Dans le radical, v devient f et z devient s.", "A Dutch word never ends in v or z. In the stem, v becomes f and z becomes s."),
+      ex: [{ nl: "geven → ik geef. lezen → ik lees.", fr: "geven (donner), lezen (lire)", en: "geven (to give), lezen (to read)" }] },
+    { h: L3("Uitzondering: u en jij na het werkwoord", "Exception : u et jij après le verbe", "Exception: u and jij after the verb"), p: L3("Alleen bij jij of je valt de t weg als het na het werkwoord staat. Bij u blijft de t staan.", "Seulement avec jij ou je (tu), le t disparaît quand il vient après le verbe. Avec u (vous), le t reste.", "Only with jij or je (you), the t drops when it comes after the verb. With u (polite you), the t stays."),
+      ex: [{ nl: "Help jij mevrouw? Helpt u mevrouw?", fr: "Tu aides madame ? Vous aidez madame ?", en: "Are you helping the lady? (jij / u)" }] },
+    { h: L3("Uitzondering: onregelmatige werkwoorden", "Exception : les verbes irréguliers", "Exception: irregular verbs"), p: L3("Sommige werkwoorden volgen de regel niet. Die leer je uit het hoofd. zijn: ik ben, jij bent, u bent, hij is, wij zijn. hebben: ik heb, jij hebt, u heeft, hij heeft, wij hebben. willen: ik wil, jij wilt, hij wil. kunnen: ik kan, jij kunt, hij kan. mogen: ik mag, jij mag, hij mag. zullen: ik zal, jij zult, hij zal. Bij willen, kunnen, mogen en zullen krijgt hij geen t.", "Certains verbes ne suivent pas la règle. Il faut les apprendre par cœur. zijn (être) : ik ben, jij bent, u bent, hij is, wij zijn. hebben (avoir) : ik heb, jij hebt, u heeft, hij heeft, wij hebben. willen (vouloir) : ik wil, jij wilt, hij wil. kunnen (pouvoir) : ik kan, jij kunt, hij kan. mogen (avoir le droit) : ik mag, jij mag, hij mag. zullen (aller, futur) : ik zal, jij zult, hij zal. Avec willen, kunnen, mogen et zullen, hij ne prend pas de t.", "Some verbs do not follow the rule. You learn them by heart. zijn (to be): ik ben, jij bent, u bent, hij is, wij zijn. hebben (to have): ik heb, jij hebt, u heeft, hij heeft, wij hebben. willen (to want): ik wil, jij wilt, hij wil. kunnen (can): ik kan, jij kunt, hij kan. mogen (may): ik mag, jij mag, hij mag. zullen (shall): ik zal, jij zult, hij zal. With willen, kunnen, mogen and zullen, hij gets no t."),
       ex: [{ nl: "Meneer is moe. Hij heeft dorst.", fr: "Monsieur est fatigué. Il a soif.", en: "The gentleman is tired. He is thirsty." }] },
   ] },
   { oef: "lw", title: L3("De of het?", "De ou het ?", "De or het?"), sum: L3("Het lidwoord kiezen", "Choisir l'article", "Choosing the article"), blocks: [
@@ -1268,13 +1329,38 @@ const OE_LES = [
     { h: L3("2. Woorden op -je krijgen altijd het", "2. Les mots en -je prennent toujours het", "2. Words ending in -je always take het"), p: L3("Dat zijn verkleinwoorden.", "Ce sont des diminutifs.", "These are diminutives."), ex: [{ nl: "het washandje, het scheermesje", fr: "le gant de toilette, le rasoir", en: "the washcloth, the razor", img: "wallegwashandje" }] },
     { h: L3("3. Meervoud krijgt altijd de", "3. Le pluriel prend toujours de", "3. Plurals always take de"), ex: [{ nl: "het boek → de boeken", fr: "le livre → les livres", en: "the book → the books", img: "wallegboek" }] },
     { h: L3("4. Twee woorden samen: het laatste woord telt", "4. Deux mots ensemble : le dernier mot compte", "4. Two words together: the last word decides"), ex: [{ nl: "het apparaat → het scheerapparaat", fr: "l'appareil → le rasoir électrique", en: "the device → the electric shaver", img: "wallegscheerapparaat" }, { nl: "de borstel → de tandenborstel", fr: "la brosse → la brosse à dents", en: "the brush → the toothbrush", img: "wallegtandenborstel" }] },
+    { h: L3("5. Deze woorden krijgen altijd de", "5. Ces mots prennent toujours de", "5. These words always take de"), p: L3("Woorden die eindigen op -ing, -heid, -tie, -te of -ij zijn altijd de-woorden. Ook beroepen en mensen krijgen bijna altijd de.", "Les mots qui se terminent par -ing, -heid, -tie, -te ou -ij prennent toujours de. Les métiers et les personnes prennent presque toujours de.", "Words ending in -ing, -heid, -tie, -te or -ij always take de. Jobs and people almost always take de too."),
+      ex: [{ nl: "de verzorging, de gezondheid, de medicatie, de warmte, de bakkerij, de dokter", fr: "les soins, la santé, les médicaments, la chaleur, la boulangerie, le médecin", en: "the care, the health, the medication, the warmth, the bakery, the doctor" }] },
+    { h: L3("6. Deze woorden krijgen meestal het", "6. Ces mots prennent généralement het", "6. These words usually take het"), p: L3("Een werkwoord dat je als woord gebruikt, krijgt altijd het. Woorden die beginnen met ge-, be- of ver- en woorden op -ment of -um zijn meestal het-woorden.", "Un verbe utilisé comme nom prend toujours het. Les mots qui commencent par ge-, be- ou ver- et les mots en -ment ou -um prennent généralement het.", "A verb used as a noun always takes het. Words starting with ge-, be- or ver- and words ending in -ment or -um usually take het."),
+      ex: [{ nl: "het koken, het gesprek, het bezoek, het verband, het medicament, het centrum", fr: "la cuisine (cuisiner), la conversation, la visite, le pansement, le médicament, le centre", en: "cooking, the conversation, the visit, the bandage, the medicine, the centre", img: "wkeuken01koken" }] },
+    { h: L3("Uitzondering: het kind, de man, de vrouw", "Exception : het kind, de man, de vrouw", "Exception: het kind, de man, de vrouw"), p: L3("Er zijn woorden die je gewoon moet leren. Kind en meisje zijn het-woorden, ook al gaat het over een persoon. Meisje eindigt op -je.", "Certains mots doivent simplement être appris. Kind (enfant) et meisje (fille) prennent het, même si ce sont des personnes. Meisje se termine par -je.", "Some words you just have to learn. Kind (child) and meisje (girl) take het, even though they are people. Meisje ends in -je."),
+      ex: [{ nl: "het kind, het meisje, de jongen", fr: "l'enfant, la fille, le garçon", en: "the child, the girl, the boy" }] },
+    { h: L3("Let op: deze of dit, grote of groot", "Attention : deze ou dit, grote ou groot", "Watch out: deze or dit, grote or groot"), p: L3("Na het lidwoord verandert er soms nog iets. Bij een de-woord zeg je deze en die. Bij een het-woord zeg je dit en dat. Een bijvoeglijk naamwoord krijgt een -e, behalve bij een + het-woord.", "Après l'article, d'autres mots changent aussi. Avec un mot en de, on dit deze et die (ce, cette). Avec un mot en het, on dit dit et dat. Un adjectif prend un -e, sauf avec een + un mot en het.", "After the article, other words change too. With a de-word you say deze and die (this, that). With a het-word you say dit and dat. An adjective gets an -e, except with een + a het-word."),
+      ex: [{ nl: "deze kam, dit boek", fr: "ce peigne, ce livre", en: "this comb, this book", img: "wallegboek" }, { nl: "de grote kar, het grote boek, een groot boek", fr: "le grand chariot, le grand livre, un grand livre", en: "the big trolley, the big book, a big book" }] },
     { h: L3("Een is altijd een", "Een est toujours een", "Een is always een"), p: L3("Het woord een is voor de- en het-woorden hetzelfde.", "Le mot een (un, une) est le même pour les mots en de et en het.", "The word een (a, an) is the same for de-words and het-words."), ex: [{ nl: "een krant, een boek", fr: "un journal, un livre", en: "a newspaper, a book" }] },
+  ] },
+  { oef: null, title: L3("Woord, handeling of gevoel?", "Mot, action ou ressenti ?", "Word, action or feeling?"), sum: L3("de handbrandmelder, de handbrandmelder induwen, moe", "de handbrandmelder, de handbrandmelder induwen, moe", "de handbrandmelder, de handbrandmelder induwen, moe"), blocks: [
+    { p: L3("In de app staan drie soorten: woorden, handelingen en gevoelens. Op de kaart zie je welke soort het is.", "L'app contient trois sortes : des mots, des actions et des ressentis. La carte indique de quelle sorte il s'agit.", "The app has three kinds: words, actions and feelings. The card shows which kind it is.") },
+    { h: L3("Woord: een ding of een persoon", "Mot : une chose ou une personne", "Word: a thing or a person"), p: L3("Een woord is een naam. Er staat de of het voor.", "Un mot est un nom. Il y a de ou het devant.", "A word is a name. It has de or het in front of it."),
+      ex: [{ nl: "de handbrandmelder", fr: "le déclencheur manuel d'alarme incendie", en: "the manual call point", img: "wbrandhbmindrukken" }, { nl: "het boek", fr: "le livre", en: "the book", img: "wallegboek" }] },
+    { h: L3("Handeling: iets wat je doet", "Action : quelque chose que l'on fait", "Action: something you do"), p: L3("Een handeling staat in de app in de hele vorm. Het werkwoord staat achteraan: de handbrandmelder induwen, bloeddruk meten. Bij één werkwoord staat soms het ervoor: het koken.", "Dans l'app, une action est à l'infinitif. Le verbe est à la fin : de handbrandmelder induwen (enfoncer le déclencheur), bloeddruk meten (mesurer la tension). Un verbe seul a parfois het devant : het koken (cuisiner).", "In the app, an action is in the full form (infinitive). The verb comes last: de handbrandmelder induwen (push the call point), bloeddruk meten (measure blood pressure). A single verb sometimes has het in front: het koken (cooking).") },
+    { h: L3("Van handeling naar zin", "De l'action à la phrase", "From action to sentence"), p: L3("In een gewone zin gaat het werkwoord naar de tweede plaats en past het zich aan de persoon aan. Een tweedelig werkwoord splitst: induwen → ik duw … in.", "Dans une phrase, le verbe passe en deuxième position et s'accorde avec la personne. Un verbe en deux parties se sépare : induwen → ik duw … in.", "In a sentence the verb moves to second place and changes with the person. A two-part verb splits: induwen → ik duw … in."),
+      ex: [{ nl: "Ik duw de handbrandmelder in.", fr: "J'enfonce le déclencheur manuel. (de handbrandmelder induwen)", en: "I push the manual call point. (de handbrandmelder induwen)", img: "wbrandhbmindrukken" }, { nl: "Ik meet de bloeddruk van mevrouw.", fr: "Je mesure la tension de madame. (bloeddruk meten)", en: "I measure the lady's blood pressure. (bloeddruk meten)", img: "wmww8ajyxugf9" }] },
+    { h: L3("Een opdracht geven", "Donner un ordre", "Giving an instruction"), p: L3("Een opdracht begint met de stam van het werkwoord. Er is geen onderwerp. Op het einde staat een punt of een uitroepteken.", "Un ordre commence par le radical du verbe. Il n'y a pas de sujet. À la fin, on met un point ou un point d'exclamation.", "An instruction starts with the stem of the verb. There is no subject. It ends with a full stop or an exclamation mark."),
+      ex: [{ nl: "Duw de handbrandmelder in!", fr: "Enfonce le déclencheur manuel !", en: "Push the manual call point!", img: "wbrandhbmindrukken" }, { nl: "Bel 112.", fr: "Appelle le 112.", en: "Call 112.", img: "wbrandbel112" }, { nl: "Gebruik de lift niet.", fr: "N'utilise pas l'ascenseur.", en: "Do not use the lift.", img: "wbrandgeenlift" }] },
+    { h: L3("Gevoel: hoe iemand zich voelt", "Ressenti : comment on se sent", "Feeling: how someone feels"), p: L3("Bij moe, ziek, duizelig en misselijk gebruik je zijn. Bij honger, dorst, het warm en het koud gebruik je hebben.", "Avec moe (fatigué), ziek (malade), duizelig (étourdi) et misselijk (nauséeux), on utilise zijn (être). Avec honger (faim), dorst (soif), het warm (chaud) et het koud (froid), on utilise hebben (avoir).", "With moe (tired), ziek (ill), duizelig (dizzy) and misselijk (nauseous) you use zijn (to be). With honger (hunger), dorst (thirst), het warm (warm) and het koud (cold) you use hebben (to have)."),
+      ex: [{ nl: "Ik ben moe.", fr: "Je suis fatigué.", en: "I am tired.", img: "wmuxr4dp8pzor" }, { nl: "Bent u ziek?", fr: "Êtes-vous malade ?", en: "Are you ill?", img: "wmww7mxujk6o6" }, { nl: "Heeft u dorst?", fr: "Avez-vous soif ?", en: "Are you thirsty?", img: "wmuxr0y7m58tg" }, { nl: "Heeft u het koud?", fr: "Avez-vous froid ?", en: "Are you cold?", img: "wmuxret9nwm9r" }] },
+    { h: L3("Uitzondering: ik heb het warm, niet ik ben warm", "Exception : ik heb het warm, pas ik ben warm", "Exception: ik heb het warm, not ik ben warm"), p: L3("Over je eigen gevoel van warm of koud zeg je: ik heb het warm, ik heb het koud. Ik ben warm betekent iets anders, bijvoorbeeld dat je lichaam warm aanvoelt.", "Pour dire que tu as chaud ou froid, on dit : ik heb het warm, ik heb het koud. Ik ben warm veut dire autre chose, par exemple que ton corps est chaud au toucher.", "To say you feel warm or cold, you say: ik heb het warm, ik heb het koud. Ik ben warm means something else, for example that your body feels warm to the touch."),
+      ex: [{ nl: "Heeft u het warm?", fr: "Avez-vous chaud ?", en: "Are you warm?", img: "wmuxr91foe64x" }] },
+    { h: L3("Uitzondering: pijn en koorts gaan met hebben", "Exception : pijn et koorts vont avec hebben", "Exception: pijn and koorts go with hebben"), p: L3("Klachten zoals pijn, koorts, jeuk en hoofdpijn zijn woorden. Daarom gebruik je hebben: ik heb hoofdpijn.", "Les plaintes comme pijn (douleur), koorts (fièvre), jeuk (démangeaison) et hoofdpijn (mal de tête) sont des noms. On utilise donc hebben (avoir) : ik heb hoofdpijn.", "Complaints like pijn (pain), koorts (fever), jeuk (itch) and hoofdpijn (headache) are nouns. So you use hebben (to have): ik heb hoofdpijn."),
+      ex: [{ nl: "Heeft u pijn? Ik heb koorts.", fr: "Avez-vous mal ? J'ai de la fièvre.", en: "Are you in pain? I have a fever." }] },
   ] },
   { oef: null, title: L3("Beleefd praten met een bewoner", "Parler poliment à un résident", "Speaking politely to a resident"), sum: L3("u, uw, mag ik, wilt u", "u, uw, mag ik, wilt u", "u, uw, mag ik, wilt u"), blocks: [
     { p: L3("Tegen een bewoner zeg je u, niet jij. U is beleefd. Tegen collega's mag je jij zeggen.", "À un résident, on dit u (vous), pas jij (tu). U est poli. Avec les collègues, tu peux dire jij.", "To a resident you say u (polite you), not jij. U is polite. With colleagues you may say jij.") },
     { h: L3("Bij u hoort uw", "Uw va avec u", "Uw goes with u"), p: L3("Uw betekent: van u.", "Uw signifie : votre.", "Uw means: your (polite)."), ex: [{ nl: "Zal ik uw haar kammen?", fr: "Voulez-vous que je vous coiffe ?", en: "Shall I comb your hair?", img: "wallegharborstel" }] },
     { h: L3("Een beleefde vraag", "Une question polie", "A polite question"), p: L3("Begin met Mag ik…, Wilt u… of Zal ik…", "Commence par Mag ik… (Puis-je…), Wilt u… (Voulez-vous…) ou Zal ik… (Est-ce que je…)", "Start with Mag ik… (May I…), Wilt u… (Would you like…) or Zal ik… (Shall I…)"),
       ex: [{ nl: "Mag ik u helpen?", fr: "Puis-je vous aider ?", en: "May I help you?" }, { nl: "Wilt u een tas koffie?", fr: "Voulez-vous une tasse de café ?", en: "Would you like a cup of coffee?" }, { nl: "Zal ik de deur dichtdoen?", fr: "Est-ce que je ferme la porte ?", en: "Shall I close the door?", img: "wmuxt7bzruml7" }] },
+    { h: L3("Uitzondering: alstublieft en alsjeblieft", "Exception : alstublieft et alsjeblieft", "Exception: alstublieft and alsjeblieft"), p: L3("Alstublieft hoort bij u en zeg je tegen een bewoner. Alsjeblieft hoort bij jij en zeg je tegen een collega.", "Alstublieft va avec u (vous) : on le dit à un résident. Alsjeblieft va avec jij (tu) : on le dit à un collègue.", "Alstublieft goes with u (polite you): you say it to a resident. Alsjeblieft goes with jij: you say it to a colleague.") },
     { h: L3("Altijd goed", "Toujours bien", "Always good"), ex: [{ nl: "Dank u wel.", fr: "Merci beaucoup.", en: "Thank you very much." }, { nl: "Alstublieft.", fr: "Voici. / S'il vous plaît.", en: "Here you are. / Please." }] },
   ] },
 ];
@@ -1296,12 +1382,12 @@ function oeGap(r) {
   const re = new RegExp(`(^|[^\\p{L}])(${reEsc(r.word)})(?=[^\\p{L}]|$)`, "iu");
   return re.test(s) ? s.replace(re, "$1___") : "";
 }
-const oeZinOk = (s) => { if (!s || /[,;:"“”()]/.test(s) || !/[.?!]$/.test(s)) return false; const n = s.split(" ").length; return n >= 3 && n <= 8; };
+const oeZinOk = (s) => { if (!s || /[,;:"“”()]/.test(s) || !/[.?!]$/.test(s) || /[.?!]./.test(s)) return false; const n = s.split(" ").length; return n >= 3 && n <= 8; };
 function oeItems(words) {
   const out = [];
   for (const r of words) {
     const hand = Array.isArray(r.oef) ? r.oef : [];
-    if (r.article === "de" || r.article === "het") { const h = hand.find((o) => o.t === "lw"); out.push({ t: "lw", r, x: h && h.x ? h.x : oeLwX(r) }); }
+    if ((r.article === "de" || r.article === "het") && soortOf(r) === "woord") { const h = hand.find((o) => o.t === "lw"); out.push({ t: "lw", r, x: h && h.x ? h.x : oeLwX(r) }); }
     const hv = hand.filter((o) => o.t === "vul"); if (hv.length) hv.forEach((o) => out.push({ t: "vul", r, s: o.s, x: o.x })); else { const g = oeGap(r); if (g) out.push({ t: "vul", r, s: g }); }
     const hz = hand.filter((o) => o.t === "zin"); if (hz.length) hz.forEach((o) => out.push({ t: "zin", r, s: o.s, x: o.x })); else if (oeZinOk(r.sentence)) out.push({ t: "zin", r, s: r.sentence });
     hand.filter((o) => o.t === "ww" && o.s && o.ans).forEach((o) => out.push({ t: "ww", r, s: o.s, ans: o.ans, opts: o.opts || [o.ans], x: o.x }));
@@ -1348,8 +1434,9 @@ function oeShow() {
   if (it.t === "zin") {
     const words = it.s.replace(/[.?!]$/, "").split(" "); let sh = words.slice(), k = 0;
     do { shuffle(sh); } while (sh.join(" ") === words.join(" ") && ++k < 20);
+    const marks = /!$/.test(it.s) ? [".", "?", "!"] : [".", "?"];
     h += `<div class="oe-pic">${img(r)}</div><p class="oe-q">${bi(OE_UI.make)}</p><div class="oe-line" id="oe-line" data-hint="${esc(flat(both(OE_UI.tapHint.nl, OE_UI.tapHint[helpLang])))}"></div>
-      <div class="oe-pool" id="oe-pool">${sh.map((w) => `<button class="oe-w">${esc(w)}</button>`).join("")}</div><button class="btn primary huge" id="oe-check" disabled>${esc(OE_UI.check.nl)}</button>`;
+      <div class="oe-pool" id="oe-pool">${sh.map((w) => `<button class="oe-w">${esc(w)}</button>`).join("")}${marks.map((m) => `<button class="oe-w oe-p">${m}</button>`).join("")}</div><button class="btn primary huge" id="oe-check" disabled>${esc(OE_UI.check.nl)}</button>`;
   } else if (it.t === "lw") {
     h += `<div class="oe-pic">${img(r)}</div><p class="oe-q"><span class="oe-gap">…</span> ${esc(r.word)}</p><div class="oe-opts two">${["de", "het"].map((o) => `<button class="oe-opt" data-v="${o}">${o}</button>`).join("")}</div>`;
   } else if (it.t === "vul") {
@@ -1365,9 +1452,9 @@ function oeShow() {
   const tl = $("oe-toles"); if (tl) tl.onclick = () => oeLesson(OE_LES.findIndex((l) => l.oef === it.t), () => oeShow());
   if (it.t === "zin") {
     const line = $("oe-line"), pool = $("oe-pool"), chk = $("oe-check");
-    const move = (e) => { const b = e.target.closest(".oe-w"); if (!b || run.done) return; (b.parentNode === pool ? line : pool).appendChild(b); chk.disabled = pool.children.length > 0; };
+    const move = (e) => { const b = e.target.closest(".oe-w"); if (!b || run.done) return; (b.parentNode === pool ? line : pool).appendChild(b); chk.disabled = !!pool.querySelector(".oe-w:not(.oe-p)") || !line.querySelector(".oe-p"); };
     line.onclick = move; pool.onclick = move;
-    chk.onclick = () => { const end = (it.s.match(/[.?!]$/) || ["."])[0]; const got = [...line.children].map((b) => b.textContent).join(" ") + end; const ok = got === it.s; line.querySelectorAll(".oe-w").forEach((b) => b.classList.add(ok ? "ok" : "bad")); chk.remove(); oeAnswer(ok, it.s); };
+    chk.onclick = () => { const got = [...line.children].map((b) => b.textContent).join(" ").replace(/ ([.?!])/g, "$1"); const ok = got === it.s; line.querySelectorAll(".oe-w").forEach((b) => b.classList.add(ok ? "ok" : "bad")); chk.remove(); oeAnswer(ok, it.s); };
   } else {
     $("oe-card").querySelectorAll(".oe-opt").forEach((b) => (b.onclick = () => {
       if (run.done) return;
@@ -1385,7 +1472,9 @@ function oeAnswer(ok, full) {
   fb.innerHTML = `<p>${bi(ok ? OE_UI.good : OE_UI.almost)}<span class="oe-say">${esc(full)}</span></p><button class="oe-listen" aria-label="${esc(t("listen"))}">${OE_SPK}</button>`;
   fb.querySelector(".oe-listen").onclick = () => speak(full, false, "nl");
   const why = document.createElement("div"); why.className = "oe-why";
-  why.innerHTML = `<p class="oe-lbl">${bi(it.x ? OE_UI.why : OE_UI.rule)}</p><p>${bi(it.x || OE_G[it.t])}</p>`;
+  const zk = it.t === "zin" && OE_ZK[oeZinKind(it.s, it)];
+  const main = it.x || (zk ? null : OE_G[it.t]);
+  why.innerHTML = `<p class="oe-lbl">${bi(it.x ? OE_UI.why : OE_UI.rule)}</p>${zk ? `<p>${bi(zk)}</p>` : ""}${main ? `<p>${bi(main)}</p>` : ""}`;
   const nx = document.createElement("button"); nx.className = "btn primary huge"; nx.textContent = (last ? OE_UI.score : OE_UI.next).nl;
   nx.onclick = () => { if (last) oeEnd(); else { run.i++; oeShow(); } };
   $("oe-card").append(fb, why, nx); speak(full, false, "nl"); nx.focus({ preventScroll: true });
@@ -1403,7 +1492,7 @@ function oeLesson(i, back) {
   const ex = (e) => { const w = e.img && oeById(e.img); return `<div class="oe-exr">${w && oeHasPic(w) ? `<img src="${esc(store.imageUrl(w))}" alt="">` : ""}<p><b>${esc(e.nl)}</b>${helpLang !== "nl" ? `<span class="oe-tr" lang="${helpLang}">${esc(e[helpLang])}</span>` : ""}</p><button class="oe-listen" data-say="${esc(e.nl)}" aria-label="${esc(t("listen"))}">${OE_SPK}</button></div>`; };
   let h = `<article class="oe-card oe-les"><p class="oe-kind">${bi(OE_UI.les(i + 1, OE_LES.length))}</p><h3 class="oe-q">${bi(l.title)}</h3>`;
   for (const b of l.blocks) {
-    h += `<section class="oe-blk">`;
+    h += `<section class="oe-blk${b.h && /^Uitzondering/.test(b.h.nl) ? " oe-uitz" : ""}">`;
     if (b.h) h += `<h4>${bi(b.h)}</h4>`;
     if (b.table) h += `<div class="oe-tw"><table><thead><tr>${b.table.head.map((c) => `<th>${bi(c)}</th>`).join("")}</tr></thead><tbody>${b.table.rows.map((row) => `<tr>${row.map((c, j) => `<td${b.table.hi.includes(j) ? ' class="hi"' : ""}>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
     if (b.small && helpLang !== "nl") h += `<p class="oe-muted">${esc(b.small[helpLang])}</p>`;
@@ -1426,7 +1515,9 @@ function oeWordTip(r) {
   if (!r || r.starter) return null;
   const h = Array.isArray(r.oef) && r.oef.find((o) => o.t === "lw" && o.x);
   if (h) return h.x;
-  if (r.article === "het" && /je$/.test(r.word)) return oeLwX(r);
+  if (r.article === "het" && /je$/.test(r.word) && soortOf(r) === "woord") return oeLwX(r);
+  if (soortOf(r) === "handeling") return L3("Dit is een handeling: iets wat je doet. In een gewone zin komt het werkwoord op de tweede plaats. Een opdracht begint met het werkwoord. Kijk bij Oefenen, les 4.", "C'est une action : quelque chose que l'on fait. Dans une phrase normale, le verbe est en deuxième position. Un ordre commence par le verbe. Voir S'exercer, leçon 4.", "This is an action: something you do. In a normal sentence, the verb goes in second place. An instruction starts with the verb. See Practice, lesson 4.");
+  if (soortOf(r) === "gevoel") return L3("Dit is een gevoel. Je zegt: ik ben moe, ik ben ziek. Maar: ik heb honger, ik heb dorst, ik heb het warm. Kijk bij Oefenen, les 4.", "C'est un ressenti. On dit : ik ben moe (je suis fatigué). Mais : ik heb honger (j'ai faim), ik heb het warm (j'ai chaud). Voir S'exercer, leçon 4.", "This is a feeling. You say: ik ben moe (I am tired). But: ik heb honger (I am hungry), ik heb het warm (I am warm). See Practice, lesson 4.");
   return null;
 }
 
@@ -1440,6 +1531,7 @@ function openEditor(rec) {
   $("e-theme").innerHTML = THEMES.filter((t) => !t.hidden || (rec && rec.theme === t.id)).map((t) => `<option value="${t.id}">${esc(t.name)}</option>`).join("");
   $("e-theme").value = rec ? rec.theme : (filter !== "all" && filter !== "fav" ? filter : "alledaags");
   $("e-group").value = rec ? rec.group || "" : (sub === "~" ? "" : sub);
+  document.querySelectorAll('input[name=soort]').forEach((x) => (x.checked = x.value === soortOf(rec || {})));
   fillGroupList();
   $("e-sentence").value = rec ? rec.sentence || "" : "";
   $("e-word-fr").value = rec ? rec.wordFr || "" : ""; $("e-sentence-fr").value = rec ? rec.sentenceFr || "" : "";
@@ -1633,7 +1725,8 @@ $("e-form").addEventListener("submit", async (e) => {
   if (!newImg && !(editRec && (editRec.imageId || editRec.imageData))) { showErr("Kies eerst een foto of pictogram."); return; }
   const art = document.querySelector('input[name=art]:checked').value;
   const id = editRec ? editRec.id : "w" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, group: $("e-group").value.trim().replace(/\s+/g, " "), sentence: $("e-sentence").value.trim(), wordFr: $("e-word-fr").value.trim(), sentenceFr: $("e-sentence-fr").value.trim(), wordEn: $("e-word-en").value.trim(), sentenceEn: $("e-sentence-en").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow() };
+  const rec = { ...(editRec || {}), id, word, article: art, theme: $("e-theme").value, group: $("e-group").value.trim().replace(/\s+/g, " "), sentence: $("e-sentence").value.trim(), wordFr: $("e-word-fr").value.trim(), sentenceFr: $("e-sentence-fr").value.trim(), wordEn: $("e-word-en").value.trim(), sentenceEn: $("e-sentence-en").value.trim(), createdAt: editRec ? editRec.createdAt : Date.now(), hasAudio: hasAudioNow(), hasVideo: hasVideoNow(), soort: document.querySelector('input[name=soort]:checked').value };
+  if (rec.soort === "woord") delete rec.soort;
   const audio = newAudio ? newAudio : (audioRemoved ? "remove" : null);
   const video = newVideo ? newVideo : (videoRemoved ? "remove" : null);
   $("e-save").disabled = true; $("e-save").textContent = newVideo ? "Filmpje wordt opgeladen" : "Bezig met opslaan";
