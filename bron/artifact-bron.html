@@ -7,7 +7,7 @@
 :root{
   --bg:#f3f5f7; --surface:#ffffff; --surface-2:#e8ecf0; --ink:#17212b; --muted:#5a6876; --line:#d3dae1;
   --accent:#1f4e79; --accent-ink:#ffffff; --focus:#e0a100;
-  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --maint:#6a4c9c; --prac:#2f7d9a; --other:#56606b;
+  --fire:#c8202f; --exit:#00804a; --care:#0e7470; --daily:#b9862a; --maint:#6a4c9c; --prac:#2f7d9a; --kitchen:#c8642b; --other:#56606b;
   --font-display:"Lexend","Segoe UI",system-ui,sans-serif;
   --font-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
   --r:14px;
@@ -555,6 +555,7 @@ const $ = (id) => document.getElementById(id);
 const THEMES = [
   { id: "praktisch", name: "Praktisch", c: "var(--prac)" },
   { id: "alledaags", name: "Alledaags", c: "var(--daily)" },
+  { id: "keuken", name: "Keuken", c: "var(--kitchen)" },
   { id: "brand", name: "Brand en veiligheid", c: "var(--fire)" },
   { id: "onderhoud", name: "Onderhoud", c: "var(--maint)" },
   { id: "zorg", name: "Zorg", c: "var(--care)" },
@@ -1008,7 +1009,7 @@ function closeOverlay(id) { $(id).hidden = true; if ($("view").hidden && $("quiz
 /* ---------- interface in de gekozen taal (de woorden zelf blijven Nederlands) ---------- */
 const UI = {
   nl: { sub: "Kijk, lees en luister", search: "Zoek een woord", settings: "Instellingen voor de stem", themes: "Thema's", all: "Alles",
-    th: { praktisch: "Praktisch", alledaags: "Alledaags", brand: "Brand en veiligheid", onderhoud: "Onderhoud", zorg: "Zorg", overig: "Overig", fav: "Favorieten" },
+    th: { praktisch: "Praktisch", alledaags: "Alledaags", keuken: "Keuken", brand: "Brand en veiligheid", onderhoud: "Onderhoud", zorg: "Zorg", overig: "Overig", fav: "Favorieten" },
     tapCard: "Tik op een kaart om het woord te horen.", noFav: "Nog geen favorieten. Tik op het hartje bij een woord om het hier te bewaren.", notFound: (q) => `Geen woord gevonden voor “${q}”.`, emptyTheme: "Nog geen woorden in dit thema.",
     example: "Voorbeeld", video: "Filmpje", listenTo: (w) => `Luister naar ${w}`, favAdd: "Zet bij favorieten", favRemove: "Verwijder uit favorieten", favAdded: "Bij favorieten gezet", favRemoved: "Uit favorieten gehaald",
     back: "Terug", listen: "Luister", slow: "Langzaam", sentence: "Zin", prev: "Vorige", next: "Volgende",
@@ -1021,7 +1022,7 @@ const UI = {
     stepsIos: [`Zet het volume hoger en controleer dat de stille modus uit staat.`, `Op iPhone: Instellingen, Toegankelijkheid, Gesproken materiaal, Stemmen, en download een Nederlandse stem.`],
     stop: "Stoppen", ask: "Welk woord hoort bij de foto?", good: "Goed zo!", wrong: "Jammer. Het juiste woord is groen.", score: (a, b) => `${a} van ${b} juist`, need3: "Voor de quiz zijn minstens drie woorden nodig." },
   fr: { sub: "Regarde, lis et écoute", search: "Cherche un mot", settings: "Réglages de la voix", themes: "Thèmes", all: "Tout",
-    th: { praktisch: "Pratique", alledaags: "Quotidien", brand: "Incendie et sécurité", onderhoud: "Entretien", zorg: "Soins", overig: "Autre", fav: "Favoris" },
+    th: { praktisch: "Pratique", alledaags: "Quotidien", keuken: "Cuisine", brand: "Incendie et sécurité", onderhoud: "Entretien", zorg: "Soins", overig: "Autre", fav: "Favoris" },
     tapCard: "Touche une carte pour entendre le mot en néerlandais.", noFav: "Pas encore de favoris. Touche le cœur d'un mot pour le garder ici.", notFound: (q) => `Aucun mot trouvé pour « ${q} ».`, emptyTheme: "Pas encore de mots dans ce thème.",
     example: "Exemple", video: "Vidéo", listenTo: (w) => `Écouter ${w}`, favAdd: "Ajouter aux favoris", favRemove: "Retirer des favoris", favAdded: "Ajouté aux favoris", favRemoved: "Retiré des favoris",
     back: "Retour", listen: "Écouter", slow: "Lentement", sentence: "Phrase", prev: "Précédent", next: "Suivant",
@@ -1034,7 +1035,7 @@ const UI = {
     stepsIos: [`Monte le volume et vérifie que le mode silencieux est désactivé.`, `Sur iPhone : Réglages, Accessibilité, Contenu énoncé, Voix, puis télécharge une voix néerlandaise.`],
     stop: "Arrêter", ask: "Quel mot correspond à la photo ?", good: "Bravo !", wrong: "Dommage. Le bon mot est en vert.", score: (a, b) => `${a} sur ${b} correct${a > 1 ? "s" : ""}`, need3: "Il faut au moins trois mots pour le quiz." },
   en: { sub: "Look, read and listen", search: "Search for a word", settings: "Voice settings", themes: "Themes", all: "All",
-    th: { praktisch: "Practical", alledaags: "Everyday", brand: "Fire and safety", onderhoud: "Maintenance", zorg: "Care", overig: "Other", fav: "Favourites" },
+    th: { praktisch: "Practical", alledaags: "Everyday", keuken: "Kitchen", brand: "Fire and safety", onderhoud: "Maintenance", zorg: "Care", overig: "Other", fav: "Favourites" },
     tapCard: "Tap a card to hear the word in Dutch.", noFav: "No favourites yet. Tap the heart on a word to keep it here.", notFound: (q) => `No word found for “${q}”.`, emptyTheme: "No words in this theme yet.",
     example: "Example", video: "Video", listenTo: (w) => `Listen to ${w}`, favAdd: "Add to favourites", favRemove: "Remove from favourites", favAdded: "Added to favourites", favRemoved: "Removed from favourites",
     back: "Back", listen: "Listen", slow: "Slowly", sentence: "Sentence", prev: "Previous", next: "Next",
