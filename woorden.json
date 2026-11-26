@@ -14,6 +14,19 @@
       "image": "media/wallegboek.jpg"
     },
     {
+      "word": "breinaalden",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Mevrouw breit een sjaal met de breinaalden.",
+      "wordFr": "les aiguilles à tricoter",
+      "sentenceFr": "Madame tricote une écharpe avec les aiguilles à tricoter.",
+      "wordEn": "knitting needles",
+      "sentenceEn": "The lady knits a scarf with the knitting needles.",
+      "id": "wallegbreinaalden",
+      "createdAt": 1795688530588,
+      "image": "media/wallegbreinaalden.jpg"
+    },
+    {
       "word": "deodorant",
       "article": "de",
       "theme": "alledaags",
@@ -116,6 +129,19 @@
       "id": "wallegkrant",
       "createdAt": 1795688090685,
       "image": "media/wallegkrant.jpg"
+    },
+    {
+      "word": "lijm",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Bij de knutselactiviteit helpt de bewoner met de lijm.",
+      "wordFr": "la colle",
+      "sentenceFr": "Pendant l'atelier bricolage, le résident aide avec la colle.",
+      "wordEn": "glue",
+      "sentenceEn": "During the craft activity, the resident helps with the glue.",
+      "id": "walleglijm",
+      "createdAt": 1795688530587,
+      "image": "media/walleglijm.jpg"
     },
     {
       "word": "nagelknipper",
@@ -246,6 +272,19 @@
       "id": "wallegwashandje",
       "createdAt": 1795687297323,
       "image": "media/wallegwashandje.jpg"
+    },
+    {
+      "word": "wol",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Welke kleur wol wilt u gebruiken?",
+      "wordFr": "la laine",
+      "sentenceFr": "Quelle couleur de laine voulez-vous utiliser ?",
+      "wordEn": "wool",
+      "sentenceEn": "Which colour of wool would you like to use?",
+      "id": "wallegwol",
+      "createdAt": 1795688530589,
+      "image": "media/wallegwol.jpg"
     },
     {
       "word": "zakdoek",
