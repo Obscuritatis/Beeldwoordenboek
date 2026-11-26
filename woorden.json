@@ -15,6 +15,20 @@
       "image": "media/wbrandaed.jpg"
     },
     {
+      "word": "evacueren",
+      "article": "het",
+      "theme": "brand",
+      "sentence": "Bij brand evacueren we rustig via de nooduitgang.",
+      "wordFr": "évacuer",
+      "sentenceFr": "En cas d'incendie, nous évacuons calmement par la sortie de secours.",
+      "wordEn": "evacuating",
+      "sentenceEn": "In case of fire, we evacuate calmly through the emergency exit.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandevacueren",
+      "createdAt": 1795684774398,
+      "image": "media/wbrandevacueren.jpg"
+    },
+    {
       "word": "koken",
       "article": "het",
       "theme": "keuken",
