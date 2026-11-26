@@ -2476,6 +2476,34 @@
       "id": "wonderh92",
       "createdAt": 1794922539738,
       "image": "media/wonderh92.jpg"
+    },
+    {
+      "word": "actieve tillift",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Met de actieve tillift helpen we de bewoner rechtop te staan.",
+      "wordFr": "le lève-personne actif",
+      "sentenceFr": "Avec le lève-personne actif, nous aidons le résident à se mettre debout.",
+      "wordEn": "active patient lift",
+      "sentenceEn": "With the active patient lift, we help the resident stand up.",
+      "group": "Medische hulpmiddelen",
+      "id": "wzorgtillift01actief",
+      "createdAt": 1795682462144,
+      "image": "media/wzorgtillift01actief.jpg"
+    },
+    {
+      "word": "passieve tillift",
+      "article": "de",
+      "theme": "zorg",
+      "sentence": "Met de passieve tillift tillen we de bewoner veilig uit bed.",
+      "wordFr": "le lève-personne passif",
+      "sentenceFr": "Avec le lève-personne passif, nous soulevons le résident du lit en toute sécurité.",
+      "wordEn": "passive patient lift",
+      "sentenceEn": "With the passive patient lift, we safely lift the resident out of bed.",
+      "group": "Medische hulpmiddelen",
+      "id": "wzorgtillift02passief",
+      "createdAt": 1795682462145,
+      "image": "media/wzorgtillift02passief.jpg"
     }
   ],
   "hiddenStarters": [
