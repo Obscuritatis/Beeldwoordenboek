@@ -71,6 +71,20 @@
       "image": "media/wbrandgeenlift.jpg"
     },
     {
+      "word": "de handbrandmelder induwen",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Zie je brand? Duw de handbrandmelder in om alarm te slaan.",
+      "wordFr": "enfoncer le déclencheur manuel d'alarme",
+      "sentenceFr": "Tu vois un incendie ? Enfonce le déclencheur manuel pour donner l'alarme.",
+      "wordEn": "pressing the manual call point",
+      "sentenceEn": "Do you see a fire? Press the manual call point to raise the alarm.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandhbmindrukken",
+      "createdAt": 1795686490105,
+      "image": "media/wbrandhbmindrukken.jpg"
+    },
+    {
       "word": "de sirene horen",
       "article": "",
       "theme": "brand",
