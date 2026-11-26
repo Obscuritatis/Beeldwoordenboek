@@ -71,6 +71,20 @@
       "image": "media/wbrandgeenlift.jpg"
     },
     {
+      "word": "de sirene horen",
+      "article": "",
+      "theme": "brand",
+      "sentence": "Hoor je de sirene? Blijf kalm en volg de instructies.",
+      "wordFr": "entendre la sirène",
+      "sentenceFr": "Tu entends la sirène ? Reste calme et suis les instructions.",
+      "wordEn": "hearing the siren",
+      "sentenceEn": "Do you hear the siren? Stay calm and follow the instructions.",
+      "group": "Alarm en evacuatie",
+      "id": "wbrandsirene",
+      "createdAt": 1795686421317,
+      "image": "media/wbrandsirene.jpg"
+    },
+    {
       "word": "de vluchtweg vrijhouden",
       "article": "",
       "theme": "brand",
