@@ -2,7 +2,7 @@
 <html lang="nl" data-site="1">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-dht0G7iKYpRwlvMeq7xIwh9cHjPnszfPdGalcxH4z50='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-k1V888+fvuZ5yh3FB5ZXHQeJsbOlPh4SZODr7AOF50k='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A32035">
@@ -923,7 +923,7 @@ function renderSub() {
 function renderTiles() {
   const own = allWords().filter((r) => !r.starter && store.imageUrl(r));
   const L = (nl, fr, en) => both(nl, { fr, en }[helpLang]);
-  const tiles = THEMES.filter((x) => !x.hidden).map((x) => { const ws = allWords().filter((r) => r.theme === x.id); const pic = own.filter((r) => r.theme === x.id)[0]; return { id: x.id, c: x.c, name: themeName(x.id), n: ws.length, img: pic ? store.imageUrl(pic) : "" }; }).filter((x) => x.n);
+  const tiles = THEMES.filter((x) => !x.hidden).map((x) => { const ws = allWords().filter((r) => r.theme === x.id); const pic = own.filter((r) => r.theme === x.id)[0]; return { id: x.id, c: x.c, name: themeName(x.id), n: ws.length, img: pic ? store.imageUrl(pic) : "" }; }).filter((x) => x.n || document.documentElement.dataset.site !== "1"); // in de beheer-app ook lege thema's tonen
   const favs = allWords().filter(isFav), fp = favs.find((r) => store.imageUrl(r));
   tiles.push({ id: "fav", c: "#E07A9A", name: themeName("fav"), n: favs.length, img: fp ? store.imageUrl(fp) : "" });
   tiles.push({ id: "every", c: "var(--rood)", name: L("Alle woorden", "Tous les mots", "All words"), n: allWords().length, img: (() => { const used = new Set(tiles.map((x) => x.img)); const r = own.slice().reverse().find((r) => !used.has(store.imageUrl(r))); return r ? store.imageUrl(r) : ""; })() });
