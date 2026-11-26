@@ -118,6 +118,32 @@
       "image": "media/wkeuken09raspen.jpg"
     },
     {
+      "word": "belegd broodje maken",
+      "article": "",
+      "theme": "keuken",
+      "sentence": "Ik maak een belegd broodje met kaas en ham.",
+      "wordFr": "préparer un sandwich",
+      "sentenceFr": "Je prépare un sandwich au fromage et au jambon.",
+      "wordEn": "making a sandwich",
+      "sentenceEn": "I'm making a sandwich with cheese and ham.",
+      "id": "wkeuken10broodje",
+      "createdAt": 1795681674057,
+      "image": "media/wkeuken10broodje.jpg"
+    },
+    {
+      "word": "slaatje maken",
+      "article": "",
+      "theme": "keuken",
+      "sentence": "Ik maak een slaatje met tomaat en komkommer.",
+      "wordFr": "préparer une salade",
+      "sentenceFr": "Je prépare une salade avec des tomates et du concombre.",
+      "wordEn": "making a salad",
+      "sentenceEn": "I'm making a salad with tomato and cucumber.",
+      "id": "wkeuken11slaatje",
+      "createdAt": 1795681674058,
+      "image": "media/wkeuken11slaatje.jpg"
+    },
+    {
       "word": "schuimbrandblusser",
       "article": "de",
       "theme": "brand",
