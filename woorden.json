@@ -27,6 +27,19 @@
       "image": "media/wallegdouchegel.jpg"
     },
     {
+      "word": "handdoek",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Na het douchen droog ik me af met de handdoek.",
+      "wordFr": "la serviette",
+      "sentenceFr": "Après la douche, je me sèche avec la serviette.",
+      "wordEn": "towel",
+      "sentenceEn": "After showering, I dry myself with the towel.",
+      "id": "walleghanddoek",
+      "createdAt": 1795687297322,
+      "image": "media/walleghanddoek.jpg"
+    },
+    {
       "word": "haarborstel",
       "article": "de",
       "theme": "alledaags",
@@ -51,6 +64,19 @@
       "id": "wallegkam",
       "createdAt": 1795686985505,
       "image": "media/wallegkam.jpg"
+    },
+    {
+      "word": "scheerapparaat",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "Hij scheert zich met het scheerapparaat.",
+      "wordFr": "le rasoir électrique",
+      "sentenceFr": "Il se rase avec le rasoir électrique.",
+      "wordEn": "electric shaver",
+      "sentenceEn": "He shaves with the electric shaver.",
+      "id": "wallegscheerapparaat",
+      "createdAt": 1795687297321,
+      "image": "media/wallegscheerapparaat.jpg"
     },
     {
       "word": "scheermesje",
@@ -103,6 +129,19 @@
       "id": "wallegtandpasta",
       "createdAt": 1795686985504,
       "image": "media/wallegtandpasta.jpg"
+    },
+    {
+      "word": "washandje",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "Ik was mijn gezicht met het washandje.",
+      "wordFr": "le gant de toilette",
+      "sentenceFr": "Je me lave le visage avec le gant de toilette.",
+      "wordEn": "washcloth",
+      "sentenceEn": "I wash my face with the washcloth.",
+      "id": "wallegwashandje",
+      "createdAt": 1795687297323,
+      "image": "media/wallegwashandje.jpg"
     },
     {
       "word": "zeep",
