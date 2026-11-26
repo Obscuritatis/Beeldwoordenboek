@@ -1,6 +1,32 @@
 {
   "words": [
     {
+      "word": "deodorant",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Na het douchen gebruik ik deodorant.",
+      "wordFr": "le déodorant",
+      "sentenceFr": "Après la douche, j'utilise du déodorant.",
+      "wordEn": "deodorant",
+      "sentenceEn": "After showering, I use deodorant.",
+      "id": "wallegdeodorant",
+      "createdAt": 1795687146299,
+      "image": "media/wallegdeodorant.jpg"
+    },
+    {
+      "word": "douchegel",
+      "article": "de",
+      "theme": "alledaags",
+      "sentence": "Ik was me onder de douche met douchegel.",
+      "wordFr": "le gel douche",
+      "sentenceFr": "Je me lave sous la douche avec du gel douche.",
+      "wordEn": "shower gel",
+      "sentenceEn": "I wash in the shower with shower gel.",
+      "id": "wallegdouchegel",
+      "createdAt": 1795687146298,
+      "image": "media/wallegdouchegel.jpg"
+    },
+    {
       "word": "haarborstel",
       "article": "de",
       "theme": "alledaags",
@@ -25,6 +51,19 @@
       "id": "wallegkam",
       "createdAt": 1795686985505,
       "image": "media/wallegkam.jpg"
+    },
+    {
+      "word": "scheermesje",
+      "article": "het",
+      "theme": "alledaags",
+      "sentence": "Ik scheer me met een scheermesje.",
+      "wordFr": "le rasoir",
+      "sentenceFr": "Je me rase avec un rasoir.",
+      "wordEn": "razor",
+      "sentenceEn": "I shave with a razor.",
+      "id": "wallegscheermesje",
+      "createdAt": 1795687146300,
+      "image": "media/wallegscheermesje.jpg"
     },
     {
       "word": "shampoo",
