@@ -1,6 +1,19 @@
 {
   "words": [
     {
+      "word": "AED-toestel",
+      "article": "het",
+      "theme": "brand",
+      "sentence": "Bij een hartstilstand gebruik je het AED-toestel.",
+      "wordFr": "le défibrillateur (DEA)",
+      "sentenceFr": "En cas d'arrêt cardiaque, tu utilises le défibrillateur.",
+      "wordEn": "AED (defibrillator)",
+      "sentenceEn": "In case of cardiac arrest, you use the AED.",
+      "id": "wbrandaed",
+      "createdAt": 1795683616957,
+      "image": "media/wbrandaed.jpg"
+    },
+    {
       "word": "koken",
       "article": "het",
       "theme": "keuken",
